@@ -1,14 +1,23 @@
 .FilmLib {
-    padding-top: 100px;
+    padding-top: 50px;
     width: 100%;
     height: 100%;
     background: linear-gradient(90.34deg, #CFEEFF 0.17%, #A4C8FF 99.8%);
+    justify-content: center;
 }
 
-.FilmLib > div {
+/* .FilmLib > div {
     margin: auto;
-    width: 1000px;
+    width: 1200px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+} */
+
+.FilmLibWrapper {
+    margin: auto;
+    max-width: 1200px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }

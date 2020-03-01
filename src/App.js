@@ -7,9 +7,7 @@ class App extends Component {
   render() {
     return (
       <Layout>
-        <FilmLib>
-          
-        </FilmLib>
+        <FilmLib />
       </Layout>
     )
   }

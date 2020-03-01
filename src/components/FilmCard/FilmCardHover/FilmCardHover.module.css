@@ -1,0 +1,42 @@
+.FilmCardHover {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.71);
+    width: 264px;
+    height: 400px;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    opacity: .0;
+  }
+
+.show {
+  opacity: 1;
+}
+
+.FilmCardHover button {
+    width: 186px;
+    height: 37px;
+    background: #FFFFFF;
+    border-radius: 8px;
+    border: none;
+    font-size: 12px;
+  }
+  
+  .FilmInfo {
+    text-align: center;
+  }
+  
+  .FilmInfo h3 {
+    font-size: 18px;
+    color: #FFFFFF;
+    margin: 63px 0 0;
+  }
+  
+  .FilmInfo p {
+    font-size: 12px;
+    color: #FFFFFF;
+    margin: 5px 0 21px;
+  }

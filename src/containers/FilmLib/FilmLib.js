@@ -3,10 +3,15 @@ import classes from './FilmLib.module.css'
 import FilmCard from '../../components/FilmCard/FilmCard'
 
 class FilmLib extends Component {
+
+
+
   render() {
     return (
       <div className={classes.FilmLib}>
-        <div>
+        <div className={classes.FilmLibWrapper}>
+          <FilmCard></FilmCard>
+          <FilmCard></FilmCard>
           <FilmCard></FilmCard>
           <FilmCard></FilmCard>
           <FilmCard></FilmCard>
