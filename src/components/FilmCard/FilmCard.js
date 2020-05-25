@@ -1,31 +1,36 @@
 import React, { Component } from 'react'
 import classes from './FilmCard.module.css'
-import FilmCardHover from './FilmCardHover/FilmCardHover';
+import {NavLink} from 'react-router-dom'
+import Button from '../UI/Button/Button'
 
-class FilmCard extends Component {
-  state = {
+const FilmCard = props => {
+  console.log(props);
 
-    films: [
-      {
-        id: 1,
-        poster: 'https://www.kinopoisk.ru/images/film_big/448.jpg',
-        name: 'Форест Гамп',
-        year: 1994
-      }
-    ]
-
-  }
-
-  render() {
-    return (
-      <div 
-        className={classes.FilmCard}
+  return (
+    <div 
+      className={classes.FilmCard}
+    >
+      <img src={props.poster}/>
+      <div
+        className={classes.FilmCardHover}
+        onMouseEnter={props.onMouseEnter}
       >
-        <img src={this.state.films[0].poster} alt="aaaa"/>
-        <FilmCardHover />
+        <div className={classes.FilmInfo}>
+          <Button
+            onClick={props.onClick}
+          >
+            <NavLink to={'/film/' + props.id}>
+              Открыть карточку фильма {props.id}
+            </NavLink>
+          </Button>
+          <h3>{props.filmName}</h3>
+          <p>{props.filmYear}</p>
+        </div>
       </div>
-    )
-  }
+
+
+    </div>
+  )
 }
 
 export default FilmCard
