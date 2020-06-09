@@ -4,8 +4,7 @@ import FilmCard from '../../components/FilmCard/FilmCard'
 
 
 class FilmLib extends Component {
-
-  state = {
+  state = {    
     films: [],
     error: ''
   }
@@ -14,12 +13,10 @@ class FilmLib extends Component {
     fetch("https://salty-lowlands-03006.herokuapp.com/movies")
       .then(res => res.json())
       .then(
-        (result) => {
-          console.log(result);
-          
+        (result) => {          
           this.setState({
-            films: result.search
-          });
+            films: result.search           
+          })          
         },
         (error) => {
           this.setState({
@@ -27,6 +24,8 @@ class FilmLib extends Component {
           });
         }
       )
+    console.log(this.props);
+    
   }
 
   renderFilms() {
