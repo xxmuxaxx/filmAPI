@@ -6,7 +6,8 @@ import FilmCard from '../../components/FilmCard/FilmCard'
 class FilmLib extends Component {
 
   state = {
-    films: []
+    films: [],
+    error: ''
   }
 
   async componentDidMount() {
@@ -28,13 +29,12 @@ class FilmLib extends Component {
       )
   }
 
-
   renderFilms() {
     return this.state.films.map(film => {
       return (
         <FilmCard
             key={film.id}
-            id={film.id}
+            id={film.title}
             poster={film.poster}
             filmName={film.title}
             filmYear={film.year}
@@ -42,8 +42,6 @@ class FilmLib extends Component {
       )
     })
   }
-
-
 
   render() {
     return (
