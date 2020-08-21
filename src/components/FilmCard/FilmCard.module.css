@@ -24,8 +24,8 @@
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  opacity: .0;
-  transition: opacity ease .3s;
+  opacity: 0;
+  transition: opacity ease 0.3s;
 }
 
 .FilmCard:hover .FilmCardHover {
@@ -36,21 +36,12 @@
   margin-bottom: 0;
 }
 
-.FilmCardHover button {
-  width: 186px;
-  height: 37px;
-  background: #FFFFFF;
-  border-radius: 8px;
-  border: none;
-  font-size: 12px;
-}
-
 .FilmInfo {
   margin-bottom: -150px;
   position: relative;
   text-align: center;
-  color: #FFFFFF;
-  transition: all ease .3s;
+  color: #ffffff;
+  transition: all ease 0.3s;
 }
 
 .FilmInfo h3 {
@@ -62,4 +53,3 @@
   font-size: 12px;
   margin: 5px 0 21px;
 }
-

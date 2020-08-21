@@ -1,17 +1,20 @@
-import React from 'react'
-import classes from './Search.module.css'
+import React from "react";
+import classes from "./Search.module.css";
+import Input from "../../UI/Input/Input";
 
-const Search = props => {
+const Search = (props) => {
   return (
     <div className={classes.Search}>
-      <input
-        type={'text'}
-        placeholder={'Поиск'}
-        onChange={props.inputChangeHandler}
-      />
-      <button></button>
+      <form>
+        <Input
+          type={"text"}
+          placeholder={props.placeholder}
+          inputChangeHundler={props.inputChangeHundler}
+        />
+        <button></button>
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default Search
+export default Search;

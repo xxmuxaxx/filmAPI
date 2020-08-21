@@ -1,56 +1,50 @@
-import React, { Component } from 'react'
-import classes from './FilmLib.module.css'
-import FilmCard from '../../components/FilmCard/FilmCard'
-
+import React, { Component } from "react";
+import classes from "./FilmLib.module.css";
+import FilmCard from "../../components/FilmCard/FilmCard";
 
 class FilmLib extends Component {
-  state = {    
+  state = {
     films: [],
-    error: ''
-  }
+  };
 
   async componentDidMount() {
     fetch("https://salty-lowlands-03006.herokuapp.com/movies")
-      .then(res => res.json())
+      .then((response) => response.json())
       .then(
-        (result) => {          
+        (result) => {
           this.setState({
-            films: result.search           
-          })          
+            films: result.search,
+          });
         },
         (error) => {
           this.setState({
-            error
+            error,
           });
         }
-      )
-    console.log(this.props);
-    
+      );
   }
 
   renderFilms() {
-    return this.state.films.map(film => {
+    return this.state.films.map((film) => {
       return (
         <FilmCard
-            key={film.id}
-            id={film.title}
-            poster={film.poster}
-            filmName={film.title}
-            filmYear={film.year}
-          />
-      )
-    })
+          key={film.id}
+          id={film.id}
+          poster={film.poster}
+          filmName={film.title}
+          filmYear={film.year}
+        />
+      );
+    });
   }
 
   render() {
     return (
       <div className={classes.FilmLib}>
-        <div className={classes.FilmLibWrapper}>
-          {this.renderFilms()}
-        </div>
+        <div className={classes.FilmLibWrapper}>{this.renderFilms()}</div>
       </div>
-    ) 
+    );
   }
 }
 
-export default FilmLib
+export default FilmLib;

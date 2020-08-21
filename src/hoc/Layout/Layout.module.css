@@ -1,12 +1,30 @@
 .Layout {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    position: relative;
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 .Layout main {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.Dropdown {
+  position: absolute;
+  top: 200px;
+  left: 0;
+  right: 0;
+  background: #000;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+}
+
+.Link {
+  margin: 10px;
+  padding: 4px;
+  background: gray;
 }

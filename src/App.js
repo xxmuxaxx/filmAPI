@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
-import Layout from './hoc/Layout/Layout'
-import {Route, Switch} from 'react-router-dom'
-import FilmLib from './containers/FilmLib/FilmLib'
-import FilmDetail from './containers/FilmDetail/FilmDetail'
-import Search from './components/Nav/Search/Search'
 
+import React, { Component } from "react";
+import Layout from "./hoc/Layout/Layout";
+import { Route, Switch } from "react-router-dom";
+import FilmLib from "./containers/FilmLib/FilmLib";
+import FilmDetail from "./containers/FilmDetail/FilmDetail";
 
 class App extends Component {
   state = {
@@ -27,10 +26,10 @@ class App extends Component {
         />
         <Switch>
           <Route path="/film/:id" component={FilmDetail} />
-          <Route path="/" render={()=><FilmLib inputValue={this.state.inputValue}/>}/>
+          <Route path="/" component={FilmLib} />
         </Switch>
       </Layout>
-    )
+    );
   }
 }
 
