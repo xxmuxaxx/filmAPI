@@ -26,7 +26,6 @@ class FilmDetail extends Component {
           });
         }
       );
-    console.log(this.state);
   }
 
   renderFilms() {
