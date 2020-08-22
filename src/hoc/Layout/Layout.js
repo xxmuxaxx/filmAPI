@@ -26,7 +26,7 @@ class Layout extends Component {
           placeholder={"Поиск фильма"}
           inputChangeHundler={this.inputChangeHundler}
         />
-        <ul className={classes.Dropdown}>{this.renderfilms()}</ul>
+        <ul className={classes.Dropdown}></ul>
         <main>{this.props.children}</main>
       </div>
     );

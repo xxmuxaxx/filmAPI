@@ -1,4 +1,4 @@
-
+import Search from "./components/Nav/Search/Search";
 import React, { Component } from "react";
 import Layout from "./hoc/Layout/Layout";
 import { Route, Switch } from "react-router-dom";
@@ -7,23 +7,21 @@ import FilmDetail from "./containers/FilmDetail/FilmDetail";
 
 class App extends Component {
   state = {
-    inputValue: ''
-  }
+    inputValue: "",
+  };
 
   inputChangeHandler = (e) => {
-    const inputValue = e.target.value
+    const inputValue = e.target.value;
 
     this.setState({
-      inputValue
-    })
-  }
+      inputValue,
+    });
+  };
 
   render() {
     return (
       <Layout>
-        <Search
-          inputChangeHandler={this.inputChangeHandler}
-        />
+        <Search inputChangeHandler={this.inputChangeHandler} />
         <Switch>
           <Route path="/film/:id" component={FilmDetail} />
           <Route path="/" component={FilmLib} />
