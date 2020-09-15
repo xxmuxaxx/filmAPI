@@ -7,21 +7,31 @@ import FilmDetail from "./containers/FilmDetail/FilmDetail";
 
 class App extends Component {
   state = {
-    inputValue: "",
+    responseFilms: [],
   };
 
-  inputChangeHandler = (e) => {
-    const inputValue = e.target.value;
+  inputChangeHandler = async (e) => {
+    const target = e.target.value.trim() || null;
+    const request = `https://salty-lowlands-03006.herokuapp.com/movies/find?title=${target}`;
 
-    this.setState({
-      inputValue,
-    });
+    fetch(request)
+      .then((response) => response.json())
+      .then((result) => {
+        this.setState({
+          responseFilms: result.search,
+        });
+      });
   };
 
   render() {
     return (
       <Layout>
-        <Search inputChangeHandler={this.inputChangeHandler} />
+        <Search
+          inputChangeHandler={this.inputChangeHandler}
+          placeholder={"Поиск фильма"}
+          type={"text"}
+          dropdown={this.state.responseFilms}
+        />
         <Switch>
           <Route path="/film/:id" component={FilmDetail} />
           <Route path="/" component={FilmLib} />

@@ -5,9 +5,8 @@ const Input = (props) => {
   return (
     <input
       className={classes.Input}
-      type={props.type}
       placeholder={props.placeholder}
-      onChange={(e) => props.inputChangeHundler(e)}
+      onChange={props.inputChangeHandler}
     />
   );
 };

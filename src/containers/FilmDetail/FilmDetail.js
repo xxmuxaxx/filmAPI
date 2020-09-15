@@ -8,14 +8,10 @@ class FilmDetail extends Component {
   };
 
   async componentDidMount() {
-    console.log(this.state);
-
     fetch("https://salty-lowlands-03006.herokuapp.com/movies")
       .then((res) => res.json())
       .then(
         (result) => {
-          console.log(result);
-
           this.setState({
             film: result.search[this.props.match.params.id - 1],
           });
@@ -29,7 +25,6 @@ class FilmDetail extends Component {
   }
 
   renderFilms() {
-    console.log(this.state);
     return this.state.films.map((film) => {
       return (
         <FilmCard

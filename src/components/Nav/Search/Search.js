@@ -6,11 +6,18 @@ const Search = (props) => {
   return (
     <div className={classes.Search}>
       <form>
-        <Input
-          type={"text"}
-          placeholder={props.placeholder}
-          inputChangeHundler={props.inputChangeHundler}
-        />
+        <Input {...props} />
+        <ul className={classes.Dropdown}>
+          {props.dropdown.map((film) => {
+            return (
+              <li key={film.id}>
+                <a className={classes.Link} href={`/film/${film.id}`}>
+                  {film.title}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
         <button></button>
       </form>
     </div>

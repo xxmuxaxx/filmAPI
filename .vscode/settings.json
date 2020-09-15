@@ -45,9 +45,7 @@
     "filter.commentAfter": " <!-- ./ End of [CLASS] -->"
   },
   "git.autofetch": true,
-  "turboConsoleLog.addSemicolonInTheEnd": true,
-  "quokka.suppressExpirationNotifications": true,
-  "window.zoomLevel": 0,
+  "window.zoomLevel": -1,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": true
