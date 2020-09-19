@@ -14,7 +14,6 @@ export default function Header(props) {
           <Search
             inputChangeHandler={props.inputChangeHandler}
             placeholder={props.placeholder}
-            type={props.type}
             dropdown={props.dropdown}
           />
           <div className={classes.Hamburger}>

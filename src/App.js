@@ -27,7 +27,6 @@ class App extends Component {
         <Header
           inputChangeHandler={this.inputChangeHandler}
           placeholder={"Поиск фильма"}
-          type={"text"}
           dropdown={this.state.responseFilms}
         />
         <Switch>
