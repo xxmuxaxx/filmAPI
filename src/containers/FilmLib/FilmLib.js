@@ -8,7 +8,7 @@ class FilmLib extends Component {
   };
 
   async componentDidMount() {
-    fetch("https://salty-lowlands-03006.herokuapp.com/movies")
+    fetch("https://salty-lowlands-03006.herokuapp.com/movies/")
       .then((response) => response.json())
       .then(
         (result) => {
@@ -41,7 +41,9 @@ class FilmLib extends Component {
   render() {
     return (
       <div className={classes.FilmLib}>
-        <div className={classes.FilmLibWrapper}>{this.renderFilms()}</div>
+        <div className="container">
+          <div className={classes.FilmLibWrapper}>{this.renderFilms()}</div>
+        </div>
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./Search.module.css";
 import Input from "../../UI/Input/Input";
+import { NavLink } from "react-router-dom";
 
 const Search = (props) => {
   return (
@@ -11,9 +12,9 @@ const Search = (props) => {
           {props.dropdown.map((film) => {
             return (
               <li key={film.id}>
-                <a className={classes.Link} href={`/film/${film.id}`}>
+                <NavLink to={"/film/" + film.id} className={classes.Link}>
                   {film.title}
-                </a>
+                </NavLink>
               </li>
             );
           })}

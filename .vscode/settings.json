@@ -45,8 +45,8 @@
     "filter.commentAfter": " <!-- ./ End of [CLASS] -->"
   },
   "git.autofetch": true,
-  "window.zoomLevel": -1,
-  "editor.formatOnSave": true,
+  "window.zoomLevel": 0,
+  // "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": true
   },

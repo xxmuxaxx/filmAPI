@@ -1,9 +1,9 @@
-import Search from "./components/Nav/Search/Search";
 import React, { Component } from "react";
 import Layout from "./hoc/Layout/Layout";
 import { Route, Switch } from "react-router-dom";
 import FilmLib from "./containers/FilmLib/FilmLib";
 import FilmDetail from "./containers/FilmDetail/FilmDetail";
+import Header from "./components/Header/Header";
 
 class App extends Component {
   state = {
@@ -26,7 +26,7 @@ class App extends Component {
   render() {
     return (
       <Layout>
-        <Search
+        <Header
           inputChangeHandler={this.inputChangeHandler}
           placeholder={"Поиск фильма"}
           type={"text"}
