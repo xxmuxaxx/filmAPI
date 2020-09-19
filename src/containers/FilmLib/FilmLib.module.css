@@ -1,4 +1,5 @@
 .FilmLib {
+  display: flex;
   width: 100%;
   height: 100%;
   background: linear-gradient(90.34deg, #cfeeff 0.17%, #a4c8ff 99.8%);

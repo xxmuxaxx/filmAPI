@@ -1,27 +1,30 @@
 import React, { Component } from "react";
 import classes from "./FilmLib.module.css";
 import FilmCard from "../../components/FilmCard/FilmCard";
+import Loader from "../../components/Loader/Loader";
 
 class FilmLib extends Component {
   state = {
     films: [],
+    load: false,
   };
 
   async componentDidMount() {
-    fetch("https://salty-lowlands-03006.herokuapp.com/movies/")
-      .then((response) => response.json())
-      .then(
-        (result) => {
-          this.setState({
-            films: result.search,
-          });
-        },
-        (error) => {
-          this.setState({
-            error,
-          });
-        }
-      );
+    await fetch(`https://salty-lowlands-03006.herokuapp.com/movies`)
+    .then((response) => response.json())
+    .then(
+      (result) => {
+        this.setState({
+          films: result.search,
+          load: true
+        });
+      },
+      (error) => {
+        this.setState({
+          error,
+        });
+      }
+    );
   }
 
   renderFilms() {
@@ -41,9 +44,14 @@ class FilmLib extends Component {
   render() {
     return (
       <div className={classes.FilmLib}>
+        {
+        this.state.load ?
         <div className="container">
-          <div className={classes.FilmLibWrapper}>{this.renderFilms()}</div>
-        </div>
+          <div className={classes.FilmLibWrapper}>
+            {this.renderFilms()}
+          </div>
+        </div> : <Loader />
+        }
       </div>
     );
   }

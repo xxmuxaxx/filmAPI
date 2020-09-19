@@ -17,9 +17,7 @@ class App extends Component {
     fetch(request)
       .then((response) => response.json())
       .then((result) => {
-        this.setState({
-          responseFilms: result.search,
-        });
+        this.setState({ responseFilms: result.search });
       });
   };
 
