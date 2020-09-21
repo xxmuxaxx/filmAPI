@@ -9,21 +9,16 @@ class FilmDetail extends Component {
   };
 
   async componentDidMount() {
-    fetch("https://salty-lowlands-03006.herokuapp.com/movies")
+    const title = this.props.match.params.title;
+    fetch(`https://salty-lowlands-03006.herokuapp.com/movies/find?title=${title}`)
       .then((res) => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            film: result.search[this.props.match.params.id - 1],
-            load: true,
-          });
-        },
-        (error) => {
-          this.setState({
-            error,
-          });
-        }
-      );
+      .then((result) => {
+        this.setState({ film: result.search[0], load: true });
+      });
+  }
+
+  renderGenres() {
+    return this.state.film.genres.map((genre) => genre.name).join(", ");
   }
 
   render() {
@@ -49,38 +44,27 @@ class FilmDetail extends Component {
 
                   <div className={classes.FilmDetailField}>
                     <div className={classes.FilmDetailFieldItem}>
-                      <p className={classes.FilmDetailFieldItemName}>
-                        Год
-                      </p>
+                      <p className={classes.FilmDetailFieldItemName}>Год</p>
                       <p className={classes.FilmDetailFieldItemValue}>
                         {this.state.film.year}
                       </p>
                     </div>
                     <div className={classes.FilmDetailFieldItem}>
-                      <p className={classes.FilmDetailFieldItemName}>
-                        Страна
-                      </p>
+                      <p className={classes.FilmDetailFieldItemName}>Страна</p>
                       <p className={classes.FilmDetailFieldItemValue}>
                         {this.state.film.country}
                       </p>
                     </div>
                     <div className={classes.FilmDetailFieldItem}>
-                      <p className={classes.FilmDetailFieldItemName}>
-                        imdbID
-                      </p>
+                      <p className={classes.FilmDetailFieldItemName}>imdbID</p>
                       <p className={classes.FilmDetailFieldItemValue}>
                         <a href={linkToImdb}>{this.state.film.imdbID}</a>
                       </p>
                     </div>
                     <div className={classes.FilmDetailFieldItem}>
-                      <p className={classes.FilmDetailFieldItemName}>
-                        Жанры
-                      </p>
+                      <p className={classes.FilmDetailFieldItemName}>Жанры</p>
                       <p className={classes.FilmDetailFieldItemValue}>
-                        {this.state.film.genres.map(genre => (
-                          genre.name
-                          )).join(', ')
-                        }
+                        {this.renderGenres()}
                       </p>
                     </div>
                   </div>

@@ -9,7 +9,7 @@ const FilmCard = (props) => {
       <img src={props.poster} alt={props.filmName} />
       <div className={classes.FilmCardHover} onMouseEnter={props.onMouseEnter}>
         <div className={classes.FilmInfo}>
-          <NavLink to={"/film/" + props.id}>
+          <NavLink to={"/film/" + props.title}>
             <Button onClick={props.onClick}>Открыть карточку фильма</Button>
           </NavLink>
           <h3>{props.filmName}</h3>

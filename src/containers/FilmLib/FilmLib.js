@@ -11,20 +11,13 @@ class FilmLib extends Component {
 
   async componentDidMount() {
     await fetch(`https://salty-lowlands-03006.herokuapp.com/movies`)
-    .then((response) => response.json())
-    .then(
-      (result) => {
+      .then((response) => response.json())
+      .then((result) => {
         this.setState({
           films: result.search,
-          load: true
+          load: true,
         });
-      },
-      (error) => {
-        this.setState({
-          error,
-        });
-      }
-    );
+      });
   }
 
   renderFilms() {
@@ -32,7 +25,7 @@ class FilmLib extends Component {
       return (
         <FilmCard
           key={film.id}
-          id={film.id}
+          title={film.title}
           poster={film.poster}
           filmName={film.title}
           filmYear={film.year}
@@ -42,16 +35,15 @@ class FilmLib extends Component {
   }
 
   render() {
+    const template = (
+      <div className="container">
+        <div className={classes.FilmLibWrapper}>{this.renderFilms()}</div>
+      </div>
+    )
+
     return (
       <div className={classes.FilmLib}>
-        {
-        this.state.load ?
-        <div className="container">
-          <div className={classes.FilmLibWrapper}>
-            {this.renderFilms()}
-          </div>
-        </div> : <Loader />
-        }
+        { this.state.load ? template : <Loader /> }
       </div>
     );
   }

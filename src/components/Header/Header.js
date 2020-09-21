@@ -12,9 +12,11 @@ export default function Header(props) {
             Кавказский кинопоиск
           </NavLink>
           <Search
+            linkClickHandler={props.linkClickHandler}
             inputChangeHandler={props.inputChangeHandler}
             placeholder={props.placeholder}
             dropdown={props.dropdown}
+            value={props.value}
           />
           <div className={classes.Hamburger}>
             <div className={classes.HamburgerItem}></div>
