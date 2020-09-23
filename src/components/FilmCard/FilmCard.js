@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./FilmCard.module.css";
+import classes from "./FilmCard.module.scss";
 import { NavLink } from "react-router-dom";
 import Button from "../UI/Button/Button";
 

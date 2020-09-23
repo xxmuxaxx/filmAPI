@@ -1,27 +1,46 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./FilmLib.module.css";
 import FilmCard from "../../components/FilmCard/FilmCard";
 import Loader from "../../components/Loader/Loader";
+import Pagination from "react-js-pagination";
 
-class FilmLib extends Component {
-  state = {
-    films: [],
-    load: false,
-  };
+export default function FilmLib() {
+  const [films, setFilms] = useState([]);
+  const [load, setload] = useState(false);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    pageSize: 2,
+    totalPages: 0,
+    totalResults: 0,
+  });
 
-  async componentDidMount() {
-    await fetch(`https://salty-lowlands-03006.herokuapp.com/movies`)
-      .then((response) => response.json())
-      .then((result) => {
-        this.setState({
-          films: result.search,
-          load: true,
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const url = "https://salty-lowlands-03006.herokuapp.com/movies";
+        const response = await fetch(
+          `${url}/page=${pagination.page}/size=${pagination.pageSize}`
+        );
+        const json = await response.json();
+
+        setFilms([...json.search]);
+        setload(true);
+        setPagination((prevState) => {
+          return {
+            ...prevState,
+            totalPages: json.totalPages,
+            totalResults: json.totalResults,
+          };
         });
-      });
-  }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    fetchData();
+  }, [pagination.page, pagination.pageSize]);
 
-  renderFilms() {
-    return this.state.films.map((film) => {
+  function renderFilms() {
+    return films.map((film) => {
       return (
         <FilmCard
           key={film.id}
@@ -34,19 +53,28 @@ class FilmLib extends Component {
     });
   }
 
-  render() {
-    const template = (
-      <div className="container">
-        <div className={classes.FilmLibWrapper}>{this.renderFilms()}</div>
-      </div>
-    )
-
-    return (
-      <div className={classes.FilmLib}>
-        { this.state.load ? template : <Loader /> }
-      </div>
-    );
+  function handlePageClick(pageNumber) {
+    setload(false);
+    setPagination((prevState) => {
+      return {
+        ...prevState,
+        page: pageNumber,
+      };
+    });
   }
-}
 
-export default FilmLib;
+  const template = (
+    <div className="container">
+      <div className={classes.FilmLibWrapper}>{renderFilms()}</div>
+      <Pagination
+        activePage={pagination.page}
+        itemsCountPerPage={pagination.pageSize}
+        totalItemsCount={pagination.totalResults}
+        pageRangeDisplayed={pagination.totalPages}
+        onChange={handlePageClick.bind(this)}
+      />
+    </div>
+  );
+
+  return <div className={classes.FilmLib}>{load ? template : <Loader />}</div>;
+}
