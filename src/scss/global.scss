@@ -1,0 +1,37 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: $roboto;
+  font-size: 16px;
+  line-height: 1.2;
+  color: $black;
+  background-color: $gray;
+
+  @include max-width($desktop-sm) {
+    font-size: 15px;
+  }
+
+  @include max-width($tablet) {
+    font-size: 14px;
+  }
+
+  @include max-width($phone) {
+    font-size: 13px;
+  }
+}
+
+a,
+button,
+input[type="submit"] {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 15px;
+  width: 100%;
+  max-width: 1350px;
+}

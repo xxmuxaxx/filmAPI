@@ -1,14 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import Search from "../Nav/Search/Search";
-import classes from "./Header.module.css";
 
 export default function Header(props) {
   return (
-    <header className={classes.Header}>
+    <header className="header">
       <div className="container">
-        <div className={classes.HeaderWrapper}>
-          <NavLink to="/" className={classes.Link}>
+        <div className="header__wrapper">
+          <NavLink to="/" className="header__logo">
             Кавказский кинопоиск
           </NavLink>
           <Search
@@ -18,10 +17,10 @@ export default function Header(props) {
             dropdown={props.dropdown}
             value={props.value}
           />
-          <div className={classes.Hamburger}>
-            <div className={classes.HamburgerItem}></div>
-            <div className={classes.HamburgerItem}></div>
-            <div className={classes.HamburgerItem}></div>
+          <div className="hamburger">
+            <div className="hamburger__item"></div>
+            <div className="hamburger__item"></div>
+            <div className="hamburger__item"></div>
           </div>
         </div>
       </div>

@@ -1,0 +1,13 @@
+// Extensions - Расширения
+@import "extensions/reset";
+
+// Main - Основные
+@import "./fonts";
+@import "./variables";
+@import "./mixins";
+@import "./global";
+@import "./UI";
+
+// Components - Компоненты
+@import "./components/pagination/pagination.scss";
+@import "./components/Header/Header.scss";

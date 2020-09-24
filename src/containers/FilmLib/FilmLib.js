@@ -9,7 +9,7 @@ export default function FilmLib() {
   const [load, setload] = useState(false);
   const [pagination, setPagination] = useState({
     page: 1,
-    pageSize: 2,
+    pageSize: 6,
     totalPages: 0,
     totalResults: 0,
   });
@@ -54,6 +54,7 @@ export default function FilmLib() {
   }
 
   function handlePageClick(pageNumber) {
+    if (pageNumber === pagination.page) return false;
     setload(false);
     setPagination((prevState) => {
       return {
@@ -70,7 +71,9 @@ export default function FilmLib() {
         activePage={pagination.page}
         itemsCountPerPage={pagination.pageSize}
         totalItemsCount={pagination.totalResults}
-        pageRangeDisplayed={pagination.totalPages}
+        prevPageText={"Предыдущая"}
+        nextPageText={"Следующая"}
+        hideFirstLastPages={true}
         onChange={handlePageClick.bind(this)}
       />
     </div>

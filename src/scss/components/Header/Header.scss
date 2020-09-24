@@ -1,0 +1,22 @@
+@import "./hamburger.scss";
+
+.header {
+  position: relative;
+  background-color: #0a3d87;
+  box-shadow: 0 0 10px rgba(30, 30, 30, 0.1);
+
+  &__wrapper {
+    padding: 10px 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__logo {
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 21px;
+    color: #fff;
+  }
+}

@@ -46,7 +46,7 @@
   },
   "git.autofetch": true,
   "window.zoomLevel": 0,
-  // "editor.formatOnSave": true,
+  "editor.formatOnSave": true, //
   "editor.codeActionsOnSave": {
     "source.fixAll": true
   },
