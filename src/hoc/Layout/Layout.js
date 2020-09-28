@@ -5,7 +5,7 @@ import classes from "./Layout.module.css";
 class Layout extends Component {
   state = {
     responseFilms: [],
-    searchInputValue: '',
+    searchInputValue: "",
   };
 
   requestFromApi() {
@@ -13,19 +13,21 @@ class Layout extends Component {
     const request = `https://salty-lowlands-03006.herokuapp.com/movies/find?title=${value}`;
 
     fetch(request)
-    .then((response) => response.json())
-    .then((result) => {
-      this.setState({ responseFilms: result.search });
-    });
+      .then((response) => response.json())
+      .then((result) => {
+        this.setState({ responseFilms: result.search });
+      });
   }
 
   inputChangeHandler = async (event) => {
-    this.setState({searchInputValue: event.target.value}, () => this.requestFromApi())
+    this.setState({ searchInputValue: event.target.value }, () =>
+      this.requestFromApi()
+    );
   };
 
   linkClickHandler = async () => {
-    this.setState({searchInputValue: ''}, () => this.requestFromApi())
-  }
+    this.setState({ searchInputValue: "" }, () => this.requestFromApi());
+  };
 
   render() {
     return (

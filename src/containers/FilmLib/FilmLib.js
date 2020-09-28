@@ -9,7 +9,7 @@ export default function FilmLib() {
   const [load, setload] = useState(false);
   const [pagination, setPagination] = useState({
     page: 1,
-    pageSize: 4,
+    pageSize: 8,
     totalResults: 0,
   });
 
