@@ -16,7 +16,9 @@ class FilmDetail extends Component {
 
     fetch(`${url}find?title=${title}`)
       .then((res) => res.json())
-      .then((result) => this.setState({ film: result.search[0], load: true }));
+      .then((result) =>
+        this.setState({ film: result.search[0] }, () => this.imdbID())
+      );
   }
 
   async componentDidUpdate() {
@@ -25,7 +27,7 @@ class FilmDetail extends Component {
 
     fetch(`${url}find?title=${title}`)
       .then((res) => res.json())
-      .then((result) => this.setState({ film: result.search[0], load: true }));
+      .then((result) => this.setState({ film: result.search[0] }));
   }
 
   async getFilmYouTubeTrailerUrl() {
@@ -47,7 +49,7 @@ class FilmDetail extends Component {
   }
 
   async imdbID() {
-    const imdbID = this.props.match.params.title;
+    const imdbID = this.state.film.imdbID;
     const url = "https://movie-database-imdb-alternative.p.rapidapi.com/";
     const host = "movie-database-imdb-alternative.p.rapidapi.com";
     const key = "421df21564mshec026f33dbed2d1p17da9djsn5014d3c84f92";
@@ -57,7 +59,7 @@ class FilmDetail extends Component {
       headers: { "x-rapidapi-host": host, "x-rapidapi-key": key },
     })
       .then((response) => response.json())
-      .then((result) => console.log(result))
+      .then((result) => this.setState({ imdb: result, load: true }))
       .catch((err) => console.log(err));
   }
 
@@ -98,15 +100,55 @@ class FilmDetail extends Component {
                   </p>
                 </div>
                 <div className={classes.FilmDetailFieldItem}>
-                  <p className={classes.FilmDetailFieldItemName}>imdbID</p>
+                  <p className={classes.FilmDetailFieldItemName}>Актеры</p>
                   <p className={classes.FilmDetailFieldItemValue}>
-                    <a href={linkToImdb}>{this.state.film.imdbID}</a>
+                    {this.state.imdb.Actors}
+                  </p>
+                </div>
+                <div className={classes.FilmDetailFieldItem}>
+                  <p className={classes.FilmDetailFieldItemName}>IMDb</p>
+                  <p className={classes.FilmDetailFieldItemValue}>
+                    <a
+                      href={linkToImdb}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Перейти
+                    </a>
+                  </p>
+                </div>
+                <div className={classes.FilmDetailFieldItem}>
+                  <p className={classes.FilmDetailFieldItemName}>
+                    Рейтинг IMDb
+                  </p>
+                  <p className={classes.FilmDetailFieldItemValue}>
+                    {this.state.imdb.imdbRating}
+                  </p>
+                </div>
+                <div className={classes.FilmDetailFieldItem}>
+                  <p className={classes.FilmDetailFieldItemName}>Metascore</p>
+                  <p className={classes.FilmDetailFieldItemValue}>
+                    {this.state.imdb.Metascore}
                   </p>
                 </div>
                 <div className={classes.FilmDetailFieldItem}>
                   <p className={classes.FilmDetailFieldItemName}>Жанры</p>
                   <p className={classes.FilmDetailFieldItemValue}>
                     {this.renderGenres()}
+                  </p>
+                </div>
+                <div className={classes.FilmDetailFieldItem}>
+                  <p className={classes.FilmDetailFieldItemName}>
+                    Длительность
+                  </p>
+                  <p className={classes.FilmDetailFieldItemValue}>
+                    {this.state.imdb.Runtime}
+                  </p>
+                </div>
+                <div className={classes.FilmDetailFieldItem}>
+                  <p className={classes.FilmDetailFieldItemName}>Рейтинг</p>
+                  <p className={classes.FilmDetailFieldItemValue}>
+                    {this.state.imdb.Rated}
                   </p>
                 </div>
               </div>

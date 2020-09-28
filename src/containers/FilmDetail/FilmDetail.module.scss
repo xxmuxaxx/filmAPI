@@ -52,7 +52,7 @@
 
 .FilmDetailFieldItemName {
   width: 20%;
-  min-width: 100px;
+  min-width: 160px;
 }
 
 .FilmDetailFieldItemValue a {
@@ -61,7 +61,7 @@
   line-height: 28px;
   letter-spacing: 0.085em;
   color: #ffffff;
-  transition: color .3s;
+  transition: color 0.3s;
   text-decoration: underline;
 
   &:hover {
