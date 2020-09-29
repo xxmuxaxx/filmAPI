@@ -16,7 +16,7 @@ export default function FilmLib() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const url = "https://salty-lowlands-03006.herokuapp.com/movies";
+        const url = "https://film-api-backend.herokuapp.com/movies";
         const response = await fetch(
           `${url}/page=${pagination.page}/size=${pagination.pageSize}`
         );

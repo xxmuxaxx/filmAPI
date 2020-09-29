@@ -12,7 +12,7 @@ class FilmDetail extends Component {
 
   async componentDidMount() {
     const title = this.props.match.params.title;
-    const url = "https://salty-lowlands-03006.herokuapp.com/movies/";
+    const url = "https://film-api-backend.herokuapp.com/movies/";
 
     fetch(`${url}find?title=${title}`)
       .then((res) => res.json())
@@ -23,7 +23,7 @@ class FilmDetail extends Component {
 
   async componentDidUpdate() {
     const title = this.props.match.params.title;
-    const url = "https://salty-lowlands-03006.herokuapp.com/movies/";
+    const url = "https://film-api-backend.herokuapp.com/movies/";
 
     fetch(`${url}find?title=${title}`)
       .then((res) => res.json())
