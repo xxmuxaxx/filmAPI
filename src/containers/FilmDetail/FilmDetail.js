@@ -38,10 +38,7 @@ class FilmDetail extends Component {
       .then((result) => {
         const videoId = result.videoId;
 
-        this.setState({
-          film: { ...this.state.film, videoId },
-          load: true,
-        });
+        this.setState({ videoId: videoId, load: true });
       })
       .catch((err) => {
         console.log(err);
@@ -60,9 +57,7 @@ class FilmDetail extends Component {
     })
       .then((response) => response.json())
       .then((result) =>
-        this.setState({ imdb: result, load: true }, () =>
-          this.getFilmYouTubeTrailerUrl()
-        )
+        this.setState({ imdb: result }, () => this.getFilmYouTubeTrailerUrl())
       )
       .catch((err) => console.log(err));
   }
@@ -164,18 +159,20 @@ class FilmDetail extends Component {
           </div>
 
           <div className="plyr-wrapper">
-            {this.state.film.videoId && (
+            {this.videoId ? (
               <Plyr
                 source={{
                   type: "video",
                   sources: [
                     {
-                      src: this.state.film.videoId,
+                      src: this.state.videoId,
                       provider: "youtube",
                     },
                   ],
                 }}
               />
+            ) : (
+              <Plyr />
             )}
           </div>
 
