@@ -59,7 +59,11 @@ class FilmDetail extends Component {
       headers: { "x-rapidapi-host": host, "x-rapidapi-key": key },
     })
       .then((response) => response.json())
-      .then((result) => this.setState({ imdb: result, load: true }))
+      .then((result) =>
+        this.setState({ imdb: result, load: true }, () =>
+          this.getFilmYouTubeTrailerUrl()
+        )
+      )
       .catch((err) => console.log(err));
   }
 
