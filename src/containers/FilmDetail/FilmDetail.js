@@ -21,30 +21,6 @@ class FilmDetail extends Component {
       );
   }
 
-  async componentDidUpdate() {
-    const title = this.props.match.params.title;
-    const url = "https://film-api-backend.herokuapp.com/movies/";
-
-    fetch(`${url}find?title=${title}`)
-      .then((res) => res.json())
-      .then((result) => this.setState({ film: result.search[0] }));
-  }
-
-  async getFilmYouTubeTrailerUrl() {
-    fetch(
-      `https://imdb-api.com/en/API/YouTubeTrailer/k_zMYl86E1/${this.state.film.imdbID}`
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        const videoId = result.videoId;
-
-        this.setState({ videoId: videoId, load: true });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
   async imdbID() {
     const imdbID = this.state.film.imdbID;
     const url = "https://movie-database-imdb-alternative.p.rapidapi.com/";
@@ -56,9 +32,7 @@ class FilmDetail extends Component {
       headers: { "x-rapidapi-host": host, "x-rapidapi-key": key },
     })
       .then((response) => response.json())
-      .then((result) =>
-        this.setState({ imdb: result }, () => this.getFilmYouTubeTrailerUrl())
-      )
+      .then((result) => this.setState({ imdb: result, load: true }))
       .catch((err) => console.log(err));
   }
 
