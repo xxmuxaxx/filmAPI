@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 const Search = (props) => {
   const ref = useRef();
-  // const history = useHistory();
 
   function renderFilmList() {
     return props.dropdown.map((filmLink) => {
@@ -28,8 +27,6 @@ const Search = (props) => {
 
     if (ref.current.children.length) {
       const title = ref.current.children[0].dataset.title;
-
-      // history.push(`/film/${title}`);
 
       window.location.replace(`/film/${title}`);
     }

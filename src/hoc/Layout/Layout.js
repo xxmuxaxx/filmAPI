@@ -10,7 +10,7 @@ class Layout extends Component {
 
   requestFromApi() {
     const value = this.state.searchInputValue.trim() || null;
-    const request = `https://salty-lowlands-03006.herokuapp.com/movies/find?title=${value}`;
+    const request = `https://film-api-backend.herokuapp.com/movies/find?title=${value}`;
 
     fetch(request)
       .then((response) => response.json())
