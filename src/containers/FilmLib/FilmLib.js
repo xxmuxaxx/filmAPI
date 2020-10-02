@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
+import Pagination from "react-js-pagination";
+
 import classes from "./FilmLib.module.css";
 import FilmCard from "../../components/FilmCard/FilmCard";
 import Loader from "../../components/Loader/Loader";
-import Pagination from "react-js-pagination";
+
+import heroBackground from "../../img/hero-img.png";
+
+console.log(heroBackground);
 
 export default function FilmLib() {
   const [films, setFilms] = useState([]);
@@ -76,5 +81,23 @@ export default function FilmLib() {
     </div>
   );
 
-  return <div className={classes.FilmLib}>{load ? template : <Loader />}</div>;
+  return (
+    <div className={classes.FilmLib}>
+      <section className="hero">
+        <div className="container">
+          <div className="hero__wrapper">
+            <div className="hero__image-wrapper">
+              <img className="hero__image" src={heroBackground} alt="Стетхем" />
+            </div>
+            <div className="hero__text-wrapper">
+              <p className="hero__text">Пора начать смотреть</p>
+              <p className="hero__big-text">МУЖИЦКИЕ ФИЛЬМЫ</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {load ? template : <Loader />}
+    </div>
+  );
 }

@@ -35,7 +35,7 @@ class Layout extends Component {
         <Header
           linkClickHandler={this.linkClickHandler}
           inputChangeHandler={this.inputChangeHandler}
-          placeholder={"Поиск фильма"}
+          placeholder={"Введите название фильма"}
           dropdown={this.state.responseFilms}
           value={this.state.searchInputValue}
         />

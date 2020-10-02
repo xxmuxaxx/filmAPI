@@ -9,6 +9,9 @@
 @import "./global";
 @import "./UI";
 
+// Sections - секции
+@import "./sections/hero";
+
 // Components - Компоненты
-@import "./components/pagination/pagination.scss";
-@import "./components/Header/Header.scss";
+@import "./components/pagination/pagination";
+@import "./components/Header/Header";
