@@ -8,6 +8,8 @@ class FilmDetail extends Component {
   state = {
     film: [],
     load: false,
+    imdb: [],
+    imdbLoad: false,
   };
 
   async componentDidMount() {
@@ -17,7 +19,9 @@ class FilmDetail extends Component {
     fetch(`${url}find?title=${title}`)
       .then((res) => res.json())
       .then((result) =>
-        this.setState({ film: result.search[0] }, () => this.imdbID())
+        this.setState({ film: result.search[0], load: true }, () =>
+          this.imdbID()
+        )
       );
   }
 
@@ -32,7 +36,7 @@ class FilmDetail extends Component {
       headers: { "x-rapidapi-host": host, "x-rapidapi-key": key },
     })
       .then((response) => response.json())
-      .then((result) => this.setState({ imdb: result, load: true }))
+      .then((result) => this.setState({ imdb: result, imdbLoad: true }))
       .catch((err) => console.log(err));
   }
 
@@ -75,7 +79,9 @@ class FilmDetail extends Component {
                 <div className={classes.FilmDetailFieldItem}>
                   <p className={classes.FilmDetailFieldItemName}>Актеры</p>
                   <p className={classes.FilmDetailFieldItemValue}>
-                    {this.state.imdb.Actors}
+                    {this.state.imdbLoad
+                      ? this.state.imdb.Actors
+                      : "Загрузка..."}
                   </p>
                 </div>
                 <div className={classes.FilmDetailFieldItem}>
@@ -95,13 +101,17 @@ class FilmDetail extends Component {
                     Рейтинг IMDb
                   </p>
                   <p className={classes.FilmDetailFieldItemValue}>
-                    {this.state.imdb.imdbRating}
+                    {this.state.imdbLoad
+                      ? this.state.imdb.imdbRating
+                      : "Загрузка..."}
                   </p>
                 </div>
                 <div className={classes.FilmDetailFieldItem}>
                   <p className={classes.FilmDetailFieldItemName}>Metascore</p>
                   <p className={classes.FilmDetailFieldItemValue}>
-                    {this.state.imdb.Metascore}
+                    {this.state.imdbLoad
+                      ? this.state.imdb.Metascore
+                      : "Загрузка..."}
                   </p>
                 </div>
                 <div className={classes.FilmDetailFieldItem}>
@@ -115,13 +125,17 @@ class FilmDetail extends Component {
                     Длительность
                   </p>
                   <p className={classes.FilmDetailFieldItemValue}>
-                    {this.state.imdb.Runtime}
+                    {this.state.imdbLoad
+                      ? this.state.imdb.Runtime
+                      : "Загрузка..."}
                   </p>
                 </div>
                 <div className={classes.FilmDetailFieldItem}>
                   <p className={classes.FilmDetailFieldItemName}>Рейтинг</p>
                   <p className={classes.FilmDetailFieldItemValue}>
-                    {this.state.imdb.Rated}
+                    {this.state.imdbLoad
+                      ? this.state.imdb.Rated
+                      : "Загрузка..."}
                   </p>
                 </div>
               </div>

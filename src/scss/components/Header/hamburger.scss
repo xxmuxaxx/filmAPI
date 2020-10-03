@@ -15,7 +15,27 @@
   z-index: 11;
   cursor: pointer;
 
+  &:hover &__item {
+    background-color: $gold;
+  }
+
+  &__item {
+    display: block;
+    width: 100%;
+    height: 2px;
+    margin: 3px 0;
+    background-color: $white;
+    border-radius: 3px;
+    transition: background-color 0.3s, transform 0.3s, opacity 0.3s,
+      visibility 0.3s;
+    transform-origin: 0 100%;
+  }
+
   &--active {
+    &:hover .hamburger__item {
+      background-color: $gold-medium;
+    }
+
     .hamburger__item {
       background-color: $black;
 
@@ -32,17 +52,5 @@
         transform: translate(4px, 0) rotate(-45deg);
       }
     }
-  }
-
-  &__item {
-    display: block;
-    width: 100%;
-    height: 2px;
-    margin: 3px 0;
-    background-color: #fff;
-    border-radius: 3px;
-    transition: background-color 0.3s, transform 0.3s, opacity 0.3s,
-      visibility 0.3s;
-    transform-origin: 0 100%;
   }
 }

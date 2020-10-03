@@ -7,25 +7,54 @@
   line-height: 21px;
   color: #fff;
 
+  &:hover {
+    .logo__svg {
+      fill: $gold;
+    }
+
+    .logo__big-text,
+    .logo__text {
+      color: $gold;
+    }
+  }
+
   &__svg {
-    height: 80px;
-    min-height: 80px;
-    min-width: 80px;
-    width: 80px;
-    fill: #fff;
+    margin: 0 10px 0 0;
+    height: 60px;
+    min-height: 60px;
+    min-width: 60px;
+    width: 60px;
+    fill: $white;
+    transition: fill $transition-time;
+
+    @include max-width($desktop-sm) {
+      height: 40px;
+      min-height: 40px;
+      min-width: 40px;
+      width: 40px;
+    }
+
+    @include max-width($touch) {
+      display: none;
+    }
   }
 
   &__text-wrapper {
-    margin: 0 0 0 10px;
     display: flex;
     flex-direction: column;
-    color: #ffffff;
+    color: $white;
   }
 
   &__big-text {
     font-weight: bold;
     font-size: 1.5rem;
     letter-spacing: 0.025em;
+    transition: color $transition-time;
+
+    @include max-width($desktop-sm) {
+      font-size: 1.25rem;
+      line-height: 1.25rem;
+    }
   }
 
   &__text {
@@ -33,5 +62,11 @@
     font-size: 1.125rem;
     line-height: 21px;
     letter-spacing: 0.095em;
+    transition: color $transition-time;
+
+    @include max-width($desktop-sm) {
+      font-size: 1rem;
+      line-height: 1rem;
+    }
   }
 }

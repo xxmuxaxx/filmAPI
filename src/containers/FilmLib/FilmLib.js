@@ -7,8 +7,6 @@ import Loader from "../../components/Loader/Loader";
 
 import heroBackground from "../../img/hero-img.png";
 
-console.log(heroBackground);
-
 export default function FilmLib() {
   const [films, setFilms] = useState([]);
   const [load, setload] = useState(false);
@@ -91,7 +89,9 @@ export default function FilmLib() {
             </div>
             <div className="hero__text-wrapper">
               <p className="hero__text">Пора начать смотреть</p>
-              <p className="hero__big-text">МУЖИЦКИЕ ФИЛЬМЫ</p>
+              <p className="hero__big-text">
+                <b>МУЖИЦКИЕ</b> ФИЛЬМЫ
+              </p>
             </div>
           </div>
         </div>

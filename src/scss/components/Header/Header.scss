@@ -20,6 +20,10 @@
 
   .hamburger {
     margin: 0 0 0 40px;
+
+    @include max-width($touch) {
+      margin: 0 0 0 20px;
+    }
   }
 }
 
@@ -77,7 +81,7 @@
     transition: color 0.3s, background 0.3s;
 
     &:hover {
-      background: $blue;
+      background: $gold-medium;
       color: $white;
     }
   }
