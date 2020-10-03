@@ -2,14 +2,14 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  justify-content: center;
+  /* justify-content: center; */
   width: 100%;
   height: 100%;
   /* background: linear-gradient(90.34deg, #cfeeff 0.17%, #a4c8ff 99.8%); */
 }
 
 .FilmLibWrapper {
-  margin: 0 -10px;
+  /* /* margin: 0 -10px; */
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;

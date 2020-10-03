@@ -1,15 +1,21 @@
 .LoaderWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
+  background-color: #000000aa;
+  z-index: 100;
 }
 
 .Loader {
-  margin: 0 auto;
-  display: block;
+  position: relative;
   width: 80px;
   height: 80px;
+  z-index: 101;
 }
 
 .Loader:after {
@@ -20,7 +26,7 @@
   margin: 8px;
   border-radius: 50%;
   border: 6px solid #000;
-  border-color: #000 transparent #000 transparent;
+  border-color: #dcdcdc transparent #dcdcdc transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
 

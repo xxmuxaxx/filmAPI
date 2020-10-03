@@ -6,6 +6,7 @@ import FilmCard from "../../components/FilmCard/FilmCard";
 import Loader from "../../components/Loader/Loader";
 
 import heroBackground from "../../img/hero-img.png";
+import FilmCardPlaceholder from "../../components/FilmCard/FilmCardPlaceholder";
 
 export default function FilmLib() {
   const [films, setFilms] = useState([]);
@@ -79,6 +80,22 @@ export default function FilmLib() {
     </div>
   );
 
+  const loadingTemplate = (
+    <div className="loading">
+      <div className="container">
+        <Loader />
+        <FilmCardPlaceholder />
+        <FilmCardPlaceholder />
+        <FilmCardPlaceholder />
+        <FilmCardPlaceholder />
+        <FilmCardPlaceholder />
+        <FilmCardPlaceholder />
+        <FilmCardPlaceholder />
+        <FilmCardPlaceholder />
+      </div>
+    </div>
+  );
+
   return (
     <div className={classes.FilmLib}>
       <section className="hero">
@@ -97,7 +114,7 @@ export default function FilmLib() {
         </div>
       </section>
 
-      {load ? template : <Loader />}
+      {load ? template : loadingTemplate}
     </div>
   );
 }
