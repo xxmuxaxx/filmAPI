@@ -1,0 +1,34 @@
+.footer {
+  padding: 20px 0;
+  background: $white;
+  border-top: 1px solid #e5e5e5;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    &:hover {
+      .logo__big-text,
+      .logo__text {
+        color: $gold-medium;
+      }
+    }
+
+    &__big-text,
+    &__text {
+      color: $black;
+    }
+  }
+}
+
+.copyright {
+  &__bottom {
+    font-weight: 500;
+    font-size: 1.2rem;
+    color: $gold-medium;
+  }
+}
