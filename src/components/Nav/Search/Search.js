@@ -10,13 +10,20 @@ const Search = (props) => {
     return props.dropdown.map((filmLink) => {
       return (
         <li key={filmLink.id} data-title={filmLink.title}>
-          <Link
+          {/* <Link
             to={`/film/${filmLink.title}`}
             className={classes.Link}
             onClick={props.linkClickHandler}
           >
             {filmLink.title}
-          </Link>
+          </Link> */}
+          <a
+            href={`/film/${filmLink.title}`}
+            className={classes.Link}
+            onClick={props.linkClickHandler}
+          >
+            {filmLink.title}
+          </a>
         </li>
       );
     });

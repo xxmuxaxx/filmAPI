@@ -12,7 +12,8 @@ class FilmDetail extends Component {
     imdbLoad: false,
   };
 
-  async componentDidMount() {
+  async tempFetch() {
+    console.log("API GET FILM");
     const title = this.props.match.params.title;
     const url = "https://film-api-backend.herokuapp.com/movies/";
 
@@ -25,7 +26,12 @@ class FilmDetail extends Component {
       );
   }
 
+  async componentDidMount() {
+    this.tempFetch();
+  }
+
   async imdbID() {
+    console.log("API GET FILM IMDB");
     const imdbID = this.state.film.imdbID;
     const url = "https://movie-database-imdb-alternative.p.rapidapi.com/";
     const host = "movie-database-imdb-alternative.p.rapidapi.com";

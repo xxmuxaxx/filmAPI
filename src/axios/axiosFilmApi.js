@@ -1,5 +1,7 @@
 import axios from "axios";
 
-export default axios.create({
+const filmApi = axios.create({
   baseURL: "https://film-api-backend.herokuapp.com/movies/",
 });
+
+export default filmApi;

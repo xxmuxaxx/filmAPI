@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Pagination from "react-js-pagination";
+import { useDispatch, useSelector } from "react-redux";
 
 import classes from "./FilmLib.module.css";
 import FilmCard from "../../components/FilmCard/FilmCard";
@@ -7,39 +8,14 @@ import Loader from "../../components/Loader/Loader";
 
 import heroBackground from "../../img/hero-img.png";
 import FilmCardPlaceholder from "../../components/FilmCard/FilmCardPlaceholder";
+import { setPage } from "../../redux/actions/pagination";
 
-export default function FilmLib() {
-  const [films, setFilms] = useState([]);
-  const [load, setload] = useState(false);
-  const [pagination, setPagination] = useState({
-    page: 1,
-    pageSize: 8,
-    totalResults: 0,
-  });
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const url = "https://film-api-backend.herokuapp.com/movies";
-        const response = await fetch(
-          `${url}/page=${pagination.page}/size=${pagination.pageSize}`
-        );
-        const json = await response.json();
-
-        setFilms([...json.search]);
-        setload(true);
-        setPagination((prevState) => {
-          return {
-            ...prevState,
-            totalResults: json.totalResults,
-          };
-        });
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    fetchData();
-  }, [pagination.page, pagination.pageSize]);
+function FilmLib() {
+  const dispatch = useDispatch();
+  const films = useSelector(({ films }) => films.items);
+  const totalFilms = useSelector(({ films }) => films.totalItems);
+  const load = useSelector(({ films }) => films.isLoaded);
+  const pagination = useSelector(({ pagination }) => pagination);
 
   function renderFilms() {
     return films.map((film) => {
@@ -55,16 +31,10 @@ export default function FilmLib() {
     });
   }
 
-  function handlePageClick(pageNumber) {
+  const handlePageClick = (pageNumber) => {
     if (pageNumber === pagination.page) return false;
-    setload(false);
-    setPagination((prevState) => {
-      return {
-        ...prevState,
-        page: pageNumber,
-      };
-    });
-  }
+    dispatch(setPage(pageNumber));
+  };
 
   const template = (
     <div className="container">
@@ -72,7 +42,7 @@ export default function FilmLib() {
       <Pagination
         activePage={pagination.page}
         itemsCountPerPage={pagination.pageSize}
-        totalItemsCount={pagination.totalResults}
+        totalItemsCount={totalFilms}
         hideFirstLastPages={true}
         hideNavigation={true}
         onChange={handlePageClick.bind(this)}
@@ -113,8 +83,9 @@ export default function FilmLib() {
           </div>
         </div>
       </section>
-
       {load ? template : loadingTemplate}
     </div>
   );
 }
+
+export default FilmLib;
