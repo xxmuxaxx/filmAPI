@@ -1,5 +1,6 @@
 const initialState = {
   items: [],
+  activeItem: {},
   isLoaded: false,
   totalItems: 0,
 };
@@ -11,6 +12,13 @@ const films = (state = initialState, action) => {
         ...state,
         items: action.payload.items,
         totalItems: action.payload.totalItems,
+        isLoaded: true,
+      };
+
+    case "SET_ACTIVE_FILM":
+      return {
+        ...state,
+        activeItem: action.payload,
         isLoaded: true,
       };
 

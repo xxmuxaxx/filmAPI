@@ -1,15 +1,18 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useHistory } from "react-router";
 
 import Header from "../../components/Header/Header";
 import classes from "./Layout.module.css";
 
-function Layout(props) {
+const Layout = React.memo(function Layout(props) {
   const [responseFilms, setResponseFilms] = React.useState([]);
   const [searchInputValue, setSearchInputValue] = React.useState("");
 
+  const history = useHistory();
+
   React.useEffect(() => {
-    requestFromApi();
+    (searchInputValue && requestFromApi()) || setResponseFilms([]);
 
     function requestFromApi() {
       console.log("API GET SEARCH");
@@ -32,11 +35,22 @@ function Layout(props) {
     setSearchInputValue("");
   };
 
+  const formSubmitHandler = async (event) => {
+    event.preventDefault();
+
+    if (responseFilms.length) {
+      const title = responseFilms[0].title;
+      setSearchInputValue("");
+      history.push(`/film/${title}`);
+    }
+  };
+
   return (
     <div className={classes.Layout}>
       <Header
         linkClickHandler={linkClickHandler}
         inputChangeHandler={inputChangeHandler}
+        formSubmitHandler={formSubmitHandler}
         placeholder={"Введите название фильма"}
         dropdown={responseFilms}
         value={searchInputValue}
@@ -60,6 +74,6 @@ function Layout(props) {
       </footer>
     </div>
   );
-}
+});
 
 export default Layout;

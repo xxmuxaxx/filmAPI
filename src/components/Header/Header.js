@@ -31,6 +31,7 @@ export default function Header(props) {
             <Search
               linkClickHandler={props.linkClickHandler}
               inputChangeHandler={props.inputChangeHandler}
+              formSubmitHandler={props.formSubmitHandler}
               placeholder={props.placeholder}
               dropdown={props.dropdown}
               value={props.value}

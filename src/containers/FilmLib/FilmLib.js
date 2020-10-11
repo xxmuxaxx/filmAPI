@@ -2,13 +2,13 @@ import React from "react";
 import Pagination from "react-js-pagination";
 import { useDispatch, useSelector } from "react-redux";
 
-import classes from "./FilmLib.module.css";
+import { setPage } from "../../redux/actions/pagination";
 import FilmCard from "../../components/FilmCard/FilmCard";
 import Loader from "../../components/Loader/Loader";
+import FilmCardPlaceholder from "../../components/FilmCard/FilmCardPlaceholder";
+import classes from "./FilmLib.module.css";
 
 import heroBackground from "../../img/hero-img.png";
-import FilmCardPlaceholder from "../../components/FilmCard/FilmCardPlaceholder";
-import { setPage } from "../../redux/actions/pagination";
 
 function FilmLib() {
   const dispatch = useDispatch();
