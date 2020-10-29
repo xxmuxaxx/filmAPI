@@ -1,20 +1,39 @@
 import React, { useRef } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 
+import {
+  fetchSearchFilmsByTitle,
+  setSearchItems,
+  setSearchText,
+} from "../../../redux/actions/search";
 import Input from "../../UI/Input/Input";
 import classes from "./Search.module.css";
 
 const Search = (props) => {
+  const dispatch = useDispatch();
   const ref = useRef();
+  const history = useHistory();
+
+  const { searchText, searchItems } = useSelector(({ search }) => search);
+
+  React.useEffect(() => {
+    if (searchText) {
+      console.log("API GET SEARCH");
+      dispatch(fetchSearchFilmsByTitle(searchText));
+    } else {
+      dispatch(setSearchItems([]));
+    }
+  }, [dispatch, searchText]);
 
   function renderFilmList() {
-    return props.dropdown.map((filmLink) => {
+    return searchItems.map((filmLink) => {
       return (
         <li key={filmLink.id} data-title={filmLink.title}>
           <Link
             to={`/film/${filmLink.title}`}
             className={classes.Link}
-            onClick={props.linkClickHandler}
+            onClick={linkClickHandler}
           >
             {filmLink.title}
           </Link>
@@ -23,10 +42,32 @@ const Search = (props) => {
     });
   }
 
+  const linkClickHandler = async () => {
+    dispatch(setSearchText(""));
+  };
+
+  const formSubmitHandler = async (event) => {
+    event.preventDefault();
+
+    if (searchItems.length) {
+      const title = searchItems[0].title;
+      dispatch(setSearchText(""));
+      history.push(`/film/${title}`);
+    }
+  };
+
+  const inputChangeHandler = (event) => {
+    dispatch(setSearchText(event.target.value));
+  };
+
   return (
     <div className={classes.Search}>
-      <form onSubmit={props.formSubmitHandler}>
-        <Input {...props} />
+      <form onSubmit={formSubmitHandler}>
+        <Input
+          inputValue={searchText}
+          inputPlaceholder={"Введите название фильма"}
+          inputChangeHandler={inputChangeHandler}
+        />
         <ul className={classes.Dropdown} ref={ref}>
           {renderFilmList()}
         </ul>

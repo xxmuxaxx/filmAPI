@@ -28,14 +28,7 @@ export default function Header(props) {
                 <p className="logo__text">кинопоиск</p>
               </div>
             </NavLink>
-            <Search
-              linkClickHandler={props.linkClickHandler}
-              inputChangeHandler={props.inputChangeHandler}
-              formSubmitHandler={props.formSubmitHandler}
-              placeholder={props.placeholder}
-              dropdown={props.dropdown}
-              value={props.value}
-            />
+            <Search />
             <div
               onClick={hamburgerClickHandler}
               className={classNames({

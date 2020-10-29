@@ -1,60 +1,23 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { useHistory } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 
 import Header from "../../components/Header/Header";
 import classes from "./Layout.module.css";
+import { fetchFilms } from "../../redux/actions/films";
 
 const Layout = React.memo(function Layout(props) {
-  const [responseFilms, setResponseFilms] = React.useState([]);
-  const [searchInputValue, setSearchInputValue] = React.useState("");
+  const dispatch = useDispatch();
 
-  const history = useHistory();
+  const { page, pageSize } = useSelector(({ pagination }) => pagination);
 
   React.useEffect(() => {
-    (searchInputValue && requestFromApi()) || setResponseFilms([]);
-
-    function requestFromApi() {
-      console.log("API GET SEARCH");
-      const value = searchInputValue.trim() || null;
-      const request = `https://film-api-backend.herokuapp.com/movies/find?title=${value}`;
-
-      fetch(request)
-        .then((response) => response.json())
-        .then((result) => {
-          setResponseFilms(result.search);
-        });
-    }
-  }, [searchInputValue]);
-
-  const inputChangeHandler = async (event) => {
-    setSearchInputValue(event.target.value);
-  };
-
-  const linkClickHandler = async () => {
-    setSearchInputValue("");
-  };
-
-  const formSubmitHandler = async (event) => {
-    event.preventDefault();
-
-    if (responseFilms.length) {
-      const title = responseFilms[0].title;
-      setSearchInputValue("");
-      history.push(`/film/${title}`);
-    }
-  };
+    dispatch(fetchFilms(page, pageSize));
+  }, [dispatch, page, pageSize]);
 
   return (
     <div className={classes.Layout}>
-      <Header
-        linkClickHandler={linkClickHandler}
-        inputChangeHandler={inputChangeHandler}
-        formSubmitHandler={formSubmitHandler}
-        placeholder={"Введите название фильма"}
-        dropdown={responseFilms}
-        value={searchInputValue}
-      />
+      <Header />
       <main>{props.children}</main>
       <footer className="footer">
         <div className="container">
