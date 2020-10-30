@@ -30,7 +30,7 @@ const FilmDetail = React.memo(function FilmDetail(props) {
 
       youTubeApi
         .get(
-          `search?key=AIzaSyDW-Vh6IQeAmmSfszFyWZ3kobYjrUXUM7w&maxResults=5&q=${activeItem.title} ${activeItem.year} трейлер`
+          `search?key=AIzaSyDW-Vh6IQeAmmSfszFyWZ3kobYjrUXUM7w&maxResults=1&q=${activeItem.title} ${activeItem.year} трейлер`
         )
         .then(({ data }) => setYouTube(data.items));
     }
@@ -113,7 +113,9 @@ const FilmDetail = React.memo(function FilmDetail(props) {
                 ],
               }}
             />
-          ) : null}
+          ) : (
+            <Plyr />
+          )}
         </div>
 
         <div className={classes.FilmDetailBottom}>
