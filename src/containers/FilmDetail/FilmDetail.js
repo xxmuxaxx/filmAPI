@@ -11,9 +11,7 @@ import IMDBAlternative from "../../axios/axiosIMDBAlternative";
 import youTubeApi from "../../axios/axiosYouTubeApi";
 
 function random(n) {
-  const min = Math.ceil(0);
-  const max = Math.floor(n);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  return Math.floor(Math.random() * (Math.floor(n - 1) - 0 + 1)) + 0;
 }
 
 const FilmDetail = React.memo(function FilmDetail(props) {
@@ -32,7 +30,7 @@ const FilmDetail = React.memo(function FilmDetail(props) {
 
       youTubeApi
         .get(
-          `search?key=AIzaSyDW-Vh6IQeAmmSfszFyWZ3kobYjrUXUM7w&maxResults=5&q=${activeItem.title}_трейлер`
+          `search?key=AIzaSyDW-Vh6IQeAmmSfszFyWZ3kobYjrUXUM7w&maxResults=5&q=${activeItem.title} ${activeItem.year} трейлер`
         )
         .then(({ data }) => setYouTube(data.items));
     }
