@@ -6,28 +6,46 @@ import Plyr from "plyr-react";
 import classes from "./FilmDetail.module.scss";
 import Loader from "../../components/Loader/Loader";
 import FilmDetailFieldItem from "./FilmDetailFieldItem";
-import { fetchFilmByTitle } from "../../redux/actions/films";
+import { fetchFilmByTitle, setActiveFilm } from "../../redux/actions/films";
 import IMDBAlternative from "../../axios/axiosIMDBAlternative";
+import youTubeApi from "../../axios/axiosYouTubeApi";
+
+function random(n) {
+  const min = Math.ceil(0);
+  const max = Math.floor(n);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 const FilmDetail = React.memo(function FilmDetail(props) {
   const dispatch = useDispatch();
-  const { activeItem, isLoaded } = useSelector(({ films }) => films);
 
+  const { activeItem } = useSelector(({ films }) => films);
   const [imdb, setImdb] = React.useState({ item: [], loaded: false });
-  const linkToImdb = `https://www.imdb.com/title/${activeItem.imdbID}`;
+  const [youTube, setYouTube] = React.useState(null);
+  const linkToImdb = `https://www.imdb.com/title/${activeItem?.imdbID}`;
 
   React.useEffect(() => {
-    activeItem.title === props.match.params.title
-      ? getIMDB()
-      : dispatch(fetchFilmByTitle(props.match.params.title)).then(getIMDB());
+    if (activeItem) {
+      IMDBAlternative.get(`?i=${activeItem.imdbID}&r=json`).then(({ data }) =>
+        setImdb({ item: data, loaded: true })
+      );
 
-    function getIMDB() {
-      IMDBAlternative.get(`?i=${activeItem.imdbID}&r=json`).then(({ data }) => {
-        console.log("API GET FILM IMDB");
-        setImdb({ item: data, loaded: true });
-      });
+      youTubeApi
+        .get(
+          `search?key=AIzaSyDW-Vh6IQeAmmSfszFyWZ3kobYjrUXUM7w&maxResults=5&q=${activeItem.title}_трейлер`
+        )
+        .then(({ data }) => setYouTube(data.items));
     }
-  }, [activeItem.imdbID, activeItem.title, dispatch, props.match.params.title]);
+  }, [activeItem]);
+
+  React.useEffect(() => {
+    dispatch(fetchFilmByTitle(props.match.params.title));
+
+    return () => dispatch(setActiveFilm(null));
+  }, [dispatch, props.match.params.title]);
+
+  const renderGenres = () =>
+    activeItem.genres.map((genre) => genre.name).join(", ");
 
   const template = () => (
     <div className="container">
@@ -67,7 +85,7 @@ const FilmDetail = React.memo(function FilmDetail(props) {
                 {imdb.loaded ? imdb.item.Metascore : "Загрузка..."}
               </FilmDetailFieldItem>
               <FilmDetailFieldItem name="Жанры">
-                {activeItem.genres.map((genre) => genre.name).join(", ")}
+                {activeItem && renderGenres()}
               </FilmDetailFieldItem>
               <FilmDetailFieldItem name="Длительность">
                 {imdb.loaded ? imdb.item.Runtime : "Загрузка..."}
@@ -84,7 +102,20 @@ const FilmDetail = React.memo(function FilmDetail(props) {
         </div>
 
         <div className="plyr-wrapper">
-          <Plyr />
+          {console.log("plyr", youTube)}
+          {youTube ? (
+            <Plyr
+              source={{
+                type: "video",
+                sources: [
+                  {
+                    src: youTube[random(youTube.length)].id.videoId,
+                    provider: "youtube",
+                  },
+                ],
+              }}
+            />
+          ) : null}
         </div>
 
         <div className={classes.FilmDetailBottom}>
@@ -100,7 +131,7 @@ const FilmDetail = React.memo(function FilmDetail(props) {
 
   return (
     <div className={classes.FilmDetail}>
-      {isLoaded ? template() : <Loader />}
+      {activeItem ? template() : <Loader />}
     </div>
   );
 });

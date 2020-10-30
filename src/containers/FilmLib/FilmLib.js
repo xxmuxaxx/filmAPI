@@ -9,13 +9,18 @@ import FilmCardPlaceholder from "../../components/FilmCard/FilmCardPlaceholder";
 import classes from "./FilmLib.module.css";
 
 import heroBackground from "../../img/hero-img.png";
+import { fetchFilms } from "../../redux/actions/films";
 
 function FilmLib() {
   const dispatch = useDispatch();
   const films = useSelector(({ films }) => films.items);
   const totalFilms = useSelector(({ films }) => films.totalItems);
   const load = useSelector(({ films }) => films.isLoaded);
-  const pagination = useSelector(({ pagination }) => pagination);
+  const { page, pageSize } = useSelector(({ pagination }) => pagination);
+
+  React.useEffect(() => {
+    dispatch(fetchFilms(page, pageSize));
+  }, [dispatch, page, pageSize]);
 
   function renderFilms() {
     return films.map((film) => {
@@ -32,7 +37,7 @@ function FilmLib() {
   }
 
   const handlePageClick = (pageNumber) => {
-    if (pageNumber === pagination.page) return false;
+    if (pageNumber === page) return false;
     dispatch(setPage(pageNumber));
   };
 
@@ -40,8 +45,8 @@ function FilmLib() {
     <div className="container">
       <div className={classes.FilmLibWrapper}>{renderFilms()}</div>
       <Pagination
-        activePage={pagination.page}
-        itemsCountPerPage={pagination.pageSize}
+        activePage={page}
+        itemsCountPerPage={pageSize}
         totalItemsCount={totalFilms}
         hideFirstLastPages={true}
         hideNavigation={true}

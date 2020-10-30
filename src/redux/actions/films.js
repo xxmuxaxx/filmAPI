@@ -9,8 +9,6 @@ export const fetchFilms = (page = 1, size = 8) => (dispatch) => {
 };
 
 export const fetchFilmByTitle = (payload) => (dispatch) => {
-  dispatch({ type: "SET_LOADED", payload: false });
-
   return filmApi.get(`/find?title=${payload}`).then(({ data }) => {
     dispatch(setActiveFilm(data.search[0]));
   });
@@ -24,7 +22,7 @@ const setFilms = ({ search, totalResults }) => ({
   },
 });
 
-const setActiveFilm = (payload) => (dispatch) => {
+export const setActiveFilm = (payload) => (dispatch) => {
   dispatch({
     type: "SET_ACTIVE_FILM",
     payload,

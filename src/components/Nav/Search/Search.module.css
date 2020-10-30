@@ -25,13 +25,17 @@
   top: 40px;
   left: 0;
   right: 0;
-  z-index: 999;
+  z-index: 5;
   display: flex;
   flex-direction: column;
   background: #fff;
   border: 1px solid #222222;
   list-style: none;
   overflow: hidden;
+}
+
+.Dropdown:empty {
+  display: none;
 }
 
 .Link {

@@ -1,20 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 
 import Header from "../../components/Header/Header";
 import classes from "./Layout.module.css";
-import { fetchFilms } from "../../redux/actions/films";
 
 const Layout = React.memo(function Layout(props) {
-  const dispatch = useDispatch();
-
-  const { page, pageSize } = useSelector(({ pagination }) => pagination);
-
-  React.useEffect(() => {
-    dispatch(fetchFilms(page, pageSize));
-  }, [dispatch, page, pageSize]);
-
   return (
     <div className={classes.Layout}>
       <Header />
@@ -30,7 +20,7 @@ const Layout = React.memo(function Layout(props) {
             </NavLink>
             <div className="copyright">
               <p className="copyright__top">Разработанно в студии</p>
-              <p className="copyright__bottom">Не твоих собачих дел</p>
+              <p className="copyright__bottom">Не твоих собачьих дел</p>
             </div>
           </div>
         </div>
