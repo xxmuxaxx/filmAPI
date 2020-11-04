@@ -4,12 +4,14 @@ import { Route, Switch } from "react-router-dom";
 import Layout from "./hoc/Layout/Layout";
 import FilmLib from "./containers/FilmLib/FilmLib";
 import FilmDetail from "./containers/FilmDetail/FilmDetail";
+import Profile from "./containers/Profile/Profile";
 
 function App() {
   return (
     <Layout>
       <Switch>
         <Route path="/film/:title" component={FilmDetail} />
+        <Route path="/profile/" component={Profile} />
         <Route path="/" component={FilmLib} />
       </Switch>
     </Layout>

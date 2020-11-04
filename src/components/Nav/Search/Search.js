@@ -1,16 +1,12 @@
-import React, { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import React, { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 
-import {
-  fetchSearchFilmsByTitle,
-  setSearchItems,
-  setSearchText,
-} from "../../../redux/actions/search";
-import Input from "../../UI/Input/Input";
-import classes from "./Search.module.css";
+import { fetchSearchFilmsByTitle, setSearchItems, setSearchText } from '../../../redux/actions/search';
+import Input from '../../UI/Input/Input';
+import classes from './Search.module.css';
 
-const Search = (props) => {
+const Search = () => {
   const dispatch = useDispatch();
   const ref = useRef();
   const history = useHistory();
@@ -19,7 +15,7 @@ const Search = (props) => {
 
   React.useEffect(() => {
     if (searchText) {
-      console.log("API GET SEARCH");
+      console.log('API GET SEARCH');
       dispatch(fetchSearchFilmsByTitle(searchText));
     } else {
       dispatch(setSearchItems([]));
@@ -30,11 +26,7 @@ const Search = (props) => {
     return searchItems.map((filmLink) => {
       return (
         <li key={filmLink.id} data-title={filmLink.title}>
-          <Link
-            to={`/film/${filmLink.title}`}
-            className={classes.Link}
-            onClick={linkClickHandler}
-          >
+          <Link to={`/film/${filmLink.title}`} className={classes.Link} onClick={linkClickHandler}>
             {filmLink.title}
           </Link>
         </li>
@@ -43,7 +35,7 @@ const Search = (props) => {
   }
 
   const linkClickHandler = async () => {
-    dispatch(setSearchText(""));
+    dispatch(setSearchText(''));
   };
 
   const formSubmitHandler = async (event) => {
@@ -51,7 +43,7 @@ const Search = (props) => {
 
     if (searchItems.length) {
       const title = searchItems[0].title;
-      dispatch(setSearchText(""));
+      dispatch(setSearchText(''));
       history.push(`/film/${title}`);
     }
   };
@@ -63,11 +55,7 @@ const Search = (props) => {
   return (
     <div className={classes.Search}>
       <form onSubmit={formSubmitHandler}>
-        <Input
-          inputValue={searchText}
-          inputPlaceholder={"Введите название фильма"}
-          inputChangeHandler={inputChangeHandler}
-        />
+        <Input value={searchText} placeholder={'Введите название фильма'} onChange={inputChangeHandler} />
         <ul className={classes.Dropdown} ref={ref}>
           {renderFilmList()}
         </ul>
