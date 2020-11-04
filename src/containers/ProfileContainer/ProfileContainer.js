@@ -8,7 +8,7 @@ const users = [
   { name: 'user', password: '111', isAdmin: false },
 ];
 
-const Profile = () => {
+const ProfileContainer = () => {
   const [user, setUser] = useState(null);
 
   const formSubmitHandler = (event) => {
@@ -29,4 +29,4 @@ const Profile = () => {
   return <>{!user ? <Auth onFormSubmit={formSubmitHandler} /> : user.isAdmin ? <CreateFilm /> : null}</>;
 };
 
-export default Profile;
+export default ProfileContainer;

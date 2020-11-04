@@ -1,19 +1,20 @@
 // Extensions - Расширения
-@import "extensions/reset";
-@import "~plyr/dist/plyr.css";
+@import 'extensions/reset';
+@import '~plyr/dist/plyr.css';
 
 // Main - Основные
-@import "./fonts";
-@import "./variables";
-@import "./mixins";
-@import "./global";
-@import "./UI";
+@import './fonts';
+@import './variables';
+@import './mixins';
+@import './global';
+@import './UI';
 
 // Sections - секции
-@import "./sections/hero";
-@import "./sections/auth";
+@import './sections/hero';
+@import './sections/auth';
 
 // Components - Компоненты
-@import "./components/pagination/pagination";
-@import "./components/Header/Header";
-@import "./components/Footer/Footer";
+@import './components/pagination/pagination';
+@import './components/Header/Header';
+@import './components/Footer/Footer';
+@import './components/Modal/Modal';
