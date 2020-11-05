@@ -1,14 +1,14 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import Plyr from "plyr-react";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import Plyr from 'plyr-react';
 
-import classes from "./FilmDetail.module.scss";
-import Loader from "../../components/Loader/Loader";
-import FilmDetailFieldItem from "./FilmDetailFieldItem";
-import { fetchFilmByTitle, setActiveFilm } from "../../redux/actions/films";
-import IMDBAlternative from "../../axios/axiosIMDBAlternative";
-import youTubeApi from "../../axios/axiosYouTubeApi";
+import classes from './FilmDetail.module.scss';
+import Loader from '../../components/Loader/Loader';
+import FilmDetailFieldItem from './FilmDetailFieldItem';
+import { fetchFilmByTitle, setActiveFilm } from '../../redux/actions/films';
+import IMDBAlternative from '../../axios/axiosIMDBAlternative';
+import youTubeApi from '../../axios/axiosYouTubeApi';
 
 function random(n) {
   return Math.floor(Math.random() * (Math.floor(n - 1) - 0 + 1)) + 0;
@@ -24,9 +24,10 @@ const FilmDetail = React.memo(function FilmDetail(props) {
 
   React.useEffect(() => {
     if (activeItem) {
-      IMDBAlternative.get(`?i=${activeItem.imdbID}&r=json`).then(({ data }) =>
-        setImdb({ item: data, loaded: true })
-      );
+      IMDBAlternative.get(`?i=${activeItem.imdbID}&r=json`).then(({ data }) => {
+        console.log(data);
+        setImdb({ item: data, loaded: true });
+      });
 
       youTubeApi
         .get(
@@ -42,19 +43,14 @@ const FilmDetail = React.memo(function FilmDetail(props) {
     return () => dispatch(setActiveFilm(null));
   }, [dispatch, props.match.params.title]);
 
-  const renderGenres = () =>
-    activeItem.genres.map((genre) => genre.name).join(", ");
+  const renderGenres = () => activeItem.genres.map((genre) => genre.name).join(', ');
 
   const template = () => (
     <div className="container">
       <div className={classes.FilmDetailWrapper}>
         <div className={classes.FilmDetailTop}>
           <div className={classes.FilmDetailImageWrapper}>
-            <img
-              className={classes.FilmDetailImage}
-              src={activeItem.poster}
-              alt={activeItem.title}
-            />
+            <img className={classes.FilmDetailImage} src={activeItem.poster} alt={activeItem.title} />
           </div>
 
           <div className={classes.FilmDetailRight}>
@@ -62,35 +58,25 @@ const FilmDetail = React.memo(function FilmDetail(props) {
             <p>{activeItem.titleEn}</p>
 
             <div className={classes.FilmDetailField}>
-              <FilmDetailFieldItem name="Год">
-                {activeItem.year}
-              </FilmDetailFieldItem>
-              <FilmDetailFieldItem name="Страна">
-                {activeItem.country}
-              </FilmDetailFieldItem>
-              <FilmDetailFieldItem name="Актеры">
-                {imdb.loaded ? imdb.item.Actors : "Загрузка..."}
-              </FilmDetailFieldItem>
+              <FilmDetailFieldItem name="Год">{activeItem.year}</FilmDetailFieldItem>
+              <FilmDetailFieldItem name="Страна">{activeItem.country}</FilmDetailFieldItem>
+              <FilmDetailFieldItem name="Актеры">{imdb.loaded ? imdb.item.Actors : 'Загрузка...'}</FilmDetailFieldItem>
               <FilmDetailFieldItem name="IMDb">
                 <a href={linkToImdb} target="_blank" rel="noopener noreferrer">
                   Перейти
                 </a>
               </FilmDetailFieldItem>
               <FilmDetailFieldItem name="Рейтинг IMDb">
-                {imdb.loaded ? imdb.item.imdbRating : "Загрузка..."}
+                {imdb.loaded ? imdb.item.imdbRating : 'Загрузка...'}
               </FilmDetailFieldItem>
               <FilmDetailFieldItem name="Metascore">
-                {imdb.loaded ? imdb.item.Metascore : "Загрузка..."}
+                {imdb.loaded ? imdb.item.Metascore : 'Загрузка...'}
               </FilmDetailFieldItem>
-              <FilmDetailFieldItem name="Жанры">
-                {activeItem && renderGenres()}
-              </FilmDetailFieldItem>
+              <FilmDetailFieldItem name="Жанры">{activeItem && renderGenres()}</FilmDetailFieldItem>
               <FilmDetailFieldItem name="Длительность">
-                {imdb.loaded ? imdb.item.Runtime : "Загрузка..."}
+                {imdb.loaded ? imdb.item.Runtime : 'Загрузка...'}
               </FilmDetailFieldItem>
-              <FilmDetailFieldItem name="Рейтинг">
-                {imdb.loaded ? imdb.item.Rated : "Загрузка..."}
-              </FilmDetailFieldItem>
+              <FilmDetailFieldItem name="Рейтинг">{imdb.loaded ? imdb.item.Rated : 'Загрузка...'}</FilmDetailFieldItem>
             </div>
 
             <Link to="/" className={classes.FilmDetailLink}>
@@ -100,15 +86,15 @@ const FilmDetail = React.memo(function FilmDetail(props) {
         </div>
 
         <div className="plyr-wrapper">
-          {console.log("plyr", youTube)}
+          {console.log('plyr', youTube)}
           {youTube ? (
             <Plyr
               source={{
-                type: "video",
+                type: 'video',
                 sources: [
                   {
                     src: youTube[random(youTube.length)].id.videoId,
-                    provider: "youtube",
+                    provider: 'youtube',
                   },
                 ],
               }}
@@ -129,11 +115,7 @@ const FilmDetail = React.memo(function FilmDetail(props) {
     </div>
   );
 
-  return (
-    <div className={classes.FilmDetail}>
-      {activeItem ? template() : <Loader />}
-    </div>
-  );
+  return <div className={classes.FilmDetail}>{activeItem ? template() : <Loader />}</div>;
 });
 
 export default FilmDetail;
