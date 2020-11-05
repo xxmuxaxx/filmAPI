@@ -15,12 +15,12 @@ const CreateFilm = () => {
 
     const target = event.target;
 
-    IMDBAlternative.get(`?i=${target.imdbID.value}&r=json`).then(({ data }) => {
-      console.log(data);
+    target.reset();
 
+    IMDBAlternative.get(`?i=${target.imdbID.value}&r=json`).then(({ data }) => {
       const movieItem = {
         country: data.Country,
-        description: target.description.value,
+        description: data.Plot,
         genres: data.Genre.split(',').map((genre) => ({ name: genre })),
         imdbID: target.imdbID.value,
         poster: data.Poster,
@@ -31,7 +31,6 @@ const CreateFilm = () => {
       };
 
       filmApi.post('create', movieItem).then(() => {
-        target.reset();
         setMessage('Успешно');
       });
     });
