@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import CreateFilm from '../../components/API/CreateFilm/CreateFilm';
 
-import Auth from '../../components/Auth/Auth';
+import Profile from "../../components/Profile/Profile";
 
 const users = [
   { name: 'admin', password: '111', isAdmin: true },
@@ -26,7 +25,7 @@ const ProfileContainer = () => {
     }
   };
 
-  return <>{!user ? <Auth onFormSubmit={formSubmitHandler} /> : user.isAdmin ? <CreateFilm /> : null}</>;
+  return <Profile onFormSubmit={formSubmitHandler} user={user} />
 };
 
 export default ProfileContainer;
