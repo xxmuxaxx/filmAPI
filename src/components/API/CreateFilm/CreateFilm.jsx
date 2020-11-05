@@ -15,16 +15,19 @@ const CreateFilm = () => {
 
     const target = event.target;
 
+    const imdbID = target.imdbID.value;
+    const title = target.title.value;
+
     target.reset();
 
-    IMDBAlternative.get(`?i=${target.imdbID.value}&r=json`).then(({ data }) => {
+    IMDBAlternative.get(`?i=${imdbID}&r=json`).then(({ data }) => {
       const movieItem = {
         country: data.Country,
         description: data.Plot,
         genres: data.Genre.split(',').map((genre) => ({ name: genre })),
-        imdbID: target.imdbID.value,
+        imdbID: imdbID,
         poster: data.Poster,
-        title: target.title.value,
+        title: title,
         titleEn: data.Title,
         type: data.Type,
         year: +data.Year,

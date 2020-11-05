@@ -24,10 +24,7 @@ const FilmDetail = React.memo(function FilmDetail(props) {
 
   React.useEffect(() => {
     if (activeItem) {
-      IMDBAlternative.get(`?i=${activeItem.imdbID}&r=json`).then(({ data }) => {
-        console.log(data);
-        setImdb({ item: data, loaded: true });
-      });
+      IMDBAlternative.get(`?i=${activeItem.imdbID}&r=json`).then(({ data }) => setImdb({ item: data, loaded: true }));
 
       youTubeApi
         .get(
@@ -86,7 +83,6 @@ const FilmDetail = React.memo(function FilmDetail(props) {
         </div>
 
         <div className="plyr-wrapper">
-          {console.log('plyr', youTube)}
           {youTube ? (
             <Plyr
               source={{
