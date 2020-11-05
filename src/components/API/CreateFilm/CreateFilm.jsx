@@ -71,8 +71,8 @@ const CreateFilm = () => {
           {message && <p className={styles.message}>{message}</p>}
           {/* <Input name="country" placeholder="Страна" required /> */}
           <Input name="title" placeholder="Название" required />
-          <Input name="description" placeholder="Описание" required />
           <Input name="imdbID" placeholder="imdbID" required />
+          {/* <Input name="description" placeholder="Описание" required /> */}
           {/* <Input name="genres" placeholder="Жанры (через запятую)" required /> */}
           {/* <Input name="poster" placeholder="Обложка (url)" required /> */}
           {/* <Input name="titleEn" placeholder="Название на английском" required /> */}
