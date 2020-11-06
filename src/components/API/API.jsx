@@ -12,6 +12,45 @@ const API = () => {
   const [modalContent, setModalContent] = React.useState(null);
   const [message, setMessage] = React.useState(null);
 
+  const formChange = (event) => {
+    const target = event.target;
+    const currentTaget = event.currentTarget;
+
+    if (target.name === 'id') {
+      const id = target.value;
+      currentTaget.button.disabled = true;
+
+      filmApi
+        .get(`/find/{id}?id=${id}`)
+        .then(({ data }) => {
+          currentTaget.country.value = data.search[0].country;
+          currentTaget.description.value = data.search[0].description;
+          currentTaget.genres.value = [...data.search[0].genres.map((item) => item.name)].join(', ');
+          currentTaget.imdbID.value = data.search[0].imdbID;
+          currentTaget.poster.value = data.search[0].poster;
+          currentTaget.title.value = data.search[0].title;
+          currentTaget.titleEn.value = data.search[0].titleEn;
+          currentTaget.type.value = data.search[0].type;
+          currentTaget.year.value = data.search[0].year;
+
+          currentTaget.button.disabled = false;
+        })
+        .catch(() => {
+          currentTaget.country.value = '';
+          currentTaget.description.value = '';
+          currentTaget.genres.value = '';
+          currentTaget.imdbID.value = '';
+          currentTaget.poster.value = '';
+          currentTaget.title.value = '';
+          currentTaget.titleEn.value = '';
+          currentTaget.type.value = '';
+          currentTaget.year.value = '';
+
+          currentTaget.button.disabled = false;
+        });
+    }
+  };
+
   const formSubmit = (event) => {
     event.preventDefault();
 
@@ -37,26 +76,26 @@ const API = () => {
           filmApi.post('create', movieItem).then(() => setMessage('Успешно'));
           return target.reset();
         case 'edit':
-          filmApi.get(`/find/{id}?id=${target.id.value}`).then(({ data }) => {
-            const genres =
-              target.genres.value !== '' ? target.genres.value.split(',').map((genre) => ({ name: genre })) : null;
+          movieItem = {
+            country: target.country.value,
+            description: target.description.value,
+            genres: target.genres.value.split(',').map((genre) => ({ name: genre })),
+            id: target.id.value,
+            imdbID: target.imdbID.value,
+            poster: target.poster.value,
+            title: target.title.value,
+            titleEn: target.titleEn.value,
+            type: target.type.value,
+            year: +target.year.value,
+          };
 
-            movieItem = {
-              country: target.country.value || data.search[0].country,
-              description: target.description.value || data.search[0].description,
-              genres: genres || data.search[0].genres,
-              id: target.id.value,
-              imdbID: target.imdbID.value || data.search[0].imdbID,
-              poster: target.poster.value || data.search[0].poster,
-              title: target.title.value || data.search[0].title,
-              titleEn: target.titleEn.value || data.search[0].titleEn,
-              type: target.type.value || data.search[0].type,
-              year: +target.year.value || data.search[0].year,
-            };
+          filmApi
+            .put(`update/${target.id.value}`, movieItem)
+            .then(() => setMessage('Успешно'))
+            .catch((error) => console.warn(error));
 
-            filmApi.put(`update/${target.id.value}`, movieItem).then(() => setMessage('Успешно'));
-            target.reset();
-          });
+          target.reset();
+
           break;
         default:
           return console.warn('Нет такой формы');
@@ -84,7 +123,7 @@ const API = () => {
       </div>
       <Modal title={modalTitle} toggleModalHadler={toggleModalHadler} isModalOpen={isModalOpen}>
         {modalContent === 'create' && <CreateFilm formSubmit={formSubmit} message={message} />}
-        {modalContent === 'edit' && <EditFilm formSubmit={formSubmit} message={message} />}
+        {modalContent === 'edit' && <EditFilm formSubmit={formSubmit} formChange={formChange} message={message} />}
       </Modal>
     </>
   );

@@ -11,11 +11,12 @@
 }
 
 .FilmDetailImageWrapper {
-  max-width: 400px;
+  width: 400px;
+  min-width: 400px;
 }
 
 .FilmDetailImage {
-  height: 100%;
+  height: auto;
   width: 100%;
 }
 
@@ -28,7 +29,8 @@
 
 .FilmDetailRight h1 {
   margin: 0 0 10px;
-  color: #ffffff;
+  color: #000000;
+  font-size: 2rem;
 }
 
 .FilmDetailRight > p {

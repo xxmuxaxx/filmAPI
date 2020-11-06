@@ -26,10 +26,10 @@ const FilmDetail = React.memo(function FilmDetail(props) {
     if (activeItem) {
       IMDBAlternative.get(`?i=${activeItem.imdbID}&r=json`).then(({ data }) => setImdb({ item: data, loaded: true }));
 
+      const str = `${activeItem.title} ${activeItem.year} трейлер`;
+
       youTubeApi
-        .get(
-          `search?key=AIzaSyDW-Vh6IQeAmmSfszFyWZ3kobYjrUXUM7w&maxResults=1&q=${activeItem.title} ${activeItem.year} трейлер`
-        )
+        .get(`search?key=AIzaSyDW-Vh6IQeAmmSfszFyWZ3kobYjrUXUM7w&maxResults=1&q=${str}`)
         .then(({ data }) => setYouTube(data.items));
     }
   }, [activeItem]);
