@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
-import Auth from "../Auth/Auth";
-import API from "../API/API";
+import Auth from '../Auth/Auth';
+import API from '../API/API';
 
-const Profile = ({user, onFormSubmit}) => {
-    return !user ? <Auth onFormSubmit={onFormSubmit}/> : user.isAdmin ? <API/> : null
-}
+const Profile = ({ user, onFormSubmit }) => {
+  return !user ? <Auth onFormSubmit={onFormSubmit} /> : user.isAdmin ? <API /> : null;
+};
 
-export default Profile
+export default Profile;

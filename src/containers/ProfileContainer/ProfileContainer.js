@@ -1,31 +1,28 @@
 import React, { useState } from 'react';
 
-import Profile from "../../components/Profile/Profile";
-
-const users = [
-  { name: 'admin', password: '111', isAdmin: true },
-  { name: 'user', password: '111', isAdmin: false },
-];
+import Profile from '../../components/Profile/Profile';
 
 const ProfileContainer = () => {
   const [user, setUser] = useState(null);
 
-  const formSubmitHandler = (event) => {
+  const formSubmitHandler = async (event) => {
     event.preventDefault();
 
-    const userName = event.target['user-name'];
-    const password = event.target['password'];
+    const userName = event.target['user-name'].value;
+    const password = event.target['password'].value;
 
-    const user = users.find((user) => userName.value === user.name);
+    let data = await fetch(`http://w91691o1.beget.tech/api/v1/users/?u=${userName}&p=${password}`).then((response) =>
+      response.json()
+    );
 
-    if (user && password.value === user.password) {
-      setUser({ ...user });
+    if (data.error) {
+      alert(data.error);
     } else {
-      alert('Пароль или логин неверны');
+      setUser({ ...data });
     }
   };
 
-  return <Profile onFormSubmit={formSubmitHandler} user={user} />
+  return <Profile onFormSubmit={formSubmitHandler} user={user} />;
 };
 
 export default ProfileContainer;
