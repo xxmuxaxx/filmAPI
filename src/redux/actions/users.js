@@ -11,10 +11,12 @@ export const fetchUpdateUserAvatar = (payload) => (dispatch) => {
   usersApi.post('users/', payload).then(({ data }) => dispatch(setUserAvatar(data.url)));
 };
 
-export const setUser = (payload) => ({
-  type: 'SET_USER',
-  payload,
-});
+export const setUser = (payload) => {
+  return {
+    type: 'SET_USER',
+    payload,
+  };
+};
 
 export const setUserAvatar = (payload) => ({
   type: 'SET_USER_AVATAR',

@@ -14,6 +14,8 @@ function random(n) {
   return Math.floor(Math.random() * (Math.floor(n - 1) - 0 + 1)) + 0;
 }
 
+const YOUTUBE_API = false;
+
 const FilmDetail = React.memo(function FilmDetail(props) {
   const dispatch = useDispatch();
 
@@ -28,9 +30,10 @@ const FilmDetail = React.memo(function FilmDetail(props) {
 
       const str = `${activeItem.title} ${activeItem.year} трейлер`;
 
-      youTubeApi
-        .get(`search?key=AIzaSyDW-Vh6IQeAmmSfszFyWZ3kobYjrUXUM7w&maxResults=1&q=${str}`)
-        .then(({ data }) => setYouTube(data.items));
+      YOUTUBE_API &&
+        youTubeApi
+          .get(`search?key=AIzaSyDW-Vh6IQeAmmSfszFyWZ3kobYjrUXUM7w&maxResults=1&q=${str}`)
+          .then(({ data }) => setYouTube(data.items));
     }
   }, [activeItem]);
 
@@ -53,6 +56,7 @@ const FilmDetail = React.memo(function FilmDetail(props) {
           <div className={classes.FilmDetailRight}>
             <h1>{activeItem.title}</h1>
             <p>{activeItem.titleEn}</p>
+            <span className={classes.id}>id: {activeItem.id}</span>
 
             <div className={classes.FilmDetailField}>
               <FilmDetailFieldItem name="Год">{activeItem.year}</FilmDetailFieldItem>
@@ -82,6 +86,14 @@ const FilmDetail = React.memo(function FilmDetail(props) {
           </div>
         </div>
 
+        <div className={classes.FilmDetailBottom}>
+          <div className={classes.FilmDetailDescription}>
+            <p>Описание:</p>
+            <br />
+            <p>{activeItem.description}</p>
+          </div>
+        </div>
+
         <div className="plyr-wrapper">
           {youTube ? (
             <Plyr
@@ -98,14 +110,6 @@ const FilmDetail = React.memo(function FilmDetail(props) {
           ) : (
             <Plyr />
           )}
-        </div>
-
-        <div className={classes.FilmDetailBottom}>
-          <div className={classes.FilmDetailDescription}>
-            <p>Описание:</p>
-            <br />
-            <p>{activeItem.description}</p>
-          </div>
         </div>
       </div>
     </div>

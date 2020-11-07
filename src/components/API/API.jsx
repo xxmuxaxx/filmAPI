@@ -2,6 +2,7 @@ import React from 'react';
 
 import CreateFilm from './CreateFilm/CreateFilm';
 import EditFilm from './EditFilm/EditFilm';
+import DeleteFilm from './DeleteFilm/DeleteFilm';
 import Modal from '../UI/Modal/Modal';
 
 import styles from './API.module.css';
@@ -61,9 +62,9 @@ const API = () => {
 
     let movieItem = {};
 
-    IMDBAlternative.get(`?i=${target.imdbID.value}&r=json`).then(({ data }) => {
-      switch (target.name) {
-        case 'create':
+    switch (target.name) {
+      case 'create':
+        IMDBAlternative.get(`?i=${target.imdbID.value}&r=json`).then(({ data }) => {
           movieItem = {
             imdbID: target.imdbID.value,
             title: target.title.value,
@@ -78,7 +79,10 @@ const API = () => {
 
           filmApi.post('create', movieItem).then(() => setMessage('Успешно'));
           return target.reset();
-        case 'edit':
+        });
+        break;
+      case 'edit':
+        IMDBAlternative.get(`?i=${target.imdbID.value}&r=json`).then(({ data }) => {
           movieItem = {
             country: target.country.value,
             description: target.description.value,
@@ -98,12 +102,15 @@ const API = () => {
             .catch((error) => console.warn(error));
 
           target.reset();
-
-          break;
-        default:
-          return console.warn('Нет такой формы');
-      }
-    });
+        });
+        break;
+      case 'delete':
+        filmApi.delete(`delete/${target.id.value}`).then(() => setMessage('Успешно'));
+        target.reset();
+        break;
+      default:
+        return console.warn('Нет такой формы');
+    }
   };
 
   const toggleModalHadler = (event) => {
@@ -122,11 +129,15 @@ const API = () => {
         <button className={styles.button} onClick={toggleModalHadler} data-content="edit">
           Изменить фильм
         </button>
+        <button className={styles.button} onClick={toggleModalHadler} data-content="delete">
+          Удалить фильм
+        </button>
       </div>
 
       <Modal title={modalTitle} toggleModalHadler={toggleModalHadler} isModalOpen={isModalOpen}>
         {modalContent === 'create' && <CreateFilm formSubmit={formSubmit} message={message} />}
         {modalContent === 'edit' && <EditFilm formSubmit={formSubmit} formChange={formChange} message={message} />}
+        {modalContent === 'delete' && <DeleteFilm formSubmit={formSubmit} message={message} />}
       </Modal>
     </div>
   );

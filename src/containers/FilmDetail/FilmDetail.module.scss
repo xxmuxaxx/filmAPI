@@ -2,7 +2,6 @@
   padding: 20px 0;
   display: flex;
   flex: 1;
-  // background: linear-gradient(90.34deg, #cfeeff 0.17%, #a4c8ff 99.8%);
 }
 
 .FilmDetailTop {
@@ -21,6 +20,7 @@
 }
 
 .FilmDetailRight {
+  position: relative;
   margin-left: 20px;
   display: flex;
   flex: 1;
@@ -111,4 +111,11 @@
     background-color: #000;
     border: 1px solid #000;
   }
+}
+
+.id {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 14px;
 }
