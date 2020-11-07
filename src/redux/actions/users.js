@@ -3,7 +3,11 @@ import usersApi from '../../axios/begetApi';
 export const fetchUser = (payload) => (dispatch) => {
   usersApi
     .get(`users/?u=${payload.login}&p=${payload.password}`)
-    .then(({ data }) => dispatch(setUser(data)))
+    .then(({ data }) => {
+      document.cookie = `login=${payload.login}`;
+      document.cookie = `password=${payload.password}`;
+      dispatch(setUser(data));
+    })
     .catch(() => alert('Неверный логин или пароль'));
 };
 

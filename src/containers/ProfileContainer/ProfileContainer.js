@@ -1,10 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { deleteCookie } from '../../App';
 
 import Auth from '../../components/Auth/Auth';
 import Profile from '../../components/Profile/Profile';
 
-import { fetchUpdateUserAvatar, fetchUser } from '../../redux/actions/users';
+import { fetchUpdateUserAvatar, fetchUser, setUser } from '../../redux/actions/users';
 
 const ProfileContainer = () => {
   const dispatch = useDispatch();
@@ -29,10 +30,21 @@ const ProfileContainer = () => {
     dispatch(fetchUpdateUserAvatar(formData));
   };
 
+  const buttonClickHandler = () => {
+    dispatch(setUser(null));
+    deleteCookie('login');
+    deleteCookie('password');
+  };
+
   return !user ? (
     <Auth onFormSubmit={formSubmitHandler} />
   ) : (
-    <Profile onFormSubmit={formSubmitHandler} onImageChange={imageChangeHandler} user={user} />
+    <Profile
+      onFormSubmit={formSubmitHandler}
+      onImageChange={imageChangeHandler}
+      onButtonClick={buttonClickHandler}
+      user={user}
+    />
   );
 };
 

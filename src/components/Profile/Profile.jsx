@@ -2,8 +2,9 @@ import React from 'react';
 
 import API from '../API/API';
 
-const Profile = ({ user, onImageChange }) => {
+const Profile = ({ user, onImageChange, onButtonClick }) => {
   const image = user.avatar ? user.avatar : 'https://www.tclilibrary.com/admin2/dist/use.png';
+
   return (
     <section className="profile-section">
       <div className="container">
@@ -24,6 +25,9 @@ const Profile = ({ user, onImageChange }) => {
                     <img className="profile-info__image" src={image} alt={user.name} />
                   </label>
                 </div>
+                <button className="profile-info__logout" onClick={onButtonClick}>
+                  Выйти
+                </button>
                 <div className="profile-info__name">{user.name}</div>
               </div>
             </div>
