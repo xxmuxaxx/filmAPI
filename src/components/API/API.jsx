@@ -7,7 +7,7 @@ import Modal from '../UI/Modal/Modal';
 import styles from './API.module.css';
 
 import IMDBAlternative from '../../axios/axiosIMDBAlternative';
-import filmApi from '../../axios/axiosFilmApi';
+import filmApi from '../../axios/filmApi';
 
 const API = () => {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
