@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import Auth from '../../components/Auth/Auth';
 import Profile from '../../components/Profile/Profile';
 
 const ProfileContainer = () => {
@@ -22,7 +23,22 @@ const ProfileContainer = () => {
     }
   };
 
-  return <Profile onFormSubmit={formSubmitHandler} user={user} />;
+  const imageChangeHandler = (event) => {
+    const data = new FormData();
+
+    data.append('avatar', event.target.files[0]);
+    data.append('id', user.id);
+
+    fetch('http://w91691o1.beget.tech/api/v1/users/', { method: 'POST', body: data })
+      .then((response) => response.json())
+      .then((data) => setUser((eh) => ({ ...eh, avatar: data.url })));
+  };
+
+  return !user ? (
+    <Auth onFormSubmit={formSubmitHandler} />
+  ) : (
+    <Profile onFormSubmit={formSubmitHandler} onImageChange={imageChangeHandler} user={user} />
+  );
 };
 
 export default ProfileContainer;

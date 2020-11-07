@@ -1,8 +1,11 @@
 import React from 'react';
+
 import CreateFilm from './CreateFilm/CreateFilm';
 import EditFilm from './EditFilm/EditFilm';
 import Modal from '../UI/Modal/Modal';
-import styles from './CreateFilm/CreateFilm.module.css';
+
+import styles from './API.module.css';
+
 import IMDBAlternative from '../../axios/axiosIMDBAlternative';
 import filmApi from '../../axios/axiosFilmApi';
 
@@ -110,22 +113,22 @@ const API = () => {
   };
 
   return (
-    <>
-      <div className="container" style={{ margin: '0 auto', maxWidth: '600px' }}>
-        <div className={styles.wrapper}>
-          <button className={styles.button} onClick={toggleModalHadler} data-content="create">
-            Добавить фильм
-          </button>
-          <button className={styles.button} onClick={toggleModalHadler} data-content="edit">
-            Изменить фильм
-          </button>
-        </div>
+    <div className={styles.API}>
+      <h2 className={styles.title}>Редактирование фильмов</h2>
+      <div className={styles.wrapper}>
+        <button className={styles.button} onClick={toggleModalHadler} data-content="create">
+          Добавить фильм
+        </button>
+        <button className={styles.button} onClick={toggleModalHadler} data-content="edit">
+          Изменить фильм
+        </button>
       </div>
+
       <Modal title={modalTitle} toggleModalHadler={toggleModalHadler} isModalOpen={isModalOpen}>
         {modalContent === 'create' && <CreateFilm formSubmit={formSubmit} message={message} />}
         {modalContent === 'edit' && <EditFilm formSubmit={formSubmit} formChange={formChange} message={message} />}
       </Modal>
-    </>
+    </div>
   );
 };
 
