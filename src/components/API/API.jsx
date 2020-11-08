@@ -16,6 +16,10 @@ const API = () => {
   const [modalContent, setModalContent] = React.useState(null);
   const [message, setMessage] = React.useState(null);
 
+  React.useEffect(() => {
+    !isModalOpen && setMessage(null);
+  }, [isModalOpen]);
+
   const formChange = (event) => {
     const target = event.target;
     const currentTaget = event.currentTarget;
@@ -32,6 +36,7 @@ const API = () => {
           currentTaget.genres.value = [...data.search[0].genres.map((item) => item.name)].join(', ');
           currentTaget.imdbID.value = data.search[0].imdbID;
           currentTaget.poster.value = data.search[0].poster;
+          currentTaget.video.value = data.search[0].video;
           currentTaget.title.value = data.search[0].title;
           currentTaget.titleEn.value = data.search[0].titleEn;
           currentTaget.type.value = data.search[0].type;
@@ -93,6 +98,7 @@ const API = () => {
             title: target.title.value,
             titleEn: target.titleEn.value,
             type: target.type.value,
+            video: target.video.value,
             year: +target.year.value,
           };
 

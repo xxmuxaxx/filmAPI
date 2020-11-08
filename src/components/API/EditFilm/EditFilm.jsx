@@ -15,6 +15,7 @@ const EditFilm = (props) => {
       <Input name="year" placeholder="Год" />
       <Input name="country" placeholder="Страна" />
       <Input name="poster" placeholder="Обложка (url)" />
+      <Input name="video" placeholder="Трейлер (youtube key)" />
       <Input name="genres" placeholder="Жанры (через запятую)" />
       <Input name="type" placeholder="type (movie, series)" />
       <TextArea name="description" placeholder="Описание" rows="5" />

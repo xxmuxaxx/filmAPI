@@ -30,7 +30,8 @@ const FilmDetail = React.memo(function FilmDetail(props) {
 
       const str = `${activeItem.title} ${activeItem.year} трейлер`;
 
-      YOUTUBE_API &&
+      !activeItem.video &&
+        YOUTUBE_API &&
         youTubeApi
           .get(`search?key=AIzaSyDW-Vh6IQeAmmSfszFyWZ3kobYjrUXUM7w&maxResults=1&q=${str}`)
           .then(({ data }) => setYouTube(data.items));
@@ -102,6 +103,18 @@ const FilmDetail = React.memo(function FilmDetail(props) {
                 sources: [
                   {
                     src: youTube[random(youTube.length)].id.videoId,
+                    provider: 'youtube',
+                  },
+                ],
+              }}
+            />
+          ) : activeItem.video ? (
+            <Plyr
+              source={{
+                type: 'video',
+                sources: [
+                  {
+                    src: activeItem.video,
                     provider: 'youtube',
                   },
                 ],
