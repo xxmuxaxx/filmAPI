@@ -25,7 +25,7 @@ const ProfileContainer = () => {
 
     formData.append('avatar', event.target.files[0]);
     formData.append('id', user.id);
-    formData.append('url', user.avatar.split('/').reverse()[0]);
+    user.avatar && formData.append('url', user.avatar.split('/').reverse()[0]);
 
     dispatch(fetchUpdateUserAvatar(formData));
   };
