@@ -1,15 +1,15 @@
-import React from "react";
-import Pagination from "react-js-pagination";
-import { useDispatch, useSelector } from "react-redux";
+import React from 'react';
+import Pagination from 'react-js-pagination';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { setPage } from "../../redux/actions/pagination";
-import FilmCard from "../../components/FilmCard/FilmCard";
-import Loader from "../../components/Loader/Loader";
-import FilmCardPlaceholder from "../../components/FilmCard/FilmCardPlaceholder";
-import classes from "./FilmLib.module.css";
+import { setPage } from '../../redux/actions/pagination';
+import FilmCard from '../../components/FilmCard/FilmCard';
+import Loader from '../../components/Loader/Loader';
+import FilmCardPlaceholder from '../../components/FilmCard/FilmCardPlaceholder';
+import classes from './FilmLib.module.css';
 
-import heroBackground from "../../img/hero-img.png";
-import { fetchFilms } from "../../redux/actions/films";
+import heroBackground from '../../img/hero-img.png';
+import { fetchFilms } from '../../redux/actions/films';
 
 function FilmLib() {
   const dispatch = useDispatch();
@@ -25,13 +25,7 @@ function FilmLib() {
   function renderFilms() {
     return films.map((film) => {
       return (
-        <FilmCard
-          key={film.id}
-          title={film.title}
-          poster={film.poster}
-          filmName={film.title}
-          filmYear={film.year}
-        />
+        <FilmCard key={film.id} title={film.title} poster={film.poster} filmName={film.title} filmYear={film.year} />
       );
     });
   }

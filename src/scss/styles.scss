@@ -4,10 +4,10 @@
 
 // Main - Основные
 @import './fonts';
-@import './variables';
+@import './_variables';
 @import './mixins';
 @import './global';
-@import './UI';
+@import './_UI';
 
 // Sections - секции
 @import './sections/hero';

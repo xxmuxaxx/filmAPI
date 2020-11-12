@@ -1,25 +1,96 @@
 import React from 'react';
+import { Button, TextField } from '@material-ui/core';
+import SaveIcon from '@material-ui/icons/Save';
 
 import styles from './EditFilm.module.css';
-import Input from '../../UI/Input/Input';
-import TextArea from '../../UI/TextArea/TextArea';
 
 const EditFilm = (props) => {
   return (
     <form className={styles.form} onSubmit={props.formSubmit} name="edit" onChange={props.formChange}>
       {props.message && <p className={styles.message}>{props.message}</p>}
-      <Input name="id" placeholder="ID" required />
-      <Input name="imdbID" placeholder="imdbID" />
-      <Input name="title" placeholder="Название" />
-      <Input name="titleEn" placeholder="Название на английском" />
-      <Input name="year" placeholder="Год" />
-      <Input name="country" placeholder="Страна" />
-      <Input name="poster" placeholder="Обложка (url)" />
-      <Input name="video" placeholder="Трейлер (youtube key)" />
-      <Input name="genres" placeholder="Жанры (через запятую)" />
-      <Input name="type" placeholder="type (movie, series)" />
-      <TextArea name="description" placeholder="Описание" rows="5" />
-      <Input name="button" type="submit" />
+      <TextField
+        className={styles.input}
+        name="id"
+        label="ID"
+        variant="outlined"
+        InputLabelProps={{ shrink: true }}
+        required
+      />
+      <TextField
+        className={styles.input}
+        name="imdbID"
+        label="imdbID"
+        variant="outlined"
+        InputLabelProps={{ shrink: true }}
+      />
+      <TextField
+        className={styles.input}
+        name="title"
+        label="Название"
+        variant="outlined"
+        InputLabelProps={{ shrink: true }}
+      />
+      <TextField
+        className={styles.input}
+        name="titleEn"
+        label="Название на английском"
+        variant="outlined"
+        InputLabelProps={{ shrink: true }}
+      />
+      <TextField
+        className={styles.input}
+        name="year"
+        label="Год"
+        variant="outlined"
+        InputLabelProps={{ shrink: true }}
+      />
+      <TextField
+        className={styles.input}
+        name="country"
+        label="Страна"
+        variant="outlined"
+        InputLabelProps={{ shrink: true }}
+      />
+      <TextField
+        className={styles.input}
+        name="poster"
+        label="Обложка (url)"
+        variant="outlined"
+        InputLabelProps={{ shrink: true }}
+      />
+      <TextField
+        className={styles.input}
+        name="video"
+        label="Трейлер (youtube key)"
+        variant="outlined"
+        InputLabelProps={{ shrink: true }}
+      />
+      <TextField
+        className={styles.input}
+        name="genres"
+        label="Жанры (через запятую)"
+        variant="outlined"
+        InputLabelProps={{ shrink: true }}
+      />
+      <TextField
+        className={styles.input}
+        name="type"
+        label="Тип (movie, series)"
+        variant="outlined"
+        InputLabelProps={{ shrink: true }}
+      />
+      <TextField
+        className={styles.input}
+        name="description"
+        label="Описание"
+        variant="outlined"
+        InputLabelProps={{ shrink: true }}
+        rows={5}
+        multiline
+      />
+      <Button name="button" type="submit" size="large" color="primary" variant="contained" startIcon={<SaveIcon />}>
+        Сохранить
+      </Button>
     </form>
   );
 };

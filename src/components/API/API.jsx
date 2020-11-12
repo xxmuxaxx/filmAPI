@@ -50,6 +50,7 @@ const API = () => {
           currentTaget.genres.value = '';
           currentTaget.imdbID.value = '';
           currentTaget.poster.value = '';
+          currentTaget.video.value = '';
           currentTaget.title.value = '';
           currentTaget.titleEn.value = '';
           currentTaget.type.value = '';
@@ -79,6 +80,7 @@ const API = () => {
             poster: data.Poster,
             titleEn: data.Title,
             type: data.Type,
+            video: target.video.value,
             year: +data.Year,
           };
 
@@ -87,28 +89,26 @@ const API = () => {
         });
         break;
       case 'edit':
-        IMDBAlternative.get(`?i=${target.imdbID.value}&r=json`).then(({ data }) => {
-          movieItem = {
-            country: target.country.value,
-            description: target.description.value,
-            genres: target.genres.value.split(',').map((genre) => ({ name: genre })),
-            id: target.id.value,
-            imdbID: target.imdbID.value,
-            poster: target.poster.value,
-            title: target.title.value,
-            titleEn: target.titleEn.value,
-            type: target.type.value,
-            video: target.video.value,
-            year: +target.year.value,
-          };
+        movieItem = {
+          country: target.country.value,
+          description: target.description.value,
+          genres: target.genres.value.split(',').map((genre) => ({ name: genre })),
+          id: target.id.value,
+          imdbID: target.imdbID.value,
+          poster: target.poster.value,
+          title: target.title.value,
+          titleEn: target.titleEn.value,
+          type: target.type.value,
+          video: target.video.value,
+          year: +target.year.value,
+        };
 
-          filmApi
-            .put(`update/${target.id.value}`, movieItem)
-            .then(() => setMessage('Успешно'))
-            .catch((error) => console.warn(error));
+        filmApi
+          .put(`update/${target.id.value}`, movieItem)
+          .then(() => setMessage('Успешно'))
+          .catch((error) => console.warn(error));
 
-          target.reset();
-        });
+        target.reset();
         break;
       case 'delete':
         filmApi.delete(`delete/${target.id.value}`).then(() => setMessage('Успешно'));

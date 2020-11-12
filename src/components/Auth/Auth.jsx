@@ -1,6 +1,5 @@
 import React from 'react';
-
-import Input from '../UI/Input/Input';
+import { Button, TextField } from '@material-ui/core';
 
 const Auth = ({ onFormSubmit }) => {
   return (
@@ -8,9 +7,18 @@ const Auth = ({ onFormSubmit }) => {
       <div className="container">
         <form className="auth-form" onSubmit={onFormSubmit}>
           <h2>Авторизация</h2>
-          <Input name="user-name" placeholder="Ваш логин" autoComplete="username" />
-          <Input name="password" type="password" placeholder="Ваш пароль" autoComplete={'current-password'} />
-          <Input type="submit" />
+
+          <TextField className="auth-form__input" name="user-name" label="Ваш логин" autoComplete="username" />
+          <TextField
+            className="auth-form__input"
+            name="password"
+            type="password"
+            label="Ваш пароль"
+            autoComplete={'current-password'}
+          />
+          <Button type="submit" color="primary" variant="contained">
+            Войти
+          </Button>
         </form>
       </div>
     </section>

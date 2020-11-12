@@ -3,10 +3,8 @@
   flex-direction: column;
 }
 
-.form input:not(:last-child),
-.form textArea:not(:last-child) {
+.input:not(:last-child) {
   margin: 0 0 20px 0;
-  border: 1px solid black;
 }
 
 .message {
