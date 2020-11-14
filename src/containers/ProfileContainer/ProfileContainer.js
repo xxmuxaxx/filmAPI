@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteCookie } from '../../App';
 
 import Auth from '../../components/Auth/Auth';
 import Profile from '../../components/Profile/Profile';
+import { deleteCookie } from '../../Core/functions';
 
 import { fetchUpdateUserAvatar, fetchUser, setUser } from '../../redux/actions/users';
 
