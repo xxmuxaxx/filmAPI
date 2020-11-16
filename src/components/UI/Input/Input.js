@@ -8,7 +8,7 @@ const Input = (props) => {
     <input
       className={classes.Input}
       type={type}
-      name={props.name} // Стоит избавиться от этого
+      name={props.name}
       value={props.value}
       placeholder={props.placeholder}
       autoComplete={props.autoComplete}

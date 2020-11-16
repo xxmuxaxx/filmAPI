@@ -7,7 +7,7 @@ const TextArea = (props) => {
     <textarea
       className={classes.TextArea}
       rows={props.rows}
-      name={props.name} // Стоит избавиться от этого
+      name={props.name}
       value={props.value}
       placeholder={props.placeholder}
       autoComplete={props.autoComplete}

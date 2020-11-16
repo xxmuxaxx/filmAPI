@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Auth from '../../components/Auth/Auth';
 import Profile from '../../components/Profile/Profile';
-import { deleteCookie } from '../../Core/functions';
+import { deleteCookie } from '../../core/functions';
 
 import { fetchUpdateUserAvatar, fetchUser, setUser } from '../../redux/actions/users';
 

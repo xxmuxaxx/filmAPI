@@ -1,7 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import classNames from 'classnames';
 
+
 const Modal = (props) => {
+  const modal = useState({
+    isOpen: false
+  })
+
+  console.log(modal)
+
+  // const openModal = () => {}
+
   const closeModal = (event) => {
     if (event.target === event.currentTarget) {
       props.toggleModalHadler();

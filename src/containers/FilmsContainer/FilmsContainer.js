@@ -6,12 +6,12 @@ import { setPage } from '../../redux/actions/pagination';
 import FilmCard from '../../components/FilmCard/FilmCard';
 import Loader from '../../components/Loader/Loader';
 import FilmCardPlaceholder from '../../components/FilmCard/FilmCardPlaceholder';
-import classes from './FilmLib.module.css';
+import classes from './FilmsContainer.module.scss';
 
 import heroBackground from '../../img/hero-img.png';
 import { fetchFilms } from '../../redux/actions/films';
 
-function FilmLib() {
+function FilmsContainer() {
   const dispatch = useDispatch();
   const films = useSelector(({ films }) => films.items);
   const totalFilms = useSelector(({ films }) => films.totalItems);
@@ -66,7 +66,7 @@ function FilmLib() {
   );
 
   return (
-    <div className={classes.FilmLib}>
+    <div className={classes.FilmsContainer}>
       <section className="hero">
         <div className="container">
           <div className="hero__wrapper">
@@ -87,4 +87,4 @@ function FilmLib() {
   );
 }
 
-export default FilmLib;
+export default FilmsContainer;

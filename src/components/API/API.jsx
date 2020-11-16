@@ -3,150 +3,183 @@ import React from 'react';
 import CreateFilm from './CreateFilm/CreateFilm';
 import EditFilm from './EditFilm/EditFilm';
 import DeleteFilm from './DeleteFilm/DeleteFilm';
-import Modal from '../UI/Modal/Modal';
+import Modal from '../Modal/Modal';
 
 import styles from './API.module.css';
 
-import IMDBAlternative from '../../axios/axiosIMDBAlternative';
-import filmApi from '../../axios/filmApi';
+import IMDBAlternative from '../../api/IMDBAlternative';
+import filmApi from '../../api/filmApi';
+import {DataGrid} from '@material-ui/data-grid';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchFilms} from '../../redux/actions/films';
 
 const API = () => {
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [modalTitle, setModalTitle] = React.useState(null);
-  const [modalContent, setModalContent] = React.useState(null);
-  const [message, setMessage] = React.useState(null);
+    const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    !isModalOpen && setMessage(null);
-  }, [isModalOpen]);
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [modalTitle, setModalTitle] = React.useState(null);
+    const [modalContent, setModalContent] = React.useState(null);
+    const [message, setMessage] = React.useState(null);
 
-  const formChange = (event) => {
-    const target = event.target;
-    const currentTaget = event.currentTarget;
+    const films = useSelector((store) => store.films.items);
 
-    if (target.name === 'id') {
-      const id = target.value;
-      currentTaget.button.disabled = true;
+    React.useEffect(() => {
+        !isModalOpen && setMessage(null);
 
-      filmApi
-        .get(`/find/{id}?id=${id}`)
-        .then(({ data }) => {
-          currentTaget.country.value = data.search[0].country;
-          currentTaget.description.value = data.search[0].description;
-          currentTaget.genres.value = [...data.search[0].genres.map((item) => item.name)].join(', ');
-          currentTaget.imdbID.value = data.search[0].imdbID;
-          currentTaget.poster.value = data.search[0].poster;
-          currentTaget.video.value = data.search[0].video;
-          currentTaget.title.value = data.search[0].title;
-          currentTaget.titleEn.value = data.search[0].titleEn;
-          currentTaget.type.value = data.search[0].type;
-          currentTaget.year.value = data.search[0].year;
+        dispatch(fetchFilms(1, 50));
+    }, [dispatch, isModalOpen]);
 
-          currentTaget.button.disabled = false;
-        })
-        .catch(() => {
-          currentTaget.country.value = '';
-          currentTaget.description.value = '';
-          currentTaget.genres.value = '';
-          currentTaget.imdbID.value = '';
-          currentTaget.poster.value = '';
-          currentTaget.video.value = '';
-          currentTaget.title.value = '';
-          currentTaget.titleEn.value = '';
-          currentTaget.type.value = '';
-          currentTaget.year.value = '';
+    const formChange = (event) => {
+        const target = event.target;
+        const currentTaget = event.currentTarget;
 
-          currentTaget.button.disabled = false;
-        });
+        if (target.name === 'id') {
+            const id = target.value;
+            currentTaget.button.disabled = true;
+
+            filmApi.instance.get(`/find/{id}?id=${id}`)
+                .then(({data}) => {
+                    currentTaget.country.value = data.search[0].country;
+                    currentTaget.description.value = data.search[0].description;
+                    currentTaget.genres.value = [...data.search[0].genres.map((item) => item.name)].join(', ');
+                    currentTaget.imdbID.value = data.search[0].imdbID;
+                    currentTaget.poster.value = data.search[0].poster;
+                    currentTaget.video.value = data.search[0].video;
+                    currentTaget.title.value = data.search[0].title;
+                    currentTaget.titleEn.value = data.search[0].titleEn;
+                    currentTaget.type.value = data.search[0].type;
+                    currentTaget.year.value = data.search[0].year;
+
+                    currentTaget.button.disabled = false;
+                })
+                .catch(() => {
+                    currentTaget.country.value = '';
+                    currentTaget.description.value = '';
+                    currentTaget.genres.value = '';
+                    currentTaget.imdbID.value = '';
+                    currentTaget.poster.value = '';
+                    currentTaget.video.value = '';
+                    currentTaget.title.value = '';
+                    currentTaget.titleEn.value = '';
+                    currentTaget.type.value = '';
+                    currentTaget.year.value = '';
+
+                    currentTaget.button.disabled = false;
+                });
+        }
+    };
+
+    const formSubmit = (event) => {
+        event.preventDefault();
+
+        const target = event.target;
+
+        let movieItem = {};
+
+        switch (target.name) {
+            case 'create':
+                IMDBAlternative.getFilm(target.imdbID.value).then((data) => {
+                    movieItem = {
+                        imdbID: target.imdbID.value,
+                        title: target.title.value,
+                        description: target.description.value,
+                        country: data.Country,
+                        genres: data.Genre.split(',').map((genre) => ({name: genre})),
+                        poster: data.Poster,
+                        titleEn: data.Title,
+                        type: data.Type,
+                        video: target.video.value,
+                        year: +data.Year,
+                    };
+
+                    filmApi.instance.post('create', movieItem).then(() => setMessage('Успешно'));
+                    return target.reset();
+                });
+                break;
+            case 'edit':
+                movieItem = {
+                    country: target.country.value,
+                    description: target.description.value,
+                    genres: target.genres.value.split(',').map((genre) => ({name: genre})),
+                    id: target.id.value,
+                    imdbID: target.imdbID.value,
+                    poster: target.poster.value,
+                    title: target.title.value,
+                    titleEn: target.titleEn.value,
+                    type: target.type.value,
+                    video: target.video.value,
+                    year: +target.year.value,
+                };
+
+                filmApi
+                    .instance.put(`update/${target.id.value}`, movieItem)
+                    .then(() => setMessage('Успешно'))
+                    .catch((error) => console.warn(error));
+
+                target.reset();
+                break;
+            case 'delete':
+                filmApi.instance.delete(`delete/${target.id.value}`).then(() => setMessage('Успешно'));
+                target.reset();
+                break;
+            default:
+                return console.warn('Нет такой формы');
+        }
+    };
+
+    const toggleModalHadler = (event) => {
+        setIsModalOpen(!isModalOpen);
+        setModalTitle(event?.target?.innerText || null);
+        setModalContent(event?.target?.dataset.content || null);
+    };
+
+    let columns, rows;
+
+    if (films.length) {
+        columns = Object.keys(films[0]).map((film) => ({field: String(film), width: 200}));
+
+        columns[0].width = 60;
+        columns[3].width = 100;
+        columns[4].width = 100;
+        columns[5].width = 100;
+        columns[6].width = 300;
+        columns[7].width = 400;
+        columns[10] = {};
+
+        rows = [...films];
     }
-  };
 
-  const formSubmit = (event) => {
-    event.preventDefault();
+    return (
+        <div className={styles.API}>
+            <h2 className={styles.title}>Редактирование фильмов</h2>
+            <div className={styles.wrapper}>
+                <button className={styles.button} onClick={toggleModalHadler} data-content="create">
+                    Добавить фильм
+                </button>
+                <button className={styles.button} onClick={toggleModalHadler} data-content="edit">
+                    Изменить фильм
+                </button>
+                <button className={styles.button} onClick={toggleModalHadler} data-content="delete">
+                    Удалить фильм
+                </button>
+            </div>
+            <div className={styles.filmsWrapper}>
+                <h2 className={styles.title}>Список фильмов</h2>
+                <div className={styles.films}>
+                    <div style={{height: 800, width: '100%'}}>
+                        {films.length && <DataGrid rows={rows} columns={columns} rowHeight={25} checkboxSelection/>}
+                    </div>
+                </div>
+            </div>
 
-    const target = event.target;
-
-    let movieItem = {};
-
-    switch (target.name) {
-      case 'create':
-        IMDBAlternative.get(`?i=${target.imdbID.value}&r=json`).then(({ data }) => {
-          movieItem = {
-            imdbID: target.imdbID.value,
-            title: target.title.value,
-            description: target.description.value,
-            country: data.Country,
-            genres: data.Genre.split(',').map((genre) => ({ name: genre })),
-            poster: data.Poster,
-            titleEn: data.Title,
-            type: data.Type,
-            video: target.video.value,
-            year: +data.Year,
-          };
-
-          filmApi.post('create', movieItem).then(() => setMessage('Успешно'));
-          return target.reset();
-        });
-        break;
-      case 'edit':
-        movieItem = {
-          country: target.country.value,
-          description: target.description.value,
-          genres: target.genres.value.split(',').map((genre) => ({ name: genre })),
-          id: target.id.value,
-          imdbID: target.imdbID.value,
-          poster: target.poster.value,
-          title: target.title.value,
-          titleEn: target.titleEn.value,
-          type: target.type.value,
-          video: target.video.value,
-          year: +target.year.value,
-        };
-
-        filmApi
-          .put(`update/${target.id.value}`, movieItem)
-          .then(() => setMessage('Успешно'))
-          .catch((error) => console.warn(error));
-
-        target.reset();
-        break;
-      case 'delete':
-        filmApi.delete(`delete/${target.id.value}`).then(() => setMessage('Успешно'));
-        target.reset();
-        break;
-      default:
-        return console.warn('Нет такой формы');
-    }
-  };
-
-  const toggleModalHadler = (event) => {
-    setIsModalOpen(!isModalOpen);
-    setModalTitle(event?.target?.innerText || null);
-    setModalContent(event?.target?.dataset.content || null);
-  };
-
-  return (
-    <div className={styles.API}>
-      <h2 className={styles.title}>Редактирование фильмов</h2>
-      <div className={styles.wrapper}>
-        <button className={styles.button} onClick={toggleModalHadler} data-content="create">
-          Добавить фильм
-        </button>
-        <button className={styles.button} onClick={toggleModalHadler} data-content="edit">
-          Изменить фильм
-        </button>
-        <button className={styles.button} onClick={toggleModalHadler} data-content="delete">
-          Удалить фильм
-        </button>
-      </div>
-
-      <Modal title={modalTitle} toggleModalHadler={toggleModalHadler} isModalOpen={isModalOpen}>
-        {modalContent === 'create' && <CreateFilm formSubmit={formSubmit} message={message} />}
-        {modalContent === 'edit' && <EditFilm formSubmit={formSubmit} formChange={formChange} message={message} />}
-        {modalContent === 'delete' && <DeleteFilm formSubmit={formSubmit} message={message} />}
-      </Modal>
-    </div>
-  );
+            <Modal title={modalTitle} toggleModalHadler={toggleModalHadler} isModalOpen={isModalOpen}>
+                {modalContent === 'create' && <CreateFilm formSubmit={formSubmit} message={message}/>}
+                {modalContent === 'edit' &&
+                <EditFilm formSubmit={formSubmit} formChange={formChange} message={message}/>}
+                {modalContent === 'delete' && <DeleteFilm formSubmit={formSubmit} message={message}/>}
+            </Modal>
+        </div>
+    );
 };
 
 export default API;

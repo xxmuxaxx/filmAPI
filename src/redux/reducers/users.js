@@ -11,7 +11,6 @@ const users = (state = initialState, action) => {
       };
 
     case 'SET_USER_AVATAR':
-      console.log(action.payload);
       return {
         ...state,
         user: {

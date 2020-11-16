@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 
 import Logo from "../UI/Logo/Logo";
 import Search from "../Nav/Search/Search";
@@ -6,25 +6,25 @@ import Menu from "../Nav/Menu/Menu";
 import Hamburger from "../Nav/Hamburger/Hamburger";
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const toggleMenuHandler = () => setIsMenuOpen(!isMenuOpen);
+    const toggleMenuHandler = () => setIsMenuOpen(!isMenuOpen);
 
-  return (
-    <>
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <Logo />
-            <Search />
-            <Hamburger
-              isMenuOpen={isMenuOpen}
-              toggleMenuHandler={toggleMenuHandler}
-            />
-          </div>
-        </div>
-      </header>
-      <Menu isMenuOpen={isMenuOpen} toggleMenuHandler={toggleMenuHandler} />
-    </>
-  );
+    return (
+        <>
+            <header className="header">
+                <div className="container">
+                    <div className="header__wrapper">
+                        <Logo/>
+                        <Search/>
+                        <Hamburger
+                            isMenuOpen={isMenuOpen}
+                            toggleMenuHandler={toggleMenuHandler}
+                        />
+                    </div>
+                </div>
+            </header>
+            <Menu isMenuOpen={isMenuOpen} toggleMenuHandler={toggleMenuHandler}/>
+        </>
+    );
 }

@@ -1,4 +1,4 @@
-import filmApi from '../../axios/filmApi';
+import filmApi from '../../api/filmApi';
 
 export const fetchSearchFilmsByTitle = (payload) => (dispatch) => {
   return filmApi.get(`/find?title=${payload}`).then(({ data }) => {

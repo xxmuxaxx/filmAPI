@@ -1,18 +1,17 @@
-import usersApi from '../../axios/begetApi';
+import begetApi from '../../api/begetApi';
+import { setCookie } from '../../core/functions';
 
 export const fetchUser = (payload) => (dispatch) => {
-  usersApi
-    .get(`users/?u=${payload.login}&p=${payload.password}`)
-    .then(({ data }) => {
-      document.cookie = `login=${payload.login}`;
-      document.cookie = `password=${payload.password}`;
-      dispatch(setUser(data));
-    })
-    .catch(() => alert('Неверный логин или пароль'));
+  begetApi.getUser(payload.login, payload.password).then((data) => {
+    setCookie('login', payload.login);
+    setCookie('password', payload.password);
+
+    dispatch(setUser(data));
+  });
 };
 
 export const fetchUpdateUserAvatar = (payload) => (dispatch) => {
-  usersApi.post('users/', payload).then(({ data }) => dispatch(setUserAvatar(data.url)));
+  begetApi.setUserAvatar(payload).then((data) => dispatch(setUserAvatar(data)));
 };
 
 export const setUser = (payload) => {

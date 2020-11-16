@@ -50,6 +50,11 @@
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #fff;
+
+  &:last-child {
+    margin: 0;
+    border-bottom: none;
+  }
 }
 
 .FilmDetailFieldItemName {
