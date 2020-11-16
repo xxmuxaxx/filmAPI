@@ -1,8 +1,8 @@
 import filmApi from '../../api/filmApi';
 
 export const fetchSearchFilmsByTitle = (payload) => (dispatch) => {
-  return filmApi.get(`/find?title=${payload}`).then(({ data }) => {
-    dispatch(setSearchItems(data.search));
+  return filmApi.getFilm(payload).then((data) => {
+    dispatch(setSearchItems(data));
   });
 };
 
