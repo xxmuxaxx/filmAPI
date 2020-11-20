@@ -57,8 +57,6 @@ const FilmDetail = React.memo(function FilmDetail(props) {
         </div>
     );
 
-    console.log(activeItem)
-
     return <div className={classes.FilmDetail}>
         {activeItem ? template() : <Loader/>}
     </div>;

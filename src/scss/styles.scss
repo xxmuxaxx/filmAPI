@@ -3,10 +3,10 @@
 @import '~plyr/dist/plyr.css';
 
 // Main - Основные
-@import './fonts';
+@import 'fonts';
 @import './_variables';
-@import './mixins';
-@import './global';
+@import 'mixins';
+@import 'global';
 @import './_UI';
 
 // Sections - секции

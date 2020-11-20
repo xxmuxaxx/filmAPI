@@ -1,12 +1,14 @@
 import begetApi from '../../api/begetApi';
-import { setCookie } from '../../core/functions';
+import { setCookie } from '../../utils/functions';
 
 export const fetchUser = (payload) => (dispatch) => {
   begetApi.getUser(payload.login, payload.password).then((data) => {
-    setCookie('login', payload.login);
-    setCookie('password', payload.password);
+    if (data.status === 1) {
+      setCookie('login', payload.login);
+      setCookie('password', payload.password);
 
-    dispatch(setUser(data));
+      dispatch(setUser(data));
+    } else alert(data.message)
   });
 };
 

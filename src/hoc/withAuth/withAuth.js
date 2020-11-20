@@ -4,9 +4,10 @@ import { Redirect } from 'react-router';
 
 const withAuth = (Component) => {
   class WithAuth extends React.Component {
+
     render() {
       if (!this.props.user) return <Redirect to="/profile/auth/" />;
-      return <Component {...this.props} />;
+      return <Component {...this.props} user={this.props.user} />;
     }
   }
 

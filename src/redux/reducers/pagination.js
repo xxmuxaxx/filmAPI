@@ -1,6 +1,6 @@
 const initialState = {
   page: 1,
-  pageSize: 16,
+  pageSize: 12,
 };
 
 const pagination = (state = initialState, action) => {

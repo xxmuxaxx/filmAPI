@@ -1,28 +1,29 @@
 import React from 'react';
-import { Button, TextField } from '@material-ui/core';
+import {Button} from '@material-ui/core';
+import {Field, reduxForm} from 'redux-form'
+import {TextField} from '@jcoreio/redux-form-material-ui'
 
-const Auth = ({ onFormSubmit }) => {
-  return (
-    <section className="auth-section">
-      <div className="container">
-        <form className="auth-form" onSubmit={onFormSubmit}>
-          <h2>Авторизация</h2>
-
-          <TextField className="auth-form__input" name="user-name" label="Ваш логин" autoComplete="username" />
-          <TextField
-            className="auth-form__input"
-            name="password"
-            type="password"
-            label="Ваш пароль"
-            autoComplete={'current-password'}
-          />
-          <Button type="submit" color="primary" variant="contained">
-            Войти
-          </Button>
+let AuthForm = ({handleSubmit, pristine, submitting}) => {
+    return (
+        <form className="auth-form" onSubmit={handleSubmit}>
+            <h2>Авторизация</h2>
+            <Field className="auth-form__input" name="login" type="text" label="Ваш логин" autoComplete="username"
+                   component={TextField} required/>
+            <Field className="auth-form__input" name="password" type="password" label="Ваш пароль"
+                   autoComplete={'current-password'} component={TextField} required/>
+            <Button color="primary" type="submit" variant="contained" disabled={pristine || submitting}>Войти</Button>
         </form>
-      </div>
+    )
+}
+
+AuthForm = reduxForm({form: 'auth'})(AuthForm)
+
+const Auth = ({formSubmitHandler}) => (
+    <section className="auth-section">
+        <div className="container">
+            <AuthForm onSubmit={formSubmitHandler}/>
+        </div>
     </section>
-  );
-};
+);
 
 export default Auth;

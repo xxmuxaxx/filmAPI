@@ -6,7 +6,7 @@ import Footer from '../../components/Footer/Footer';
 import classes from './Layout.module.css';
 
 import {fetchUser} from '../../redux/actions/users';
-import {getCookie} from '../../core/functions';
+import {getCookie} from '../../utils/functions';
 
 const Layout = (props) => {
     const dispatch = useDispatch();

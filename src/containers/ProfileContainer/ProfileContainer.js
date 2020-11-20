@@ -1,51 +1,37 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch} from 'react-redux';
 
-import Auth from '../../components/Auth/Auth';
 import Profile from '../../components/Profile/Profile';
-import { deleteCookie } from '../../core/functions';
+import {deleteCookie} from '../../utils/functions';
 
-import { fetchUpdateUserAvatar, fetchUser, setUser } from '../../redux/actions/users';
+import {fetchUpdateUserAvatar, setUser} from '../../redux/actions/users';
 
-const ProfileContainer = () => {
-  const dispatch = useDispatch();
-  const { user } = useSelector(({ users }) => users);
+const ProfileContainer = ({user}) => {
+    const dispatch = useDispatch();
 
-  const formSubmitHandler = async (event) => {
-    event.preventDefault();
+    const imageChangeHandler = (event) => {
+        const formData = new FormData();
 
-    const login = event.target['user-name'].value;
-    const password = event.target['password'].value;
+        formData.append('avatar', event.target.files[0]);
+        formData.append('id', user.id);
+        user.avatar && formData.append('url', user.avatar.split('/').reverse()[0]);
 
-    dispatch(fetchUser({ login, password }));
-  };
+        dispatch(fetchUpdateUserAvatar(formData));
+    };
 
-  const imageChangeHandler = (event) => {
-    const formData = new FormData();
+    const buttonClickHandler = () => {
+        deleteCookie('login');
+        deleteCookie('password');
+        dispatch(setUser(null));
+    };
 
-    formData.append('avatar', event.target.files[0]);
-    formData.append('id', user.id);
-    user.avatar && formData.append('url', user.avatar.split('/').reverse()[0]);
-
-    dispatch(fetchUpdateUserAvatar(formData));
-  };
-
-  const buttonClickHandler = () => {
-    dispatch(setUser(null));
-    deleteCookie('login');
-    deleteCookie('password');
-  };
-
-  return !user ? (
-    <Auth onFormSubmit={formSubmitHandler} />
-  ) : (
-    <Profile
-      onFormSubmit={formSubmitHandler}
-      onImageChange={imageChangeHandler}
-      onButtonClick={buttonClickHandler}
-      user={user}
-    />
-  );
+    return (
+        <Profile
+            onImageChange={imageChangeHandler}
+            onButtonClick={buttonClickHandler}
+            user={user}
+        />
+    );
 };
 
 export default ProfileContainer;
