@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useDebouncedEffect} from "../../utils/useDebouncedEffect";
 
 import filmApi from "../../api/filmApi";
-import {Field, reduxForm, getFormValues,  stopSubmit, blur, reset} from "redux-form";
+import {Field, reduxForm, getFormValues, stopSubmit, blur} from "redux-form";
 import {Button} from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import {TextField} from '@jcoreio/redux-form-material-ui'
