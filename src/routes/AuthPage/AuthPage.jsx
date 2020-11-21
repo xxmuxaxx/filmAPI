@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {fetchUser} from "../../redux/actions/users";
-import Auth from "../../components/Auth/Auth";
+import Auth from "../../forms/AuthForm/Auth";
 import {useDispatch, useSelector} from "react-redux";
 import Hero from "../../components/Hero/Hero";
 

@@ -8,16 +8,19 @@ const withModal = (Component) => {
             isShow: false,
             title: null,
             component: null,
+            callback: null
         }
 
         openModal = () => this.setState({isOpen: true, isShow: true})
+
         closeModal = () => {
             this.setState({isOpen: false})
+            this.state.callback && this.state.callback.call()
             setTimeout(() => this.setState({isShow: false}), 300)
         }
 
-        createModal = (Component = <p>Пусто</p>, title = 'Заголовок') => {
-            this.setState({component: Component, title: title})
+        createModal = (Component = <p>Пусто</p>, title = 'Заголовок', callback = null) => {
+            this.setState({component: Component, title: title, callback: callback})
             this.openModal()
         }
 
@@ -32,7 +35,8 @@ const withModal = (Component) => {
         render = () => {
             return (
                 <>
-                    <Component {...this.props} openModal={this.openModal} createModal={this.createModal}/>
+                    <Component closeModal={this.closeModal} createModal={this.createModal}
+                               modalIsOpen={this.state.isOpen} {...this.props}/>
                     {this.state.isShow ? <this.template /> : null}
                 </>
             )
