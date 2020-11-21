@@ -1,5 +1,6 @@
 {
   "name": "filmapi",
+  "description": "Учебный проект с библиотекой фильмов",
   "version": "0.1.0",
   "private": true,
   "engines": {
