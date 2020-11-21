@@ -22,7 +22,7 @@ const validate = values => {
     return errors
 }
 
-let EditFilmForm = ({message, error, handleSubmit, pristine, submitting, initialId = null}) => {
+let EditFilmForm = ({message, error, handleSubmit, initialId = null}) => {
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
             <Input name="id" label="ID" style={{'display': initialId ? 'none': ''}}/>
@@ -53,6 +53,7 @@ const fields = ['imdbID', 'title', 'titleEn', 'year', 'country', 'poster', 'vide
 
 const EditFilm = ({initialId = null, delayDebounce = 1000, callback = null}) => {
     const dispatch = useDispatch()
+
     const values = useSelector(getFormValues('editFilm'));
     const [message, setMessage] = useState(null)
 
@@ -62,7 +63,6 @@ const EditFilm = ({initialId = null, delayDebounce = 1000, callback = null}) => 
 
     useEffect(() => {
         message && setTimeout(() => setMessage(null), 5000)
-
     }, [message])
 
     useDebouncedEffect(async () => {

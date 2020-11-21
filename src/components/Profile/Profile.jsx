@@ -1,36 +1,16 @@
 import React from 'react';
 
 import API from '../API/API';
+import ProfileAside from "./ProfileAside/ProfileAside";
 
-const Profile = ({ user, onImageChange, onButtonClick }) => {
-  const image = user.avatar ? user.avatar : 'https://www.tclilibrary.com/admin2/dist/use.png';
-
+const Profile = ({user, ...props}) => {
   return (
     <section className="profile-section">
       <div className="container">
         <div className="profile-about">
           <h1 className="page-title">Личный кабинет</h1>
           <div className="profile-about__wrapper">
-            <div className="profile-about__aside">
-              <div className="profile-info">
-                <div className="profile-info__image-wrapper">
-                  <label>
-                    <input
-                      name="avatar"
-                      type="file"
-                      style={{ display: 'none' }}
-                      accept=".jpg, .jpeg, .png"
-                      onChange={onImageChange}
-                    />
-                    <img className="profile-info__image" src={image} alt={user.name} />
-                  </label>
-                </div>
-                <button className="profile-info__logout" onClick={onButtonClick}>
-                  Выйти
-                </button>
-                <div className="profile-info__name">{user.name}</div>
-              </div>
-            </div>
+            <ProfileAside user={user} onImageChange={props.onImageChange} onButtonClick={props.onButtonClick} />
             <div className="profile-about__content">{user.isAdmin ? <API /> : null}</div>
           </div>
         </div>

@@ -9,7 +9,6 @@ const instance = axios.create({
 });
 
 const filmApi = {
-    instance: instance,
     getFilmById: async (id) => {
         return await instance.get(`/find/{id}?id=${id}`).then((res) => res.data.search[0]);
     },
@@ -23,11 +22,14 @@ const filmApi = {
         return await instance.get(`/page=${page}/size=${size}/find?title=${title}`)
             .then((res) => res.data.search);
     },
-    updateFilm: (id, movieItem) => {
-        return instance.put(`/update/${id}`, movieItem)
+    createFilm: (movieItem) => {
+        return instance.post('/create', movieItem)
     },
     deleteFilm: (id) => {
-        return instance.delete(`delete/${id}`)
+        return instance.delete(`/delete/${id}`)
+    },
+    updateFilm: (id, movieItem) => {
+        return instance.put(`/update/${id}`, movieItem)
     }
 };
 
