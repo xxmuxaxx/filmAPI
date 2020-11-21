@@ -19,7 +19,7 @@ const withModal = (Component) => {
             setTimeout(() => this.setState({isShow: false}), 300)
         }
 
-        createModal = (Component = <p>Пусто</p>, title = 'Заголовок', callback = null) => {
+        createModal = (Component = (<p>Пусто</p>), title = 'Заголовок', callback = null) => {
             this.setState({component: Component, title: title, callback: callback})
             this.openModal()
         }

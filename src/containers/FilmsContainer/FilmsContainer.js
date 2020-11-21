@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import FilmCard from '../../components/FilmCard/FilmCard';
 import FilmCardPlaceholder from '../../components/FilmCard/FilmCardPlaceholder';
+import Hero from "../../components/Hero/Hero";
 import Loader from '../../components/Loader/Loader';
 import withModal from "../../hoc/withModal/withModal";
 import EditFilm from "../../forms/EditFilm/EditFilm";
@@ -14,7 +15,6 @@ import {fetchFilms} from '../../redux/actions/films';
 import {getFilms, getTotalFilms} from "../../redux/selectors/films";
 import {getUser} from "../../redux/selectors/users";
 
-import heroBackground from '../../img/hero-img.png';
 import classes from './FilmsContainer.module.scss';
 
 const FilmsContainer = React.memo(function FilmsContainer({createModal, closeModal, modalIsOpen, ...props}) {
@@ -50,23 +50,19 @@ const FilmsContainer = React.memo(function FilmsContainer({createModal, closeMod
         dispatch(setPage(pageNumber));
     };
 
+    const renderPagination = () => <Pagination
+        activePage={page}
+        itemsCountPerPage={pageSize}
+        totalItemsCount={totalFilms}
+        hideNavigation={true}
+        onChange={handlePageClick.bind(this)}
+    />
+
     const template = (
         <div className="container">
-            <Pagination
-                activePage={page}
-                itemsCountPerPage={pageSize}
-                totalItemsCount={totalFilms}
-                hideNavigation={true}
-                onChange={handlePageClick.bind(this)}
-            />
+            {renderPagination()}
             <div className={classes.FilmLibWrapper}>{renderFilms()}</div>
-            <Pagination
-                activePage={page}
-                itemsCountPerPage={pageSize}
-                totalItemsCount={totalFilms}
-                hideNavigation={true}
-                onChange={handlePageClick.bind(this)}
-            />
+            {renderPagination()}
         </div>
     );
 
@@ -88,21 +84,10 @@ const FilmsContainer = React.memo(function FilmsContainer({createModal, closeMod
 
     return (
         <div className={classes.FilmsContainer}>
-            <section className="hero">
-                <div className="container">
-                    <div className="hero__wrapper">
-                        <div className="hero__image-wrapper">
-                            <img className="hero__image" src={heroBackground} alt="Стетхем"/>
-                        </div>
-                        <div className="hero__text-wrapper">
-                            <p className="hero__text">Лучше иметь друга,</p>
-                            <p className="hero__big-text">
-                                чем <b>ДРУГ ДРУГА</b>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <Hero>
+                <p className="hero__text">Лучше иметь друга,</p>
+                <p className="hero__big-text">чем <b>ДРУГ ДРУГА</b></p>
+            </Hero>
             {load ? template : loadingTemplate}
         </div>
     );
