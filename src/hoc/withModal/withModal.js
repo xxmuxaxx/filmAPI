@@ -1,5 +1,5 @@
 import React from 'react';
-import ModalNew from "../../components/ModalNew/ModalNew";
+import Modal from "../../components/Modal/Modal";
 
 const withModal = (Component) => {
     class WithModal extends React.Component {
@@ -36,9 +36,9 @@ const withModal = (Component) => {
 
         template = () => {
             return (
-                <ModalNew {...this.state} closeModal={this.closeModal} openModal={this.openModal}>
+                <Modal {...this.state} closeModalHandler={this.closeModal} openModal={this.openModal}>
                     {this.state.component ? this.state.component : null}
-                </ModalNew>
+                </Modal>
             )
         }
 
