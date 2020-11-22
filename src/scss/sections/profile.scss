@@ -10,7 +10,7 @@
 
   &__aside {
     margin: 0 40px 0 0;
-    max-width: 200px;
+    width: 200px;
   }
   &__content {
     flex: 1;
@@ -23,11 +23,13 @@
 
   &__image-wrapper {
     margin: 0 0 20px 0;
-    padding: 10px;
+    padding: 5px;
+    width: 100%;
     background-color: $white;
     border: 1px solid $black;
   }
   &__image {
+    display: flex;
     height: auto;
     width: 100%;
     cursor: pointer;
