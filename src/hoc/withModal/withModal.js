@@ -47,7 +47,7 @@ const withModal = (Component) => {
                 <>
                     <Component closeModal={this.closeModal} createModal={this.createModal}
                                modalIsOpen={this.state.isOpen} {...this.props}/>
-                    {this.state.isShow ? <this.template /> : null}
+                    {this.state.isShow ? this.template() : null}
                 </>
             )
         }
