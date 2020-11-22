@@ -9,7 +9,9 @@ import SaveIcon from '@material-ui/icons/Save';
 import {TextField} from '@jcoreio/redux-form-material-ui'
 import styles from './EditFilm.module.css';
 
-const Input = (props) => <Field className={styles.input} variant="outlined" component={TextField} {...props} />
+const Input = (props) => {
+    return <Field className={styles.input} variant="outlined" size="small" component={TextField} {...props} />
+}
 
 const validate = values => {
     const errors = {}
@@ -24,8 +26,8 @@ const validate = values => {
 
 let EditFilmForm = ({message, error, handleSubmit, initialId = null}) => {
     return (
-        <form className={styles.form} onSubmit={handleSubmit}>
-            <Input name="id" label="ID" style={{'display': initialId ? 'none': ''}}/>
+        <form className={styles.form} onSubmit={handleSubmit} autoComplete="off">
+            <Input name="id" label="ID" style={{'display': initialId ? 'none': ''}} required/>
             <Input name="imdbID" label="imdbID" disabled={!!error}/>
             <Input name="title" label="Название" disabled={!!error}/>
             <Input name="titleEn" label="Название на английском" disabled={!!error}/>
@@ -35,7 +37,7 @@ let EditFilmForm = ({message, error, handleSubmit, initialId = null}) => {
             <Input name="video" label="Трейлер (youtube id)" disabled={!!error}/>
             <Input name="genres" label="Жанры (через запятую)" disabled={!!error}/>
             <Input name="type" label="Тип (movie, series)" disabled={!!error}/>
-            <Input name="description" label="Описание" disabled={!!error} rows={5} multiline/>
+            <Input name="description" label="Описание" disabled={!!error} multiline/>
 
             {message && <p className={styles.message}>{message}</p>}
             {error && <p className={styles.errorMessage}>{error}</p>}
