@@ -3,8 +3,8 @@ import { Route, Switch } from 'react-router-dom';
 
 import Layout from './containers/Layout/Layout';
 import IndexPage from "./routes/IndexPage/IndexPage";
-import FilmsContainer from './containers/FilmsContainer/FilmsContainer';
 import FilmDetail from './containers/FilmDetail/FilmDetail';
+import FilmsPage from "./routes/FilmsPage/FilmsPage";
 import ProfilePage from "./routes/ProfilePage/ProfilePage";
 import AuthPage from "./routes/AuthPage/AuthPage";
 
@@ -13,7 +13,7 @@ function App() {
     <Layout>
       <Switch>
         <Route path="/films/:title" component={FilmDetail} />
-        <Route path="/films/" component={FilmsContainer} />
+        <Route path="/films/" component={FilmsPage} />
         <Route path="/profile/auth" component={AuthPage} />
         <Route path="/profile/" component={ProfilePage} />
         <Route path="/" component={IndexPage} />
