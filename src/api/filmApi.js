@@ -9,6 +9,9 @@ const instance = axios.create({
 });
 
 const filmApi = {
+    getAllFilms: () => {
+        return instance.get('').then((res) => res.data);
+    },
     getFilmById: async (id) => {
         return await instance.get(`/find/{id}?id=${id}`).then((res) => res.data.search[0]);
     },

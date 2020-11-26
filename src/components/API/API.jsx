@@ -1,33 +1,48 @@
-import React from 'react';
-
-import {DataGrid} from '@material-ui/data-grid';
-import {useSelector} from 'react-redux';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {Table} from 'antd';
 
 import withModal from "../../hoc/withModal/withModal";
 import CreateFilm from "../../forms/CreateFilm/CreateFilm";
 import EditFilm from "../../forms/EditFilm/EditFilm";
 import DeleteFilm from "../../forms/DeleteFilm/DeleteFilm";
 
+import 'antd/dist/antd.css';
 import styles from './API.module.css';
+import {fetchAllFilms} from "../../redux/actions/films";
 
 const API = (props) => {
+    const dispatch = useDispatch()
     const films = useSelector((store) => store.films.items);
 
-    let columns, rows;
+    useEffect(() => dispatch(fetchAllFilms()), [])
 
-    if (films.length) {
-        columns = Object.keys(films[0]).map((film) => ({field: String(film), width: 200}));
+    let expandedRowRender = (record) => <>
+        <p><b style={{fontWeight: 600}}>poster:</b> ${record.poster}</p>
+        <p><b style={{fontWeight: 600}}>description</b>: ${record.description}</p>
+    </>
 
-        columns[0].width = 60;
-        columns[3].width = 100;
-        columns[4].width = 100;
-        columns[5].width = 100;
-        columns[6].width = 300;
-        columns[7].width = 400;
-        columns[10] = {};
+    let columns = films.length && Object.keys(films[0])
+        .map(film => ({
+            title: String(film),
+            dataIndex: String(film),
+            key: String(film),
+            sorter: (film === 'id')
+                ? (a, b) => b.id - a.id
+                : (film === 'title')
+                ? (a, b) => a.title.localeCompare(b.title)
+                : null,
+        }))
+        .filter(item => item.title !== 'poster')
+        .filter(item => item.title !== 'description')
 
-        rows = [...films];
-    }
+    console.log(columns)
+
+    const dataSource = columns && films.length && films.map(film => ({
+        ...film,
+        genres: film.genres.map((item) => item.name).join(', '),
+        key: film.id
+    }))
 
     return (
         <div className={styles.API}>
@@ -46,9 +61,7 @@ const API = (props) => {
             <div className={styles.filmsWrapper}>
                 <h2 className={styles.title}>Список фильмов</h2>
                 <div className={styles.films}>
-                    <div style={{height: 800, width: '100%'}}>
-                        {films.length && <DataGrid rows={rows} columns={columns} rowHeight={25} checkboxSelection/>}
-                    </div>
+                    <Table dataSource={dataSource} columns={columns} size={'small'} expandable={{expandedRowRender}}/>
                 </div>
             </div>
         </div>

@@ -1,6 +1,12 @@
 import filmApi from '../../api/filmApi';
 import IMDBAlternative from '../../api/IMDBAlternative';
 
+export const fetchAllFilms = () => (dispatch) => {
+  dispatch({ type: 'SET_LOADED', payload: false });
+
+  filmApi.getAllFilms().then((data) => dispatch(setFilms(data)));
+};
+
 export const fetchFilms = (page = 1, size = 16) => (dispatch) => {
   dispatch({ type: 'SET_LOADED', payload: false });
 
