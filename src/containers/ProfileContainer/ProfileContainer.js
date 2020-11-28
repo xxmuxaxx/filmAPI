@@ -3,7 +3,6 @@ import {useDispatch} from 'react-redux';
 
 import Profile from '../../components/Profile/Profile';
 import {deleteCookie} from '../../utils/functions';
-
 import {fetchUpdateUserAvatar, setUser} from '../../redux/actions/users';
 
 const ProfileContainer = ({user}) => {
@@ -14,14 +13,14 @@ const ProfileContainer = ({user}) => {
 
         formData.append('avatar', event.target.files[0]);
         formData.append('id', user.id);
+
         user.avatar && formData.append('url', user.avatar.split('/').reverse()[0]);
 
         dispatch(fetchUpdateUserAvatar(formData));
     };
 
     const buttonClickHandler = () => {
-        deleteCookie('login');
-        deleteCookie('password');
+        deleteCookie('token');
         dispatch(setUser(null));
     };
 

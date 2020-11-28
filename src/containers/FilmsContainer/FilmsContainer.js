@@ -32,6 +32,7 @@ const FilmsContainer = React.memo(function FilmsContainer({createModal, closeMod
     const {page, pageSize} = useSelector(({pagination}) => pagination);
     const loaded = useSelector(({films}) => films.isLoaded);
     const user = useSelector(state => getUser(state))
+    const isAdmin = user?.rolePermissions.includes('USER_ADMIN')
 
     React.useEffect(() => {
         !modalIsOpen && dispatch(fetchFilms(page, pageSize));
@@ -69,7 +70,7 @@ const FilmsContainer = React.memo(function FilmsContainer({createModal, closeMod
                                 films={films}
                                 onClickDeleteButton={clickDeleteButtonHandler}
                                 onClickEditButton={clickEditButtonHandler}
-                                showButtons={user?.isAdmin}
+                                showButtons={isAdmin}
                             />
                             <PaginationComponent
                                 page={page}

@@ -1,38 +1,56 @@
 import axios from 'axios';
+import {getCookie} from "../utils/functions";
+
+const token = getCookie('token')
 
 const instance = axios.create({
-    baseURL: 'https://film-api-backend.herokuapp.com/movies/',
+    baseURL: 'https://film-api-backend.herokuapp.com/api/v1/movies/',
     headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json',
+        Authorization: token && `Bearer ${token}`,
     },
 });
 
 const filmApi = {
-    getAllFilms: () => {
-        return instance.get('').then((res) => res.data);
+    getAllFilms: async () => {
+        const response = await instance.get('')
+
+        return response.data
     },
+
     getFilmById: async (id) => {
-        return await instance.get(`/find/{id}?id=${id}`).then((res) => res.data.search[0]);
+        const response = await instance.get(`${id}`)
+
+        return response.data.search[0];
     },
+
     getFilmsPage: async (page, size) => {
-        return await instance.get(`/page=${page}/size=${size}`).then((res) => res.data);
+        const response = await instance.get(`pageable?pageNum=${page}&pageSize=${size}`)
+
+        return response.data
     },
-    searchFilms: async title => {
-        return await instance.get(`/find?title=${title}`).then((res) => res.data.search);
+
+    searchFilmsByTitle: async (title) => {
+        const response = await instance.get(`title=${title}`)
+
+        return response.data.search
     },
+
     searchFilmsPageable: async (title, size, page = 1) => {
-        return await instance.get(`/page=${page}/size=${size}/find?title=${title}`)
-            .then((res) => res.data.search);
+        const response = await instance.get(`pageable/pageNum=${page}&pageSize=${size}&title=${title}`)
+
+        return response.data.search
     },
+
     createFilm: (movieItem) => {
-        return instance.post('/create', movieItem)
+        return instance.post('', movieItem)
     },
+
     deleteFilm: (id) => {
-        return instance.delete(`/delete/${id}`)
+        return instance.delete(`${id}`)
     },
+
     updateFilm: (id, movieItem) => {
-        return instance.put(`/update/${id}`, movieItem)
+        return instance.put(`${id}`, movieItem)
     }
 };
 

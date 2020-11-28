@@ -4,6 +4,8 @@ import API from '../API/API';
 import ProfileAside from "./ProfileAside/ProfileAside";
 
 const Profile = ({user, ...props}) => {
+  const isAdmin = user.rolePermissions.includes('USER_ADMIN')
+
   return (
     <section className="profile-section">
       <div className="container">
@@ -11,7 +13,9 @@ const Profile = ({user, ...props}) => {
           <h1 className="page-title">Личный кабинет</h1>
           <div className="profile-about__wrapper">
             <ProfileAside user={user} onImageChange={props.onImageChange} onButtonClick={props.onButtonClick} />
-            <div className="profile-about__content">{user.isAdmin ? <API /> : null}</div>
+            <div className="profile-about__content">
+              {isAdmin ? <API /> : null}
+            </div>
           </div>
         </div>
       </div>

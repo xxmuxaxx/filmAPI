@@ -7,7 +7,7 @@ let AuthForm = ({handleSubmit, pristine, submitting}) => {
     return (
         <form className="auth-form" onSubmit={handleSubmit}>
             <h2>Авторизация</h2>
-            <Field className="auth-form__input" name="login" type="text" label="Ваш логин" autoComplete="username"
+            <Field className="auth-form__input" name="username" type="text" label="Ваш логин" autoComplete="username"
                    component={TextField} required/>
             <Field className="auth-form__input" name="password" type="password" label="Ваш пароль"
                    autoComplete={'current-password'} component={TextField} required/>

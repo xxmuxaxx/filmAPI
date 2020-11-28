@@ -1,5 +1,5 @@
 .profile-section {
-  padding: 80px 0;
+  padding: 20px 0 160px;
 }
 
 .profile-about {
@@ -9,8 +9,12 @@
   }
 
   &__aside {
-    margin: 0 40px 0 0;
+    margin: 0 120px 0 0;
     width: 200px;
+
+    @include max-width($touch) {
+      margin: 0 40px 0 0;
+    }
   }
   &__content {
     flex: 1;
@@ -35,9 +39,13 @@
     cursor: pointer;
   }
 
-  // &__name {}
+   &__name {
+     margin: 0 0 20px 0;
+     font-weight: 600;
+     font-size: 1.2rem;
+   }
 
   &__logout {
-    margin: 0 0 20px 0;
+    display: grid;
   }
 }

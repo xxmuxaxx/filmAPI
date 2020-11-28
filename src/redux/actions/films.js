@@ -14,7 +14,7 @@ export const fetchFilms = (page = 1, size = 16) => (dispatch) => {
 };
 
 export const fetchFilmByTitle = (title) => (dispatch) => {
-  filmApi.searchFilms(title).then((film) => dispatch(fetchFilmIMDBFields(film[0])));
+  filmApi.searchFilmsByTitle(title).then((film) => dispatch(fetchFilmIMDBFields(film[0])));
 };
 
 export const fetchFilmIMDBFields = (film) => (dispatch) => {

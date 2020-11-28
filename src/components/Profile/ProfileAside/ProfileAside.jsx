@@ -1,6 +1,8 @@
 import React from "react";
+import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
 
-const ProfileAside = ({ user, onImageChange, onButtonClick }) => {
+const ProfileAside = ({ user, onButtonClick }) => {
     const image = user.avatar ? user.avatar : 'https://www.tclilibrary.com/admin2/dist/use.png';
 
     return (
@@ -8,15 +10,12 @@ const ProfileAside = ({ user, onImageChange, onButtonClick }) => {
             <div className="profile-info">
                 <div className="profile-info__image-wrapper">
                     <label>
-                        <input name="avatar" type="file" style={{ display: 'none' }} accept=".jpg, .jpeg, .png"
-                               onChange={onImageChange}/>
+                        <input name="avatar" type="file" style={{ display: 'none' }}/>
                         <img className="profile-info__image" src={image} alt={user.name} />
                     </label>
                 </div>
-                <button className="profile-info__logout" onClick={onButtonClick}>
-                    Выйти
-                </button>
                 <div className="profile-info__name">{user.name}</div>
+                <Box className="profile-info__logout"><Button variant="contained" onClick={onButtonClick}>Выйти</Button></Box>
             </div>
         </div>
     )

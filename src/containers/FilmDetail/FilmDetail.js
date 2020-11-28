@@ -17,6 +17,7 @@ const FilmDetail = React.memo(function FilmDetail(props) {
 
     React.useEffect(() => {
         dispatch(fetchFilmByTitle(props.match.params.title));
+
         return () => dispatch(setActiveFilm(null));
     }, [dispatch, props.match.params.title]);
 
@@ -26,6 +27,7 @@ const FilmDetail = React.memo(function FilmDetail(props) {
                 <div className={classes.FilmDetailTop}>
                     <div className={classes.FilmDetailImageWrapper}>
                         <img className={classes.FilmDetailImage} src={activeItem.poster} alt={activeItem.title}/>
+                        <Link to="/films" className={classes.FilmDetailLink}>Назад</Link>
                     </div>
 
                     <div className={classes.FilmDetailRight}>
@@ -46,7 +48,7 @@ const FilmDetail = React.memo(function FilmDetail(props) {
                             <FilmDetailFieldItem name="Описание" value={activeItem.description}/>
                         </div>
 
-                        <Link to="/" className={classes.FilmDetailLink}>Назад</Link>
+
                     </div>
                 </div>
 

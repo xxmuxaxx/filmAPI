@@ -6,7 +6,7 @@ const Footer = (props) => {
     <footer className="footer">
       <div className="container">
         <div className="footer__wrapper">
-          <NavLink to="/" className="logo">
+          <NavLink to="/films" className="logo">
             <div className="logo__text-wrapper">
               <p className="logo__big-text">Кавказский</p>
               <p className="logo__text">кинопоиск</p>

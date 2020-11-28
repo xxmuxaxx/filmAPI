@@ -1,9 +1,10 @@
 import React from 'react';
+import {useDispatch, useSelector} from "react-redux";
+
+import Auth from "../../forms/AuthForm/Auth";
+import Hero from "../../components/Hero/Hero";
 
 import {fetchUser} from "../../redux/actions/users";
-import Auth from "../../forms/AuthForm/Auth";
-import {useDispatch, useSelector} from "react-redux";
-import Hero from "../../components/Hero/Hero";
 
 function AuthPage(props) {
     const dispatch = useDispatch()
@@ -13,8 +14,8 @@ function AuthPage(props) {
         user && props.history.push('/profile/')
     }, [user, props.history])
 
-    const formSubmitHandler = ({login, password}) => {
-        dispatch(fetchUser({login, password}));
+    const formSubmitHandler = ({username, password}) => {
+        dispatch(fetchUser({username, password}));
     };
 
     return (

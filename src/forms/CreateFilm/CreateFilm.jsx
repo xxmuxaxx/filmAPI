@@ -17,8 +17,6 @@ const validate = values => {
 
     if (!values.imdbID) errors.imdbID = 'Обязательное поле';
     if (!values.title) errors.title = 'Обязательное поле';
-    if (!values.video) errors.video = 'Обязательное поле';
-    if (!values.description) errors.description = 'Обязательное поле';
 
     return errors
 }
@@ -70,6 +68,7 @@ const CreateFilm = () => {
             .then(() => setMessage('Фильм успешно создан'))
             .catch(() => dispatch(stopSubmit('createFilm', {_error: 'Ошибка при создании фильма'})))
     }
+
     return <CreateFilmForm onSubmit={onSubmit} message={message}/>
 }
 
