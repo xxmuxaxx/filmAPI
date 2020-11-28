@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
-
-import DeleteIcon from '@material-ui/icons/Delete';
 import {blur, Field, reduxForm, reset} from "redux-form";
+import {useDispatch} from "react-redux";
+import DeleteIcon from '@material-ui/icons/Delete';
 import { Button } from '@material-ui/core';
 import {TextField} from '@jcoreio/redux-form-material-ui'
-import styles from './DeleteFilm.module.scss';
+
 import filmApi from "../../api/filmApi";
-import {useDispatch} from "react-redux";
+import styles from './DeleteFilm.module.scss';
 
 const Input = (props) => <Field className={styles.input} variant="outlined" component={TextField} {...props} />
 
