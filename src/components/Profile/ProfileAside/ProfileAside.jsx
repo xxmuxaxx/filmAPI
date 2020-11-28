@@ -14,7 +14,9 @@ const ProfileAside = ({ user, onButtonClick }) => {
                         <img className="profile-info__image" src={image} alt={user.name} />
                     </label>
                 </div>
-                <div className="profile-info__name">{user.name}</div>
+                <div className="profile-info__name">
+                    {`${user.lastName || ''} ${user.name || ''} ${user.middleName || ''}`}
+                </div>
                 <Box className="profile-info__logout"><Button variant="contained" onClick={onButtonClick}>Выйти</Button></Box>
             </div>
         </div>

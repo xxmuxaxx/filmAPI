@@ -7,6 +7,10 @@ const instance = axios.create({
 const usersApi = {
     getCurrentUser: (token) => {
         return  instance.get('/current', {headers: {'Authorization': `Bearer ${token}`}})
+    },
+
+    registerUser: (data) => {
+        return  instance.post('register', data)
     }
 };
 
