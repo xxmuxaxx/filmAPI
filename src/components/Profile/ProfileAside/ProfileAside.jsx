@@ -15,7 +15,7 @@ const ProfileAside = ({ user, onButtonClick }) => {
                     </label>
                 </div>
                 <div className="profile-info__name">
-                    {`${user.lastName || ''} ${user.name || ''} ${user.middleName || ''}`}
+                    {user.username}
                 </div>
                 <Box className="profile-info__logout"><Button variant="contained" onClick={onButtonClick}>Выйти</Button></Box>
             </div>

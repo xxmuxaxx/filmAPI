@@ -10,11 +10,9 @@ import CreateFilm from "../../forms/CreateFilm/CreateFilm";
 import EditFilm from "../../forms/EditFilm/EditFilm";
 import DeleteFilm from "../../forms/DeleteFilm/DeleteFilm";
 
-import styles from './API.module.css';
-
 const ButtonWrapper = (props) =>
     <Box component="span" m={1}>
-      <Button className={styles.button} size="large" variant="outlined" {...props} />
+      <Button size="large" variant="outlined" {...props} />
     </Box>
 
 const API = ({createModal}) => {
@@ -24,8 +22,8 @@ const API = ({createModal}) => {
 
     return (
         <div>
-            <h2 className={styles.title}>Редактирование фильмов</h2>
-            <div className={styles.wrapper}>
+            <h2>Редактирование фильмов</h2>
+            <div>
                 <ButtonWrapper startIcon={<SaveIcon/>}  onClick={createFilmsHandler}>
                     Добавить фильм
                 </ButtonWrapper>

@@ -26,12 +26,21 @@ export const fetchCurrentUser = (payload) => async (dispatch) => {
     }
 }
 
+export const fetchUpdateUser = (payload) => (dispatch) => {
+    usersApi.updateUser(payload).then(data => dispatch(updateUser(data)))
+};
+
 export const fetchUpdateUserAvatar = (payload) => (dispatch) => {
     begetApi.setUserAvatar(payload).then((data) => dispatch(setUserAvatar(data)));
 };
 
 export const setUser = (payload) => ({
     type: 'SET_USER',
+    payload,
+});
+
+export const updateUser = (payload) => ({
+    type: 'UPDATE_USER',
     payload,
 });
 

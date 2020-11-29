@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector} from "react-redux";
 
-import Auth from "../../forms/AuthForm/Auth";
+import Auth from "../../forms/Auth/Auth";
 import Hero from "../../components/Hero/Hero";
 import Registration from "../../forms/Registration/Registration";
 import classes from './AuthPage.module.scss'

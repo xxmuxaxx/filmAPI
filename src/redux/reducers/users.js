@@ -10,6 +10,15 @@ const users = (state = initialState, action) => {
         user: action.payload,
       };
 
+    case 'UPDATE_USER':
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...action.payload
+        },
+      };
+
     case 'SET_USER_AVATAR':
       return {
         ...state,
