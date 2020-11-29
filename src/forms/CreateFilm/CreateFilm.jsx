@@ -58,7 +58,7 @@ const CreateFilm = () => {
             title: title,
             description: description,
             country: data.Country,
-            genres: data.Genre.split(',').map((genre) => ({name: genre})),
+            genres: data.Genre.split(', ').map((genre) => ({name: genre})),
             poster: data.Poster,
             titleEn: data.Title,
             type: data.Type,
