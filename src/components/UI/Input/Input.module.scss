@@ -2,10 +2,10 @@
   &::-webkit-input-placeholder {
     @content;
   }
-  &:-moz-placeholder {
+  &::-moz-placeholder {
     @content;
   }
-  &::-moz-placeholder {
+  &:-moz-placeholder {
     @content;
   }
   &:-ms-input-placeholder {
@@ -19,12 +19,12 @@
   height: 100%;
   padding: 0.5rem 1.25rem;
   border: 1px solid transparent;
-  font-family: "Roboto";
+  font-family: "Roboto", sans-serif;
   font-size: 0.75rem;
   outline: none;
 
   @include placeholder() {
-    font-family: "Roboto";
+    font-family: "Roboto", sans-serif;
     opacity: 0.5;
     transition: transform 0.3s, opacity 0.3s;
   }

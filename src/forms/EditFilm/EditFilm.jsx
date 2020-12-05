@@ -80,11 +80,12 @@ const EditFilm = ({initialId = null, delayDebounce = 1000, callback = null}) => 
     }, delayDebounce, [values?.id])
 
     const onSubmit = (formData) => {
-        const data = {...formData}
+        const {id, ...data} = {...formData}
+
         data.genres = data?.genres ? data.genres.split(',').map((genre) => ({name: genre})) : []
         data.year = Number(data.year)
 
-        filmApi.updateFilm(data.id, data)
+        filmApi.updateFilm(id, data)
             .then(() => setMessage('Изменения сохранены'))
             .then(() => callback && callback.call())
             .catch(() => dispatch(stopSubmit('editFilm', {_error: 'Ошибка при изменении фильма'})))

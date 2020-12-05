@@ -24,19 +24,19 @@ const filmApi = {
     },
 
     getFilmsPage: async (page, size) => {
-        const response = await instance.get(`pageable?pageNum=${page}&pageSize=${size}`)
+        const response = await instance.get(`?page=${page}&size=${size}`)
 
         return response.data
     },
 
     searchFilmsByTitle: async (title) => {
-        const response = await instance.get(`title=${title}`)
+        const response = await instance.get(`?title=${title}`)
 
         return response.data.search
     },
 
     searchFilmsPageable: async (title, size, page = 1) => {
-        const response = await instance.get(`pageable/pageNum=${page}&pageSize=${size}&title=${title}`)
+        const response = await instance.get(`?page=${page}&size=${size}&title=${title}`)
 
         return response.data.search
     },

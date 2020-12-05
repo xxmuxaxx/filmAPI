@@ -19,10 +19,15 @@ import classes from './FilmsContainer.module.scss';
 const renderFilmCardPlaceholders = (count) => {
     const result = []
     for (let i = 0; i < count; i++) {
-        result.push(<FilmCardPlaceholder key={i} />)
+        result.push(<FilmCardPlaceholder key={i}/>)
     }
     return result
 }
+
+const pagination = (page, pageSize, totalFilms, handlePageClick) =>
+    <PaginationComponent page={page} pageSize={pageSize} totalFilms={totalFilms}
+                         handlePageClick={handlePageClick.bind(this)}/>
+
 
 const FilmsContainer = React.memo(function FilmsContainer({createModal, closeModal, modalIsOpen}) {
     const dispatch = useDispatch();
@@ -41,7 +46,8 @@ const FilmsContainer = React.memo(function FilmsContainer({createModal, closeMod
     const closeModalHandler = () => closeModal()
 
     const clickEditButtonHandler = (id, title) => {
-        createModal(<EditFilm initialId={id} delayDebounce={0} callback={closeModalHandler}/>, `Изменить фильм: ${title}`)
+        createModal(<EditFilm initialId={id} delayDebounce={0}
+                              callback={closeModalHandler}/>, `Изменить фильм: ${title}`)
     }
 
     const clickDeleteButtonHandler = (id, title) => {
@@ -60,24 +66,10 @@ const FilmsContainer = React.memo(function FilmsContainer({createModal, closeMod
                     loaded
                         ?
                         <>
-                            <PaginationComponent
-                                page={page}
-                                pageSize={pageSize}
-                                totalFilms={totalFilms}
-                                handlePageClick={handlePageClick.bind(this)}
-                            />
-                            <Films
-                                films={films}
-                                onClickDeleteButton={clickDeleteButtonHandler}
-                                onClickEditButton={clickEditButtonHandler}
-                                showButtons={isAdmin}
-                            />
-                            <PaginationComponent
-                                page={page}
-                                pageSize={pageSize}
-                                totalFilms={totalFilms}
-                                handlePageClick={handlePageClick.bind(this)}
-                            />
+                            {pagination(page, pageSize, totalFilms, handlePageClick.bind(this))}
+                            <Films films={films} onClickDeleteButton={clickDeleteButtonHandler}
+                                   onClickEditButton={clickEditButtonHandler} showButtons={isAdmin}/>
+                            {pagination(page, pageSize, totalFilms, handlePageClick.bind(this))}
                         </>
                         :
                         <>

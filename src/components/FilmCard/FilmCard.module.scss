@@ -30,17 +30,15 @@
   &:hover {
     transform: scale(1.04);
     z-index: 2;
-  }
 
-  &:hover .Hover {
-    opacity: 1;
-  }
+    .Hover {
+      opacity: 1;
+    }
 
-  &:hover .Info {
-    margin-bottom: 0;
-  }
+    .Info {
+      margin-bottom: 0;
+    }
 
-  &:hover {
     .Buttons {
       transform: translateX(0);
       opacity: 1;
@@ -98,9 +96,9 @@
   transform: translateX(+150px);
   opacity: 0;
   visibility: hidden;
-  transition: transform .3s ease;
+  transition: transform 0.3s ease;
 
-  Button {
+  button {
     margin: 5px;
     padding: 0;
     height: 40px;
