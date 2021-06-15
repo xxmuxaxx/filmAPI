@@ -9,10 +9,15 @@ import PaginationComponent from "../../components/Common/Pagination/Pagination";
 import EditFilm from "../../forms/EditFilm/EditFilm";
 import DeleteFilm from "../../forms/DeleteFilm/DeleteFilm";
 
-import {setPage} from '../../redux/actions/pagination';
+import {setPage, setPageSize} from '../../redux/actions/pagination';
 import {fetchFilms} from '../../redux/actions/films';
 import {getFilms, getTotalFilms} from "../../redux/selectors/films";
 import {getUser} from "../../redux/selectors/users";
+
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 import classes from './FilmsContainer.module.scss';
 
@@ -39,6 +44,8 @@ const FilmsContainer = React.memo(function FilmsContainer({createModal, closeMod
     const user = useSelector(state => getUser(state))
     const isAdmin = user?.rolePermissions.includes('USER_ADMIN')
 
+    const [age, setAge] = React.useState(pageSize);
+
     React.useEffect(() => {
         !modalIsOpen && dispatch(fetchFilms(page, pageSize));
     }, [modalIsOpen, dispatch, page, pageSize]);
@@ -59,6 +66,11 @@ const FilmsContainer = React.memo(function FilmsContainer({createModal, closeMod
         dispatch(setPage(pageNumber));
     };
 
+    const changePageSizeSelectHandler = (event) => {
+        dispatch(setPageSize(event.target.value))
+        setAge(event.target.value)
+    }
+
     return (
         <div className={classes.FilmsContainer}>
             <div className="container">
@@ -66,10 +78,27 @@ const FilmsContainer = React.memo(function FilmsContainer({createModal, closeMod
                     loaded
                         ?
                         <>
-                            {pagination(page, pageSize, totalFilms, handlePageClick.bind(this))}
                             <Films films={films} onClickDeleteButton={clickDeleteButtonHandler}
                                    onClickEditButton={clickEditButtonHandler} showButtons={isAdmin}/>
-                            {pagination(page, pageSize, totalFilms, handlePageClick.bind(this))}
+
+                            <div className={classes.filmsBottom}>
+                                {pagination(page, pageSize, totalFilms, handlePageClick.bind(this))}
+
+                                <FormControl variant="outlined" className={classes.formControl}>
+                                    <InputLabel id="pageLengthLabel">Выводить по:</InputLabel>
+                                    <Select
+                                        labelId="pageLengthLabel"
+                                        label="Выводить по:"
+                                        onChange={changePageSizeSelectHandler}
+                                        value={age}
+                                    >
+                                        <MenuItem value={4}>4</MenuItem>
+                                        <MenuItem value={12}>12</MenuItem>
+                                        <MenuItem value={24}>24</MenuItem>
+                                        <MenuItem value={48}>48</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </div>
                         </>
                         :
                         <>
