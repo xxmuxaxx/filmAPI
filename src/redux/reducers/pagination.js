@@ -11,6 +11,12 @@ const pagination = (state = initialState, action) => {
         page: action.payload,
       };
 
+    case 'SET_PAGE_SIZE':
+      return {
+        ...state,
+        pageSize: action.payload,
+      };
+
     default:
       return state;
   }
