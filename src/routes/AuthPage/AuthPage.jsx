@@ -16,10 +16,7 @@ function AuthPage(props) {
 
     return (
         <>
-            <Hero>
-                <p className="hero__text">Лезешь в ВОЛКИ,</p>
-                <p className="hero__big-text">а хвост <b>собачий</b></p>
-            </Hero>
+            <Hero />
             {auth && <div>
                 <div className="container">
                     <p className={classes.text}>Нет аккаунта? <b onClick={() => setAuth(!auth)}>Зарегестрироваться</b>
