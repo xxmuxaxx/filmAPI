@@ -15,7 +15,11 @@ const Menu = ({ isMenuOpen, toggleMenuHandler }) => {
         <ul className="nav__list">
           {links.map((link, index) => (
             <li className="nav__item" key={index}>
-              <Link to={link.link} className="nav__link" onClick={toggleMenuHandler}>
+              <Link
+                to={link.link}
+                className="nav__link"
+                onClick={toggleMenuHandler}
+              >
                 {link.name}
               </Link>
             </li>

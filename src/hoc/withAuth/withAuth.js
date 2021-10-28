@@ -3,13 +3,10 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 
 const withAuth = (Component) => {
-  class WithAuth extends React.Component {
-
-    render() {
-      if (!this.props.user) return <Redirect to="/profile/auth/" />;
-      return <Component {...this.props} user={this.props.user} />;
-    }
-  }
+  const WithAuth = (props) => {
+    if (!props.user) return <Redirect to="/profile/auth/" />;
+    return <Component {...props} user={props.user} />;
+  };
 
   const mapStateToProps = (state) => {
     return { user: state.users.user };

@@ -1,5 +1,5 @@
-import React from "react";
-import classNames from "classnames";
+import React from 'react';
+import classNames from 'classnames';
 
 const Hamburger = ({ isMenuOpen, toggleMenuHandler }) => {
   return (
@@ -7,7 +7,7 @@ const Hamburger = ({ isMenuOpen, toggleMenuHandler }) => {
       onClick={toggleMenuHandler}
       className={classNames({
         hamburger: true,
-        "hamburger--active": isMenuOpen,
+        'hamburger--active': isMenuOpen,
       })}
     >
       <div className="hamburger__item"></div>

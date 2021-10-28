@@ -1,3 +1,4 @@
+/*eslint-disable*/
 export function getCookie(name) {
   let matches = document.cookie.match(
     new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()[\]\\/+^])/g, '\\$1') + '=([^;]*)')
@@ -9,7 +10,7 @@ export function setCookie(name, value, options = {}) {
   options = {
     path: '/',
     // при необходимости добавьте другие значения по умолчанию
-    ...options,
+    ...options
   };
 
   if (options.expires instanceof Date) {
@@ -31,7 +32,7 @@ export function setCookie(name, value, options = {}) {
 
 export function deleteCookie(name) {
   setCookie(name, '', {
-    'max-age': -1,
+    'max-age': -1
   });
 }
 

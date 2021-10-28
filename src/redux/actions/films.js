@@ -7,18 +7,24 @@ export const fetchAllFilms = () => (dispatch) => {
   filmApi.getAllFilms().then((data) => dispatch(setFilms(data)));
 };
 
-export const fetchFilms = (page = 1, size = 16) => (dispatch) => {
-  dispatch({ type: 'SET_LOADED', payload: false });
+export const fetchFilms =
+  (page = 1, size = 16) =>
+  (dispatch) => {
+    dispatch({ type: 'SET_LOADED', payload: false });
 
-  filmApi.getFilmsPage(page, size).then((data) => dispatch(setFilms(data)));
-};
+    filmApi.getFilmsPage(page, size).then((data) => dispatch(setFilms(data)));
+  };
 
 export const fetchFilmByTitle = (title) => (dispatch) => {
-  filmApi.searchFilmsByTitle(title).then((film) => dispatch(fetchFilmIMDBFields(film[0])));
+  filmApi
+    .searchFilmsByTitle(title)
+    .then((film) => dispatch(fetchFilmIMDBFields(film[0])));
 };
 
 export const fetchFilmIMDBFields = (film) => (dispatch) => {
-  IMDBAlternative.getFilm(film.imdbID).then((data) => dispatch(setActiveFilm({ ...film, ...data })));
+  IMDBAlternative.getFilm(film.imdbID).then((data) =>
+    dispatch(setActiveFilm({ ...film, ...data }))
+  );
 };
 
 const setFilms = (payload) => ({

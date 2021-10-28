@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form'
+import { reducer as formReducer } from 'redux-form';
 
 import films from './films';
 import pagination from './pagination';
@@ -9,9 +9,9 @@ import users from './users';
 const rootReducer = combineReducers({
   films: films,
   pagination: pagination,
-  search:search,
+  search: search,
   users: users,
-  form: formReducer
+  form: formReducer,
 });
 
 export default rootReducer;

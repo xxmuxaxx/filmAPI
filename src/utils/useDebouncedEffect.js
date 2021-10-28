@@ -1,16 +1,16 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect } from 'react';
 
-export const useDebouncedEffect = (effect, delay , deps) => {
-    // eslint-disable-next-line
-    const callback = useCallback(effect, deps);
+export const useDebouncedEffect = (effect, delay, deps) => {
+  // eslint-disable-next-line
+  const callback = useCallback(effect, deps);
 
-    useEffect(() => {
-        const handler = setTimeout(() => {
-            callback();
-        }, delay);
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      callback();
+    }, delay);
 
-        return () => {
-            clearTimeout(handler);
-        };
-    }, [callback, delay]);
-}
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [callback, delay]);
+};

@@ -15,7 +15,7 @@ const users = (state = initialState, action) => {
         ...state,
         user: {
           ...state.user,
-          ...action.payload
+          ...action.payload,
         },
       };
 

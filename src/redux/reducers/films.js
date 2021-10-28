@@ -7,7 +7,7 @@ const initialState = {
 
 const films = (state = initialState, action) => {
   switch (action.type) {
-    case "SET_FILMS":
+    case 'SET_FILMS':
       return {
         ...state,
         items: action.payload.items,
@@ -15,13 +15,13 @@ const films = (state = initialState, action) => {
         isLoaded: true,
       };
 
-    case "SET_ACTIVE_FILM":
+    case 'SET_ACTIVE_FILM':
       return {
         ...state,
         activeItem: action.payload,
       };
 
-    case "SET_LOADED":
+    case 'SET_LOADED':
       return {
         ...state,
         isLoaded: action.payload,

@@ -2,13 +2,13 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Layout from './containers/Layout/Layout';
-import IndexPage from "./routes/IndexPage/IndexPage";
+import IndexPage from './routes/IndexPage/IndexPage';
 import FilmDetail from './containers/FilmDetail/FilmDetail';
-import FilmsPage from "./routes/FilmsPage/FilmsPage";
-import ProfilePage from "./routes/ProfilePage/ProfilePage";
-import AuthPage from "./routes/AuthPage/AuthPage";
+import FilmsPage from './routes/FilmsPage/FilmsPage';
+import ProfilePage from './routes/ProfilePage/ProfilePage';
+import AuthPage from './routes/AuthPage/AuthPage';
 
-function App() {
+const App = () => {
   return (
     <Layout>
       <Switch>
@@ -20,6 +20,6 @@ function App() {
       </Switch>
     </Layout>
   );
-}
+};
 
 export default App;
