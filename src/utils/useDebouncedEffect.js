@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from "react";
 
 export const useDebouncedEffect = (effect, delay , deps) => {
+    // eslint-disable-next-line
     const callback = useCallback(effect, deps);
 
     useEffect(() => {
