@@ -5,11 +5,11 @@
 
   b {
     color: #a38a17;
-    transition: color .3s;
+    transition: color 0.3s;
     cursor: pointer;
 
     &:hover {
-      color: #000000;
+      color: #000;
     }
   }
 }

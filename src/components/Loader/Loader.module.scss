@@ -1,4 +1,4 @@
-.LoaderWrapper {
+.wrapper {
   position: fixed;
   top: 0;
   left: 0;
@@ -7,18 +7,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #000000aa;
+  background-color: #000a;
   z-index: 1000;
 }
 
-.Loader {
+.loader {
   position: relative;
   width: 80px;
   height: 80px;
   z-index: 101;
 }
 
-.Loader:after {
+.loader::after {
   content: " ";
   display: block;
   width: 64px;
@@ -26,7 +26,7 @@
   margin: 8px;
   border-radius: 50%;
   border: 6px solid #000;
-  border-color: #dcdcdc transparent #dcdcdc transparent;
+  border-color: #dcdcdc transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
 
@@ -34,6 +34,7 @@
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }

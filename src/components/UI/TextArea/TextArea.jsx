@@ -5,7 +5,7 @@ import classes from './TextArea.module.scss';
 const TextArea = (props) => {
   return (
     <textarea
-      className={classes.TextArea}
+      className={classes.textarea}
       rows={props.rows}
       name={props.name}
       value={props.value}

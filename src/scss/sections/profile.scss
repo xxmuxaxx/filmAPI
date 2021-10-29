@@ -12,15 +12,16 @@
     margin: 0 120px 0 0;
     width: 200px;
 
-    @include max-width($touch) {
+    @media (max-width: 900px) {
       margin: 0 40px 0 0;
     }
   }
+
   &__content {
     flex: 1;
 
     h2 {
-      margin: 0 0 20px 0;
+      margin: 0 0 20px;
       font-weight: 600;
       font-size: 1.6rem;
     }
@@ -40,12 +41,13 @@
   flex-direction: column;
 
   &__image-wrapper {
-    margin: 0 0 20px 0;
+    margin: 0 0 20px;
     padding: 5px;
     width: 100%;
-    background-color: $white;
-    border: 1px solid $black;
+    background-color: #fff;
+    border: 1px solid #000;
   }
+
   &__image {
     display: flex;
     height: auto;
@@ -53,12 +55,12 @@
     cursor: pointer;
   }
 
-   &__name {
-     margin: 0 0 20px 0;
-     text-align: center;
-     font-weight: 600;
-     font-size: 1.2rem;
-   }
+  &__name {
+    margin: 0 0 20px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
 
   &__logout {
     display: grid;

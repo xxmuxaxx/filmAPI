@@ -6,7 +6,7 @@ const Input = (props) => {
 
   return (
     <input
-      className={classes.Input}
+      className={classes.input}
       type={type}
       name={props.name}
       value={props.value}

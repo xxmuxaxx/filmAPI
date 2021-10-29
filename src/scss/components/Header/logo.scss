@@ -8,13 +8,13 @@
   color: #fff;
 
   &:hover {
-    .logo__svg {
-      fill: $gold;
+    &__svg {
+      fill: #ffd700;
     }
 
-    .logo__big-text,
-    .logo__text {
-      color: $gold;
+    &__big-text,
+    &__text {
+      color: #ffd700;
     }
   }
 
@@ -24,17 +24,17 @@
     min-height: 60px;
     min-width: 60px;
     width: 60px;
-    fill: $white;
-    transition: fill $transition-time;
+    fill: #fff;
+    transition: fill 0.3s;
 
-    @include max-width($desktop-sm) {
+    @media (max-width: 1200px) {
       height: 40px;
       min-height: 40px;
       min-width: 40px;
       width: 40px;
     }
 
-    @include max-width($touch) {
+    @media (max-width: 900px) {
       display: none;
     }
   }
@@ -42,16 +42,16 @@
   &__text-wrapper {
     display: flex;
     flex-direction: column;
-    color: $white;
+    color: #fff;
   }
 
   &__big-text {
     font-weight: bold;
     font-size: 1.5rem;
     letter-spacing: 0.025em;
-    transition: color $transition-time;
+    transition: color 0.3s;
 
-    @include max-width($desktop-sm) {
+    @media (max-width: 1200px) {
       font-size: 1.25rem;
       line-height: 1.25rem;
     }
@@ -62,9 +62,9 @@
     font-size: 1.125rem;
     line-height: 21px;
     letter-spacing: 0.095em;
-    transition: color $transition-time;
+    transition: color 0.3s;
 
-    @include max-width($desktop-sm) {
+    @media (max-width: 1200px) {
       font-size: 1rem;
       line-height: 1rem;
     }

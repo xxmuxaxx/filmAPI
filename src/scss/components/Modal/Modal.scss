@@ -1,37 +1,3 @@
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  padding: 20px;
-  width: 100vw;
-  height: 100vh;
-  text-align: center;
-  white-space: nowrap;
-  background-color: rgba($black, 0.8);
-  opacity: 0;
-  visibility: hidden;
-  overflow: auto;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  z-index: 100;
-
-  &::before {
-    content: '';
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-  }
-
-  &--active {
-    opacity: 1;
-    visibility: visible;
-
-    .modal-body {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-}
-
 .modal-body {
   position: relative;
   display: inline-block;
@@ -41,10 +7,44 @@
   text-align: left;
   white-space: normal;
   vertical-align: middle;
-  background-color: $white;
-  opacity: 0;
+  background-color: #fff;
+  opacity: 0%;
   transform: scale(0.6);
   transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  white-space: nowrap;
+  background-color: rgba(#000, 0.8);
+  opacity: 0%;
+  visibility: hidden;
+  overflow: auto;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 100;
+
+  &::before {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+  }
+
+  &--active {
+    opacity: 100%;
+    visibility: visible;
+
+    .modal-body {
+      opacity: 100%;
+      transform: scale(1);
+    }
+  }
 }
 
 .modal-top {
@@ -53,7 +53,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background-color: $gray;
+  background-color: #ccc;
 
   &__title {
     font-weight: bold;
@@ -66,12 +66,12 @@
     min-height: 28px;
     width: 28px;
     min-width: 28px;
-    color: $black;
+    color: #000;
     cursor: pointer;
 
     &::before,
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       top: 50%;
       left: 50%;

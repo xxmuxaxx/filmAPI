@@ -15,29 +15,20 @@
   z-index: 102;
   cursor: pointer;
 
-  &:hover &__item {
-    background-color: $gold;
-  }
-
   &__item {
     display: block;
     width: 100%;
     height: 2px;
     margin: 3px 0;
-    background-color: $white;
+    background-color: #fff;
     border-radius: 3px;
-    transition: background-color 0.3s, transform 0.3s, opacity 0.3s,
-      visibility 0.3s;
+    transition: background-color 0.3s, transform 0.3s, opacity 0.3s, visibility 0.3s;
     transform-origin: 0 100%;
   }
 
   &--active {
-    &:hover .hamburger__item {
-      background-color: $gold-medium;
-    }
-
-    .hamburger__item {
-      background-color: $black;
+    &__item {
+      background-color: #000;
 
       &:first-child {
         transform: translate(3px, -2px) rotate(45deg);
@@ -45,12 +36,20 @@
 
       &:nth-child(2) {
         visibility: hidden;
-        opacity: 0;
+        opacity: 0%;
       }
 
       &:last-child {
         transform: translate(4px, 0) rotate(-45deg);
       }
     }
+
+    &:hover &__item {
+      background-color: #a38a17;
+    }
+  }
+
+  &:hover &__item {
+    background-color: #ffd700;
   }
 }

@@ -1,4 +1,4 @@
-.FilmsContainer {
+.container {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -6,23 +6,23 @@
   height: 100%;
 }
 
-.FilmLibWrapper {
+.wrapper {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
 }
 
 .show {
-  opacity: 1;
+  opacity: 100%;
 }
 
-.filmsBottom {
-  margin: 40px 0 0 0;
+.bottom {
+  margin: 40px 0 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  .formControl {
+  .control {
     min-width: 200px;
   }
 }

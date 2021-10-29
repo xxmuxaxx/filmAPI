@@ -13,8 +13,8 @@ const Loader = () => {
   });
 
   return (
-    <div className={classes.LoaderWrapper}>
-      <div className={classes.Loader} />
+    <div className={classes.wrapper}>
+      <div className={classes.loader} />
     </div>
   );
 };

@@ -9,20 +9,20 @@
   flex-direction: column;
   width: 100%;
   max-width: 600px;
-  background: $white;
-  background-image: url(../../img/auth-bg.png);
+  background-color: #fff;
+  background-image: url("../../img/auth-bg.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: top 10px right;
   border-radius: 4px;
-  box-shadow: 0 0 4px 0 rgba($black, 0.2);
+  box-shadow: 0 0 4px 0 rgba(#000, 0.2);
 
   h2 {
-    margin: 0 0 20px 0;
+    margin: 0 0 20px;
     font-size: 2.5rem;
   }
 
   &__input:not(:last-child) {
-    margin: 0 0 20px 0;
+    margin: 0 0 20px;
   }
 }

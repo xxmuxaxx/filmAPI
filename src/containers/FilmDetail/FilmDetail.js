@@ -29,25 +29,25 @@ const FilmDetail = React.memo(function FilmDetail(props) {
 
   const template = () => (
     <div className="container">
-      <div className={classes.FilmDetailWrapper}>
-        <div className={classes.FilmDetailTop}>
-          <div className={classes.FilmDetailImageWrapper}>
+      <div className={classes.wrapper}>
+        <div className={classes.top}>
+          <div className={classes.img}>
             <img
-              className={classes.FilmDetailImage}
+              className={classes.image}
               src={activeItem.poster}
               alt={activeItem.title}
             />
-            <Link to="/films" className={classes.FilmDetailLink}>
+            <Link to="/films" className={classes.link}>
               Назад
             </Link>
           </div>
 
-          <div className={classes.FilmDetailRight}>
+          <div className={classes.right}>
             <h1>{activeItem.title}</h1>
             <p>{activeItem.titleEn}</p>
             <span className={classes.id}>id: {activeItem.id}</span>
 
-            <div className={classes.FilmDetailField}>
+            <div className={classes.field}>
               <FilmDetailFieldItem name="Год" value={activeItem.year} />
               <FilmDetailFieldItem name="Страна" value={activeItem.country} />
               <FilmDetailFieldItem name="Актеры" value={activeItem.Actors} />
@@ -81,7 +81,7 @@ const FilmDetail = React.memo(function FilmDetail(props) {
   );
 
   return (
-    <div className={classes.FilmDetail}>
+    <div className={classes.wrapper}>
       {activeItem ? template() : <Loader />}
     </div>
   );

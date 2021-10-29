@@ -1,21 +1,10 @@
-// Extensions - Расширения
-@import 'extensions/reset';
-
-// Main - Основные
-@import './_fonts';
-@import './_variables';
-@import './_mixins';
-@import './_global';
-@import './_typography';
-@import './_UI';
-
-// Sections - секции
-@import './sections/hero';
-@import './sections/auth';
-@import './sections/profile';
-
-// Components - Компоненты
-@import './components/pagination/pagination';
-@import './components/Header/Header';
-@import './components/Footer/Footer';
-@import './components/Modal/Modal';
+@import "extensions/reset";
+@import "~fontsource-roboto/index.css";
+@import "global";
+@import "./sections/hero";
+@import "./sections/auth";
+@import "./sections/profile";
+@import "./components/pagination/pagination";
+@import "./components/Header/Header";
+@import "./components/Footer/Footer";
+@import "./components/Modal/Modal";

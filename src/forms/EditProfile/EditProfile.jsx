@@ -36,7 +36,7 @@ let EditProfileForm = ({ message, error, handleSubmit }) => {
       </Field>
 
       {message && <p className={styles.message}>{message}</p>}
-      {error && <p className={styles.errorMessage}>{error}</p>}
+      {error && <p className={styles.error}>{error}</p>}
       <Button
         type="submit"
         size="large"

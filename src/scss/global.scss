@@ -3,28 +3,28 @@
 }
 
 html {
-  font-family: $roboto;
+  font-family: Roboto, sans-serif;
   font-size: 16px;
   line-height: 1.2;
-  color: $black;
-  background-color: $gray;
+  color: #000;
+  background-color: #f3f5f6;
 
-  @include max-width($desktop-sm) {
+  @media (max-width: 1200px) {
     font-size: 15px;
   }
 
-  @include max-width($tablet) {
+  @media (max-width: 1024px) {
     font-size: 14px;
   }
 
-  @include max-width($phone) {
+  @media (max-width: 600px) {
     font-size: 13px;
   }
 }
 
 a,
 button,
-input[type='submit'] {
+input[type="submit"] {
   text-decoration: none;
   cursor: pointer;
 }
@@ -37,20 +37,16 @@ input[type='submit'] {
 }
 
 .page-title {
-  margin: 0 0 40px 0;
+  margin: 0 0 40px;
   font-weight: bold;
   font-size: 2.5rem;
-}
-
-.plyr-wrapper {
-  margin: 20px 0;
 }
 
 .film-card-placeholder {
   margin: 10px;
   width: calc(25% - 20px);
   height: 470px;
-  box-shadow: 1px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 1px 4px 4px rgba(#000, 0.25);
 
   @media (max-width: 1024px) {
     width: calc(33.3333% - 20px);

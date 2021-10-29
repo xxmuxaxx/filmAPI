@@ -13,11 +13,11 @@ const FilmCard = ({
   ...props
 }) => {
   return (
-    <div className={classes.Card}>
+    <div className={classes.card}>
       <img src={props.poster} alt={props.filmName} />
-      <div className={classes.Hover} onMouseEnter={props.onMouseEnter}>
+      <div className={classes.hover} onMouseEnter={props.onMouseEnter}>
         {showButtons && (
-          <div className={classes.Buttons}>
+          <div className={classes.buttons}>
             <Button onClick={onClickEditButton}>
               <EditOutlined />
             </Button>
@@ -26,7 +26,7 @@ const FilmCard = ({
             </Button>
           </div>
         )}
-        <div className={classes.Info}>
+        <div className={classes.info}>
           <NavLink to={'/films/' + props.title}>
             <Button onClick={props.onClick}>Подробнее</Button>
           </NavLink>

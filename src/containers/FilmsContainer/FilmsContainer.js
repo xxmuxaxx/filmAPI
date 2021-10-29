@@ -89,7 +89,7 @@ const FilmsContainer = React.memo(function FilmsContainer({
   };
 
   return (
-    <div className={classes.FilmsContainer}>
+    <div className={classes.container}>
       <div className="container">
         {loaded ? (
           <>
@@ -100,7 +100,7 @@ const FilmsContainer = React.memo(function FilmsContainer({
               showButtons={isAdmin}
             />
 
-            <div className={classes.filmsBottom}>
+            <div className={classes.bottom}>
               {pagination(
                 page,
                 pageSize,
@@ -108,7 +108,7 @@ const FilmsContainer = React.memo(function FilmsContainer({
                 handlePageClick.bind(this)
               )}
 
-              <FormControl variant="outlined" className={classes.formControl}>
+              <FormControl variant="outlined" className={classes.control}>
                 <InputLabel id="pageLengthLabel">Выводить по:</InputLabel>
                 <Select
                   labelId="pageLengthLabel"
