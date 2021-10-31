@@ -9,6 +9,8 @@ import styles from '../EditFilm/EditFilm.module.css';
 import authApi from '../../api/authApi';
 import { deleteCookie, setCookie } from '../../utils/functions';
 
+import './Auth.scss';
+
 const validate = (values) => {
   const errors = {};
 

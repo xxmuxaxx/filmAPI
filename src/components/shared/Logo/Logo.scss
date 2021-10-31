@@ -1,21 +1,18 @@
 .logo {
+  --color: #fff;
+  --color-hover: #ffd700;
+
   display: flex;
   flex-direction: row;
   align-items: center;
   font-weight: bold;
   font-size: 18px;
   line-height: 21px;
-  color: #fff;
+  color: var(--color);
+  transition: color ease-in 0.3s;
 
   &:hover {
-    &__svg {
-      fill: #ffd700;
-    }
-
-    &__big-text,
-    &__text {
-      color: #ffd700;
-    }
+    color: var(--color-hover);
   }
 
   &__svg {
@@ -24,8 +21,7 @@
     min-height: 60px;
     min-width: 60px;
     width: 60px;
-    fill: #fff;
-    transition: fill 0.3s;
+    fill: currentColor;
 
     @media (max-width: 1200px) {
       height: 40px;
@@ -42,14 +38,13 @@
   &__text-wrapper {
     display: flex;
     flex-direction: column;
-    color: #fff;
+    color: currentColor;
   }
 
   &__big-text {
     font-weight: bold;
     font-size: 1.5rem;
     letter-spacing: 0.025em;
-    transition: color 0.3s;
 
     @media (max-width: 1200px) {
       font-size: 1.25rem;
@@ -62,11 +57,15 @@
     font-size: 1.125rem;
     line-height: 21px;
     letter-spacing: 0.095em;
-    transition: color 0.3s;
 
     @media (max-width: 1200px) {
       font-size: 1rem;
       line-height: 1rem;
     }
+  }
+
+  &--black {
+    --color: #000;
+    --color-hover: #a38a17;
   }
 }

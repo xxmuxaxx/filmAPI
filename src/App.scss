@@ -1,34 +1,3 @@
-* {
-  box-sizing: border-box;
-}
-
-html {
-  font-family: Roboto, sans-serif;
-  font-size: 16px;
-  line-height: 1.2;
-  color: #000;
-  background-color: #f3f5f6;
-
-  @media (max-width: 1200px) {
-    font-size: 15px;
-  }
-
-  @media (max-width: 1024px) {
-    font-size: 14px;
-  }
-
-  @media (max-width: 600px) {
-    font-size: 13px;
-  }
-}
-
-a,
-button,
-input[type="submit"] {
-  text-decoration: none;
-  cursor: pointer;
-}
-
 .container {
   margin: 0 auto;
   padding: 0 15px;

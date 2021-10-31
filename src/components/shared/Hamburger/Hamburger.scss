@@ -15,6 +15,8 @@
   z-index: 102;
   cursor: pointer;
 
+  $hamburger: &;
+
   &__item {
     display: block;
     width: 100%;
@@ -24,11 +26,13 @@
     border-radius: 3px;
     transition: background-color 0.3s, transform 0.3s, opacity 0.3s, visibility 0.3s;
     transform-origin: 0 100%;
-  }
 
-  &--active {
-    &__item {
-      background-color: #000;
+    #{$hamburger}:hover & {
+      background-color: #ffd700;
+    }
+
+    #{$hamburger}--active & {
+      background-color: #ffd700;
 
       &:first-child {
         transform: translate(3px, -2px) rotate(45deg);
@@ -36,7 +40,7 @@
 
       &:nth-child(2) {
         visibility: hidden;
-        opacity: 0%;
+        opacity: 0;
       }
 
       &:last-child {
@@ -44,12 +48,8 @@
       }
     }
 
-    &:hover &__item {
+    #{$hamburger}--active:hover & {
       background-color: #a38a17;
     }
-  }
-
-  &:hover &__item {
-    background-color: #ffd700;
   }
 }

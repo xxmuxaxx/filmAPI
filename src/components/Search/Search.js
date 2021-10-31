@@ -6,9 +6,9 @@ import {
   fetchSearchFilmsByTitle,
   setSearchItems,
   setSearchText,
-} from '../../../redux/actions/search';
-import { useDebouncedEffect } from '../../../utils/useDebouncedEffect';
-import Input from '../../UI/Input/Input';
+} from '../../redux/actions/search';
+import { useDebouncedEffect } from '../../utils/useDebouncedEffect';
+import Input from '../UI/Input/Input';
 import classes from './Search.module.css';
 
 const Search = () => {

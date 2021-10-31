@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
+import './Modal.scss';
+
 const Modal = ({ closeModalHandler, ...props }) => {
   const [isOpen, setIsOpen] = useState(false);
 
