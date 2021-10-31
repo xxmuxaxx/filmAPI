@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import heroBackground from '../../img/hero-img.png';
 import { getRandomInt } from '../../utils/functions';
 
 import { data } from './data';
@@ -13,7 +12,11 @@ const Hero = ({ link, ...props }) => (
       {link ? (
         <Link to={link} className="hero__wrapper">
           <div className="hero__image-wrapper">
-            <img className="hero__image" src={heroBackground} alt="Стетхем" />
+            <img
+              className="hero__image"
+              src="/images/statham.png"
+              alt="Стетхем"
+            />
           </div>
           <div className="hero__text-wrapper">
             {props.children
@@ -24,7 +27,11 @@ const Hero = ({ link, ...props }) => (
       ) : (
         <div className="hero__wrapper">
           <div className="hero__image-wrapper">
-            <img className="hero__image" src={heroBackground} alt="Стетхем" />
+            <img
+              className="hero__image"
+              src="/images/statham.png"
+              alt="Стетхем"
+            />
           </div>
           <div className="hero__text-wrapper">
             {props.children

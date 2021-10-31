@@ -31,7 +31,11 @@ const Input = (props) => (
 
 let AuthForm = ({ handleSubmit, error, valid }) => {
   return (
-    <form className="auth-form" onSubmit={handleSubmit}>
+    <form
+      className="auth-form"
+      onSubmit={handleSubmit}
+      style={{ backgroundImage: 'url(/images/neo.png)' }}
+    >
       <h2>Авторизация</h2>
       <Input name="username" label="Ваш логин" autoComplete="username" />
       <Input

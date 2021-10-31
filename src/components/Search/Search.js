@@ -74,7 +74,9 @@ const Search = () => {
         <ul className={classes.Dropdown} ref={ref}>
           {renderFilmList()}
         </ul>
-        <button></button>
+        <button>
+          <img src="/images/icon-search.png" />
+        </button>
       </form>
     </div>
   );

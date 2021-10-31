@@ -9,15 +9,18 @@
   position: absolute;
   top: 50%;
   right: 10px;
-  width: 10px;
-  height: 10px;
   padding: 0;
-  background: url(../../img/search.png) no-repeat center;
-  background-size: contain;
+  background: none;
   border: none;
   transform: translate(0, -50%);
   outline: none;
   cursor: pointer;
+}
+
+.Search button img {
+  display: inline-flex;
+  width: 10px;
+  height: 10px;
 }
 
 .Dropdown {
