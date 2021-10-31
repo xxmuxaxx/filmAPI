@@ -61,8 +61,13 @@
 }
 
 .name {
+  margin: 0;
   width: 20%;
   min-width: 160px;
+}
+
+.value {
+  margin: 0;
 }
 
 .value a {
