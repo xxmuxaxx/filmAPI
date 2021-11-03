@@ -1,9 +1,8 @@
 import React from 'react';
-
 import Hero from '../../components/Hero/Hero';
 import FilmsContainer from '../../containers/FilmsContainer/FilmsContainer';
 
-const FilmsPage = (props) => {
+export const FilmsPage = (props) => {
   return (
     <>
       <Hero />
@@ -11,5 +10,3 @@ const FilmsPage = (props) => {
     </>
   );
 };
-
-export default FilmsPage;

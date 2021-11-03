@@ -3,7 +3,6 @@ import React from 'react';
 import API from '../API/API';
 import ProfileAside from './ProfileAside/ProfileAside';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
-
 import './Profile.scss';
 
 const Profile = ({ user, ...props }) => {

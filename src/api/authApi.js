@@ -1,13 +1,12 @@
 import axios from 'axios';
+import { endPoint } from '../config';
 
 const instance = axios.create({
-  baseURL: 'https://film-api-backend.herokuapp.com/api/v1/auth/',
+  baseURL: endPoint.auth,
 });
 
 const authApi = {
-  login: (data) => {
-    return instance.post('login', data);
-  },
+  login: async (data) => await instance.post('/login', data),
 };
 
 export default authApi;

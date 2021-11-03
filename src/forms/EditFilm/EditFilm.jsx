@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useDebouncedEffect } from '../../utils/useDebouncedEffect';
+import { useDebouncedEffect } from '../../services/useDebouncedEffect';
 
 import filmApi from '../../api/filmApi';
 import { Field, reduxForm, getFormValues, stopSubmit, blur } from 'redux-form';

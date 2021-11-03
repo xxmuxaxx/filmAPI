@@ -1,33 +1,30 @@
 const initialState = {
-  user: null,
+  currentUser: null,
 };
 
 const users = (state = initialState, action) => {
   switch (action.type) {
-    case 'SET_USER':
+    case 'users/setCurrentUser':
       return {
         ...state,
-        user: action.payload,
+        currentUser: action.payload,
       };
-
-    case 'UPDATE_USER':
+    case 'users/updateCurrentUser':
       return {
         ...state,
-        user: {
-          ...state.user,
+        currentUser: {
+          ...state.currentUser,
           ...action.payload,
         },
       };
-
-    case 'SET_USER_AVATAR':
+    case 'users/setCurrentUserAvatar':
       return {
         ...state,
-        user: {
-          ...state.user,
+        currentUser: {
+          ...state.currentUser,
           avatar: action.payload,
         },
       };
-
     default:
       return state;
   }

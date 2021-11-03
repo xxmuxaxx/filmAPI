@@ -6,8 +6,7 @@ import { TextField } from '@jcoreio/redux-form-material-ui';
 
 import authApi from '../../api/authApi';
 import usersApi from '../../api/usersApi';
-import { deleteCookie, setCookie } from '../../utils/functions';
-import { fetchCurrentUser } from '../../redux/actions/users';
+import { fetchAuth } from '../../redux/actions/users';
 import styles from '../EditFilm/EditFilm.module.css';
 
 const validate = (values) => {
@@ -88,14 +87,8 @@ const Registration = () => {
     const response = await usersApi.registerUser(data);
 
     if (response.status === 201) {
-      const response = await authApi.login({ username, password });
-
-      if (response.status === 200) {
-        setCookie('token', response.data.token);
-        dispatch(fetchCurrentUser(response.data.token));
-      } else {
-        deleteCookie('token');
-      }
+      const { data } = await authApi.login({ username, password });
+      dispatch(fetchAuth(data.token));
     }
   };
 

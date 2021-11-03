@@ -1,25 +1,41 @@
-import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
-
+import React, { useEffect } from 'react';
+import { Redirect, Route, Switch, BrowserRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { env } from './services/environment';
+import { getCookie } from './services/cookieHelper';
+import { fetchCurrentUser } from './redux/actions/users';
 import Layout from './containers/Layout/Layout';
 import FilmDetail from './containers/FilmDetail/FilmDetail';
-import FilmsPage from './routes/FilmsPage/FilmsPage';
-import ProfilePage from './routes/ProfilePage/ProfilePage';
-import AuthPage from './routes/AuthPage/AuthPage';
-
+import { AuthPage, ProfilePage, FilmsPage } from './pages';
+import 'antd/dist/antd.css';
+import 'fontsource-roboto';
+import './index.css';
 import './App.scss';
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  // Проверяем наличие токена в куках. И, если есть - получаем пользователя
+  useEffect(() => {
+    const token = getCookie('Authorization');
+    if (token) dispatch(fetchCurrentUser(token));
+  }, []);
+
   return (
-    <Layout>
-      <Switch>
-        <Route path="/films/:title" component={FilmDetail} />
-        <Route path="/films/" component={FilmsPage} />
-        <Route path="/profile/auth" component={AuthPage} />
-        <Route path="/profile/" component={ProfilePage} />
-        <Route path="/" render={() => <Redirect to={'/films/'} />} />
-      </Switch>
-    </Layout>
+    <BrowserRouter>
+      <Layout>
+        <Switch>
+          <Route path={env.film.baseUrl} component={FilmDetail} />
+          <Route path={env.films.baseUrl} component={FilmsPage} />
+          <Route path={env.auth.baseUrl} component={AuthPage} />
+          <Route path={env.profile.baseUrl} component={ProfilePage} />
+          <Route
+            path={env.index.baseUrl}
+            render={() => <Redirect to={env.films.baseUrl} />}
+          />
+        </Switch>
+      </Layout>
+    </BrowserRouter>
   );
 };
 

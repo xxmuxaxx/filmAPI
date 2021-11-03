@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { getRandomInt } from '../../utils/functions';
+import { getRandomInt } from '../../services/functions';
 
 import { data } from './data';
 import './Hero.scss';

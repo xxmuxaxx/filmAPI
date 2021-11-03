@@ -1,13 +1,9 @@
 import axios from 'axios';
-import { getCookie } from '../utils/functions';
-
-const token = getCookie('token');
+import { endPoint } from '../config';
+import { getCookie } from '../services/cookieHelper';
 
 const instance = axios.create({
-  baseURL: 'https://film-api-backend.herokuapp.com/api/v1/movies/',
-  headers: {
-    Authorization: token && `Bearer ${token}`,
-  },
+  baseURL: endPoint.films,
 });
 
 const filmApi = {
@@ -16,25 +12,21 @@ const filmApi = {
 
     return response.data;
   },
-
   getFilmById: async (id) => {
     const response = await instance.get(`${id}`);
 
     return response.data.search[0];
   },
-
   getFilmsPage: async (page, size) => {
     const response = await instance.get(`?page=${page}&size=${size}`);
 
     return response.data;
   },
-
   searchFilmsByTitle: async (title) => {
     const response = await instance.get(`?title=${title}`);
 
     return response.data.search;
   },
-
   searchFilmsPageable: async (title, size, page = 1) => {
     const response = await instance.get(
       `?page=${page}&size=${size}&title=${title}`
@@ -42,17 +34,23 @@ const filmApi = {
 
     return response.data.search;
   },
-
   createFilm: (movieItem) => {
-    return instance.post('', movieItem);
+    const token = getCookie('Authorization');
+    return instance.post('', movieItem, {
+      headers: { Authorization: `${token}` },
+    });
   },
-
   deleteFilm: (id) => {
-    return instance.delete(`${id}`);
+    const token = getCookie('Authorization');
+    return instance.delete(`${id}`, {
+      headers: { Authorization: `${token}` },
+    });
   },
-
   updateFilm: (id, movieItem) => {
-    return instance.put(`${id}`, movieItem);
+    const token = getCookie('Authorization');
+    return instance.put(`${id}`, movieItem, {
+      headers: { Authorization: `${token}` },
+    });
   },
 };
 
