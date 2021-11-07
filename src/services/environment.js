@@ -15,8 +15,12 @@ const env = {
     title: 'Профиль',
   },
   auth: {
-    baseUrl: '/profile/auth',
+    baseUrl: '/auth',
     title: 'Авторизация',
+  },
+  registration: {
+    baseUrl: '/registration',
+    title: 'Регистрация',
   },
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { env } from '../../services/environment';
 import { Auth } from '../../components/Forms';
 import { selectCurrentUser } from '../../redux/selectors/users';
@@ -14,5 +14,13 @@ export const AuthPage = () => {
     currentUser && history.push(env.profile.baseUrl);
   }, [currentUser]);
 
-  return <Auth />;
+  return (
+    <section className="auth-section">
+      <div className="auth-section__container container">
+        <div className="auth-section__wrapper">
+          <Auth />
+        </div>
+      </div>
+    </section>
+  );
 };

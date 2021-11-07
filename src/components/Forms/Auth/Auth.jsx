@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { Form, Input, Button, Row } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { Form, Input, Button, Row, Typography } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons/lib/icons';
 import { fetchAuth } from '../../../redux/actions/users';
 import { env } from '../../../services/environment';
-import './Auth.scss';
+import { selectError, selectIsFetching } from '../../../redux/selectors/users';
 
 const { Item } = Form;
+const { Title, Text } = Typography;
 
 const rules = {
   username: [
@@ -25,62 +26,44 @@ const rules = {
 };
 
 export const Auth = () => {
-  const [authForm] = Form.useForm();
-  const [isFetching, setIsFetching] = useState(false);
   const dispatch = useDispatch();
+  const [authForm] = Form.useForm();
+  const isFetching = useSelector(selectIsFetching);
+  const error = useSelector(selectError);
 
   const onSubmit = async (values) => {
-    // TODO Обработать различные сценарии
-    setIsFetching(true);
-    dispatch(fetchAuth(values));
+    await dispatch(fetchAuth(values));
   };
 
   return (
-    <section className="auth">
-      <div className="auth__container container">
-        <div className="auth__wrapper">
-          <Form
-            name="auth-form"
-            className="auth__form"
-            form={authForm}
-            size="large"
-            onFinish={onSubmit}
-          >
-            <Item>
-              <div className="auth__title">{env.auth.title}</div>
-            </Item>
-            <Item name="username" rules={rules.username}>
-              <Input
-                className="auth__form-input"
-                prefix={<UserOutlined />}
-                placeholder="Ваш логин"
-              />
-            </Item>
-            <Item name="password" rules={rules.password}>
-              <Input.Password
-                className="auth__form-input"
-                prefix={<LockOutlined />}
-                placeholder="Ваш пароль"
-              />
-            </Item>
-            <Item>
-              <Row align="middle" justify="space-between">
-                <Button
-                  className="auth__form-button"
-                  type="primary"
-                  htmlType="submit"
-                  loading={isFetching}
-                >
-                  Войти
-                </Button>
-                <span>
-                  Или <Link to={env.films.baseUrl}>зарегистрируйтесь</Link>
-                </span>
-              </Row>
-            </Item>
-          </Form>
-        </div>
-      </div>
-    </section>
+    <Form name="auth-form" form={authForm} size="large" onFinish={onSubmit}>
+      <Title level={2}>{env.auth.title}</Title>
+      <Item name="username" rules={rules.username}>
+        <Input
+          prefix={<UserOutlined />}
+          placeholder="Ваш логин"
+          autoComplete="username"
+        />
+      </Item>
+      <Item name="password" rules={rules.password}>
+        <Input.Password
+          prefix={<LockOutlined />}
+          placeholder="Ваш пароль"
+          autoComplete="current-password"
+        />
+      </Item>
+      <Item>
+        <Row align="middle" justify="space-between">
+          <Button type="primary" htmlType="submit" loading={isFetching}>
+            Войти
+          </Button>
+          <Text>
+            Или
+            <Link to={env.registration.baseUrl}> зарегистрируйтесь</Link>
+          </Text>
+        </Row>
+        <Row>{error && <Text type="danger">{error}</Text>}</Row>
+      </Item>
+    </Form>
   );
 };

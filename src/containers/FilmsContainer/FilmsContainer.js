@@ -5,14 +5,14 @@ import Films from '../../components/Films/Films';
 import FilmCardPlaceholder from '../../components/FilmCard/FilmCardPlaceholder';
 import Loader from '../../components/Loader/Loader';
 import withModal from '../../hoc/withModal/withModal';
-import PaginationComponent from '../../components/Common/Pagination/Pagination';
+import PaginationComponent from '../../components/shared/Pagination/Pagination';
 import EditFilm from '../../forms/EditFilm/EditFilm';
 import DeleteFilm from '../../forms/DeleteFilm/DeleteFilm';
 
 import { setPage, setPageSize } from '../../redux/actions/pagination';
 import { fetchFilms } from '../../redux/actions/films';
 import { getFilms, getTotalFilms } from '../../redux/selectors/films';
-import { selectCurrentUser } from '../../redux/selectors/users';
+import { selectCurrentUserIsAdmin } from '../../redux/selectors/users';
 
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -46,8 +46,7 @@ const FilmsContainer = React.memo(
     const totalFilms = useSelector((state) => getTotalFilms(state));
     const { page, pageSize } = useSelector(({ pagination }) => pagination);
     const loaded = useSelector(({ films }) => films.isLoaded);
-    const user = useSelector((state) => selectCurrentUser(state));
-    const isAdmin = user?.rolePermissions.includes('USER_ADMIN');
+    const isAdmin = useSelector(selectCurrentUserIsAdmin);
 
     const [age, setAge] = React.useState(pageSize);
 

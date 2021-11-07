@@ -1,4 +1,4 @@
-.auth {
+.registration-section {
   padding: 80px 0;
   display: flex;
   flex: 1 1;
@@ -17,9 +17,5 @@
     background-color: #fff;
     border-radius: 4px;
     box-shadow: 0 0 4px 0 rgba(#000, 0.2);
-  }
-
-  &__title {
-    font-size: 2rem;
   }
 }

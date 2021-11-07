@@ -1,5 +1,7 @@
 const initialState = {
   currentUser: null,
+  isFetching: false,
+  error: '',
 };
 
 const users = (state = initialState, action) => {
@@ -17,13 +19,15 @@ const users = (state = initialState, action) => {
           ...action.payload,
         },
       };
-    case 'users/setCurrentUserAvatar':
+    case 'users/setIsFetching':
       return {
         ...state,
-        currentUser: {
-          ...state.currentUser,
-          avatar: action.payload,
-        },
+        isFetching: action.payload,
+      };
+    case 'users/setError':
+      return {
+        ...state,
+        error: action.payload,
       };
     default:
       return state;

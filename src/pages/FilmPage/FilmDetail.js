@@ -7,7 +7,7 @@ import Loader from '../../components/Loader/Loader';
 import FilmDetailFieldItem from './FilmDetailFieldItem';
 import { fetchFilmByTitle, setActiveFilm } from '../../redux/actions/films';
 
-const FilmDetail = React.memo(function FilmDetail(props) {
+export const FilmPage = React.memo(function FilmPageComponent(props) {
   const dispatch = useDispatch();
 
   const { activeItem } = useSelector(({ films }) => films);
@@ -86,5 +86,3 @@ const FilmDetail = React.memo(function FilmDetail(props) {
     </div>
   );
 });
-
-export default FilmDetail;
