@@ -19,12 +19,11 @@ import {
 import { env } from '../../services/environment';
 import { deleteCookie } from '../../services/cookieHelper';
 import EditProfile from '../../forms/EditProfile/EditProfile';
-import EditFilm from '../../forms/EditFilm/EditFilm';
 import DeleteFilm from '../../forms/DeleteFilm/DeleteFilm';
 import { usersActions } from '../../redux/actions/users';
 import { selectCurrentUser } from '../../redux/selectors/users';
 import './Profile.scss';
-import { CreateFilm } from '../Forms';
+import { CreateFilm, EditFilm } from '../Forms';
 
 const { Item } = Descriptions;
 const image = 'https://placeimg.com/200/200/people';
@@ -159,7 +158,9 @@ export const Profile = () => {
               />
             )}
             {modalType === 'film-add' && <CreateFilm />}
-            {modalType === 'film-edit' && <EditFilm />}
+            {modalType === 'film-edit' && (
+              <EditFilm onSubmit={() => setIsModalVisible(false)} />
+            )}
             {modalType === 'film-delete' && <DeleteFilm />}
           </Modal>
         </section>

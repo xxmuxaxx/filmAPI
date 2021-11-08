@@ -6,7 +6,7 @@ import FilmCardPlaceholder from '../../components/FilmCard/FilmCardPlaceholder';
 import Loader from '../../components/Loader/Loader';
 import withModal from '../../hoc/withModal/withModal';
 import PaginationComponent from '../../components/shared/Pagination/Pagination';
-import EditFilm from '../../forms/EditFilm/EditFilm';
+import { EditFilm } from '../../components/Forms/';
 import DeleteFilm from '../../forms/DeleteFilm/DeleteFilm';
 
 import { setPage, setPageSize } from '../../redux/actions/pagination';
