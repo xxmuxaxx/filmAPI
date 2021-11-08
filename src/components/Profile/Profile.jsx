@@ -19,12 +19,12 @@ import {
 import { env } from '../../services/environment';
 import { deleteCookie } from '../../services/cookieHelper';
 import EditProfile from '../../forms/EditProfile/EditProfile';
-import CreateFilm from '../../forms/CreateFilm/CreateFilm';
 import EditFilm from '../../forms/EditFilm/EditFilm';
 import DeleteFilm from '../../forms/DeleteFilm/DeleteFilm';
 import { usersActions } from '../../redux/actions/users';
 import { selectCurrentUser } from '../../redux/selectors/users';
 import './Profile.scss';
+import { CreateFilm } from '../Forms';
 
 const { Item } = Descriptions;
 const image = 'https://placeimg.com/200/200/people';
