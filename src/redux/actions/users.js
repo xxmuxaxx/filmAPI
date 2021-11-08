@@ -18,7 +18,7 @@ export const fetchAuth = (payload) => async (dispatch) => {
   try {
     const { status, data } = await authApi.login(payload);
     if (status === 200) {
-      dispatch(fetchCurrentUser(`Bearer ${data.token}`));
+      dispatch(fetchCurrentUser(data.token));
     }
   } catch (error) {
     dispatch(usersActions.setError(String(error)));
@@ -43,11 +43,11 @@ export const fetchCurrentUser = (payload) => async (dispatch) => {
           roles: data.roles.map((role) => role.name),
         })
       );
-      setCookie('Authorization', `Bearer ${payload}`);
+      setCookie('token', payload);
     }
   } catch (e) {
     console.warn(e);
-    deleteCookie('Authorization');
+    deleteCookie('token');
     dispatch(usersActions.setCurrentUser(null));
   }
 };

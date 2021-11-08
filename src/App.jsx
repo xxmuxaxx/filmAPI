@@ -22,7 +22,7 @@ const App = () => {
 
   // Проверяем наличие токена в куках. И, если есть - получаем пользователя
   useEffect(() => {
-    const token = getCookie('Authorization');
+    const token = getCookie('token');
     if (token) dispatch(fetchCurrentUser(token));
   }, []);
 

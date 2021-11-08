@@ -9,24 +9,24 @@ const instance = axios.create({
 const usersApi = {
   getUsers: async () => {
     // TODO Подумать как обойти необходимость в каждом запросе актуализировать токен
-    const token = getCookie('Authorization');
+    const token = getCookie('token');
     const response = await instance.get('', {
-      headers: { Authorization: `${token}` },
+      headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
   },
   getCurrentUser: (token) => {
     return instance.get('/current', {
-      headers: { Authorization: `${token}` },
+      headers: { Authorization: `Bearer ${token}` },
     });
   },
   registerUser: (data) => {
     return instance.post('/register', data);
   },
   updateUser: async ({ id, ...data }) => {
-    const token = getCookie('Authorization');
+    const token = getCookie('token');
     await instance.put(`${id}`, data, {
-      headers: { Authorization: `${token}` },
+      headers: { Authorization: `Bearer ${token}` },
     });
     // todo узнать что возращает апи
   },
