@@ -5,7 +5,7 @@ import IMDBAlternative from '../../../api/IMDBAlternative';
 
 const { Item } = Form;
 
-const defaultValue = {
+const initialValues = {
   imdbID: '',
   title: '',
   video: '',
@@ -61,7 +61,7 @@ export const CreateFilm = () => {
       name="create-film-form"
       form={createFilmForm}
       size="large"
-      defaultValue={defaultValue}
+      initialValues={initialValues}
       onFinish={onSubmit}
     >
       <Item name="imdbID" rules={rules.imdbID}>
