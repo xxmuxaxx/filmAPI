@@ -1,31 +1,33 @@
-import React, { useState } from 'react';
-
-import { Hamburger, Logo } from '../shared';
+import React from 'react';
+import { Button } from 'antd';
+import { Logo } from '../shared';
 import { Search } from '../Search';
-import Menu from '../Menu/Menu';
-
 import './Header.scss';
+import { Link } from 'react-router-dom';
+import { env } from '../../services/environment';
+import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
 
-const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const handleMenuToggle = () => setIsMenuOpen(!isMenuOpen);
-
+export const Header = () => {
   return (
-    <>
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
+    <header className="header">
+      <div className="container">
+        <div className="header__wrapper">
+          <div className="header__logo">
             <Logo />
-            <div className="header__search">
-              <Search />
-            </div>
-            <Hamburger isActive={isMenuOpen} onClick={handleMenuToggle} />
+          </div>
+          <div className="header__search">
+            <Search />
+          </div>
+          <div className="header__profile">
+            <Link to={env.profile.baseUrl}>
+              <Button type="link">
+                <UserOutlined />
+                Профиль
+              </Button>
+            </Link>
           </div>
         </div>
-      </header>
-      <Menu isActive={isMenuOpen} onClick={handleMenuToggle} />
-    </>
+      </div>
+    </header>
   );
 };
-export default Header;

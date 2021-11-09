@@ -11,6 +11,10 @@
     justify-content: space-between;
   }
 
+  &__logo {
+    margin: 0 20px 0 0;
+  }
+
   &__search {
     margin-left: auto;
     display: flex;
@@ -18,19 +22,7 @@
     width: 420px;
   }
 
-  .logo {
-    margin: 0 20px 0 0;
-  }
-
-  .hamburger {
-    margin: 0 0 0 40px;
-
-    @media (max-width: 900px) {
-      margin: 0 0 0 20px;
-    }
+  &__profile {
+    margin-left: 10px;
   }
 }
-
-
-
-
