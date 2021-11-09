@@ -76,6 +76,16 @@ export const FilmPage = React.memo(function FilmPageComponent(props) {
             </div>
           </div>
         </div>
+        <div className={classes.bottom}>
+          <div className={classes.video}>
+            <iframe
+              src={`https://www.youtube.com/embed/${activeItem.video}`}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
