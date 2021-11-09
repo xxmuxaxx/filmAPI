@@ -51,10 +51,3 @@ export const fetchCurrentUser = (payload) => async (dispatch) => {
     dispatch(usersActions.setCurrentUser(null));
   }
 };
-
-export const fetchUpdateUser = (payload) => async (dispatch) => {
-  return await usersApi
-    .updateUser(payload)
-    .then((data) => dispatch(usersActions.updateCurrentUser(data)))
-    .catch((e) => console.error(e));
-};

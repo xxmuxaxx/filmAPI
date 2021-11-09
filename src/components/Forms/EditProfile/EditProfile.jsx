@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchUpdateUser } from '../../../redux/actions/users';
-import { Form, Radio, Input, Button } from 'antd';
+import { usersActions } from '../../../redux/actions/users';
+import { Form, Radio, Input, Button, message } from 'antd';
+import usersApi from '../../../api/usersApi';
 
 const { Item } = Form;
 
@@ -17,26 +18,31 @@ const initialValues = {
 export const EditProfile = ({ user, onSubmit = () => {} }) => {
   const dispatch = useDispatch();
   const [isFetching, setIsFetching] = useState(false);
-  const [EditProfileForm] = Form.useForm();
+  const [editProfileForm] = Form.useForm();
 
   const onFinish = async (fields) => {
     setIsFetching(true);
     try {
-      await dispatch(fetchUpdateUser(fields));
+      await usersApi.updateUser(fields);
+      dispatch(usersActions.updateCurrentUser(fields));
       onSubmit();
+      message.success('Профиль изменен!');
     } catch (error) {
       message.error(String(error));
     }
+    editProfileForm.resetFields();
     setIsFetching(false);
   };
 
   return (
     <Form
-      form={EditProfileForm}
+      form={editProfileForm}
       initialValues={{ ...initialValues, ...user }}
       onFinish={onFinish}
     >
-      <Item name="id" hidden />
+      <Item name="id" hidden>
+        <Input />
+      </Item>
       <Item name="name">
         <Input placeholder="Ваше имя" />
       </Item>

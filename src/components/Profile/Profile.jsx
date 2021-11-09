@@ -55,7 +55,7 @@ export const Profile = () => {
               <Descriptions
                 title={
                   <Space>
-                    <Avatar src={image} alt={name} />
+                    <Avatar src={image} alt={currentUser.name} />
                     <Tooltip title="Редактировать профиль">
                       <Button
                         shape="circle"
@@ -83,7 +83,7 @@ export const Profile = () => {
                 }
                 column={2}
               >
-                <Item label="UserName">{currentUser.username}</Item>
+                <Item label="Логин">{currentUser.username}</Item>
                 <Item label="ФИО">
                   {`${currentUser.lastName} ${currentUser.name} ${currentUser.middleName}`}
                 </Item>
@@ -152,7 +152,7 @@ export const Profile = () => {
             {modalType === 'profile-edit' && (
               <EditProfile
                 user={currentUser}
-                onSubmitCallback={() => setIsModalVisible(false)}
+                onSubmit={() => setIsModalVisible(false)}
               />
             )}
             {modalType === 'film-add' && <CreateFilm />}
