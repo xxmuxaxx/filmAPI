@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { Hamburger, Logo } from '../shared';
-import Search from '../Search/Search';
+import { Search } from '../Search';
 import Menu from '../Menu/Menu';
 
 import './Header.scss';
@@ -17,7 +17,9 @@ const Header = () => {
         <div className="container">
           <div className="header__wrapper">
             <Logo />
-            <Search />
+            <div className="header__search">
+              <Search />
+            </div>
             <Hamburger isActive={isMenuOpen} onClick={handleMenuToggle} />
           </div>
         </div>

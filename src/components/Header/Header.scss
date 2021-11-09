@@ -11,6 +11,13 @@
     justify-content: space-between;
   }
 
+  &__search {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    width: 420px;
+  }
+
   .logo {
     margin: 0 20px 0 0;
   }

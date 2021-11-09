@@ -1,7 +1,7 @@
 import filmApi from '../../api/filmApi';
 
 export const fetchSearchFilmsByTitle = (payload) => (dispatch) => {
-  return filmApi.searchFilmsPageable(payload, 10).then((data) => {
+  filmApi.searchFilmsPageable(payload, 10).then((data) => {
     dispatch(setSearchItems(data));
   });
 };
