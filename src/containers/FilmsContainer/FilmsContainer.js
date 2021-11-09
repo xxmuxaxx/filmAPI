@@ -6,8 +6,7 @@ import FilmCardPlaceholder from '../../components/FilmCard/FilmCardPlaceholder';
 import Loader from '../../components/Loader/Loader';
 import withModal from '../../hoc/withModal/withModal';
 import PaginationComponent from '../../components/shared/Pagination/Pagination';
-import { EditFilm } from '../../components/Forms/';
-import DeleteFilm from '../../forms/DeleteFilm/DeleteFilm';
+import { EditFilm, DeleteFilm } from '../../components/Forms/';
 
 import { setPage, setPageSize } from '../../redux/actions/pagination';
 import { fetchFilms } from '../../redux/actions/films';
@@ -69,7 +68,7 @@ const FilmsContainer = React.memo(
 
     const clickDeleteButtonHandler = (id, title) => {
       createModal(
-        <DeleteFilm initialId={id} callback={closeModalHandler} />,
+        <DeleteFilm initialId={id} onSubmit={closeModalHandler} />,
         `Удалить фильм: ${title}`
       );
     };
