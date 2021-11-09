@@ -75,8 +75,11 @@ export const EditFilm = ({ initialId = '', onSubmit = () => {} }) => {
   );
 
   useEffect(() => {
-    initialId && fetchFilm(initialId);
-  }, []);
+    editFilmForm.resetFields();
+    if (initialId) {
+      fetchFilm(initialId);
+    }
+  }, [initialId]);
 
   return (
     <Form

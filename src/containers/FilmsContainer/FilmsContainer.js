@@ -1,24 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import Films from '../../components/Films/Films';
 import FilmCardPlaceholder from '../../components/FilmCard/FilmCardPlaceholder';
 import Loader from '../../components/Loader/Loader';
-import withModal from '../../hoc/withModal/withModal';
 import PaginationComponent from '../../components/shared/Pagination/Pagination';
 import { EditFilm, DeleteFilm } from '../../components/Forms/';
-
 import { setPage, setPageSize } from '../../redux/actions/pagination';
 import { fetchFilms } from '../../redux/actions/films';
 import { getFilms, getTotalFilms } from '../../redux/selectors/films';
 import { selectCurrentUserIsAdmin } from '../../redux/selectors/users';
-
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-
 import classes from './FilmsContainer.module.scss';
+import { Modal } from 'antd';
 
 const renderFilmCardPlaceholders = (count) => {
   const result = [];
@@ -37,93 +33,104 @@ const pagination = (page, pageSize, totalFilms, handlePageClick) => (
   />
 );
 
-const FilmsContainer = React.memo(
-  ({ createModal, closeModal, modalIsOpen }) => {
-    const dispatch = useDispatch();
+export const FilmsContainer = React.memo(() => {
+  const dispatch = useDispatch();
+  const films = useSelector((state) => getFilms(state));
+  const totalFilms = useSelector((state) => getTotalFilms(state));
+  const { page, pageSize } = useSelector(({ pagination }) => pagination);
+  const loaded = useSelector(({ films }) => films.isLoaded);
+  const isAdmin = useSelector(selectCurrentUserIsAdmin);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalType, setModalType] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalInitialId, setModalInitialId] = useState(0);
+  const [age, setAge] = useState(pageSize);
 
-    const films = useSelector((state) => getFilms(state));
-    const totalFilms = useSelector((state) => getTotalFilms(state));
-    const { page, pageSize } = useSelector(({ pagination }) => pagination);
-    const loaded = useSelector(({ films }) => films.isLoaded);
-    const isAdmin = useSelector(selectCurrentUserIsAdmin);
+  const clickEditButtonHandler = (id, title) => {
+    setModalInitialId(id);
+    setModalTitle(`Изменить фильм: ${title}`);
+    setModalType('film-edit');
+    setIsModalVisible(true);
+  };
 
-    const [age, setAge] = React.useState(pageSize);
+  const clickDeleteButtonHandler = (id, title) => {
+    setModalInitialId(id);
+    setModalTitle(`Удалить фильм: ${title}`);
+    setModalType('film-delete');
+    setIsModalVisible(true);
+  };
 
-    React.useEffect(() => {
-      !modalIsOpen && dispatch(fetchFilms(page, pageSize));
-    }, [modalIsOpen, dispatch, page, pageSize]);
+  const handlePageClick = (pageNumber) => {
+    if (pageNumber === page) return false;
+    dispatch(setPage(pageNumber));
+  };
 
-    const closeModalHandler = () => closeModal();
+  const changePageSizeSelectHandler = (event) => {
+    dispatch(setPageSize(event.target.value));
+    setAge(event.target.value);
+  };
 
-    const clickEditButtonHandler = (id, title) => {
-      createModal(
-        <EditFilm
-          initialId={id}
-          delayDebounce={0}
-          callback={closeModalHandler}
-        />,
-        `Изменить фильм: ${title}`
-      );
-    };
+  const onSubmit = useCallback(() => {
+    setIsModalVisible(false);
+    dispatch(fetchFilms(page, pageSize));
+  }, [page, pageSize]);
 
-    const clickDeleteButtonHandler = (id, title) => {
-      createModal(
-        <DeleteFilm initialId={id} onSubmit={closeModalHandler} />,
-        `Удалить фильм: ${title}`
-      );
-    };
+  useEffect(() => {
+    dispatch(fetchFilms(page, pageSize));
+  }, [page, pageSize]);
 
-    const handlePageClick = (pageNumber) => {
-      if (pageNumber === page) return false;
-      dispatch(setPage(pageNumber));
-    };
+  return (
+    <div className={classes.container}>
+      <div className="container">
+        {loaded ? (
+          <>
+            <Films
+              films={films}
+              onClickDeleteButton={clickDeleteButtonHandler}
+              onClickEditButton={clickEditButtonHandler}
+              showButtons={isAdmin}
+            />
 
-    const changePageSizeSelectHandler = (event) => {
-      dispatch(setPageSize(event.target.value));
-      setAge(event.target.value);
-    };
+            <div className={classes.bottom}>
+              {pagination(page, pageSize, totalFilms, handlePageClick)}
 
-    return (
-      <div className={classes.container}>
-        <div className="container">
-          {loaded ? (
-            <>
-              <Films
-                films={films}
-                onClickDeleteButton={clickDeleteButtonHandler}
-                onClickEditButton={clickEditButtonHandler}
-                showButtons={isAdmin}
-              />
-
-              <div className={classes.bottom}>
-                {pagination(page, pageSize, totalFilms, handlePageClick)}
-
-                <FormControl variant="outlined" className={classes.control}>
-                  <InputLabel id="pageLengthLabel">Выводить по:</InputLabel>
-                  <Select
-                    labelId="pageLengthLabel"
-                    label="Выводить по:"
-                    onChange={changePageSizeSelectHandler}
-                    value={age}
-                  >
-                    <MenuItem value={4}>4</MenuItem>
-                    <MenuItem value={12}>12</MenuItem>
-                    <MenuItem value={24}>24</MenuItem>
-                    <MenuItem value={48}>48</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-            </>
-          ) : (
-            <>
-              <Loader />
-              {renderFilmCardPlaceholders(pageSize)}
-            </>
-          )}
-        </div>
+              <FormControl variant="outlined" className={classes.control}>
+                <InputLabel id="pageLengthLabel">Выводить по:</InputLabel>
+                <Select
+                  labelId="pageLengthLabel"
+                  label="Выводить по:"
+                  onChange={changePageSizeSelectHandler}
+                  value={age}
+                >
+                  <MenuItem value={4}>4</MenuItem>
+                  <MenuItem value={12}>12</MenuItem>
+                  <MenuItem value={24}>24</MenuItem>
+                  <MenuItem value={48}>48</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+          </>
+        ) : (
+          <>
+            <Loader />
+            {renderFilmCardPlaceholders(pageSize)}
+          </>
+        )}
       </div>
-    );
-  }
-);
-
-export default withModal(FilmsContainer);
+      <Modal
+        title={modalTitle}
+        footer={false}
+        visible={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        centered
+      >
+        {modalType === 'film-edit' && (
+          <EditFilm initialId={modalInitialId} onSubmit={onSubmit} />
+        )}
+        {modalType === 'film-delete' && (
+          <DeleteFilm initialId={modalInitialId} onSubmit={onSubmit} />
+        )}
+      </Modal>
+    </div>
+  );
+});
