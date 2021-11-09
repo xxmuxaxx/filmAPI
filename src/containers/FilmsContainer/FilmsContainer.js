@@ -3,18 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import Films from '../../components/Films/Films';
 import FilmCardPlaceholder from '../../components/FilmCard/FilmCardPlaceholder';
 import Loader from '../../components/Loader/Loader';
-import PaginationComponent from '../../components/shared/Pagination/Pagination';
 import { EditFilm, DeleteFilm } from '../../components/Forms/';
 import { setPage, setPageSize } from '../../redux/actions/pagination';
 import { fetchFilms } from '../../redux/actions/films';
 import { getFilms, getTotalFilms } from '../../redux/selectors/films';
 import { selectCurrentUserIsAdmin } from '../../redux/selectors/users';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import classes from './FilmsContainer.module.scss';
-import { Modal } from 'antd';
+import { Modal, Pagination } from 'antd';
 
 const renderFilmCardPlaceholders = (count) => {
   const result = [];
@@ -23,15 +18,6 @@ const renderFilmCardPlaceholders = (count) => {
   }
   return result;
 };
-
-const pagination = (page, pageSize, totalFilms, handlePageClick) => (
-  <PaginationComponent
-    page={page}
-    pageSize={pageSize}
-    totalFilms={totalFilms}
-    handlePageClick={handlePageClick}
-  />
-);
 
 export const FilmsContainer = React.memo(() => {
   const dispatch = useDispatch();
@@ -44,7 +30,6 @@ export const FilmsContainer = React.memo(() => {
   const [modalType, setModalType] = useState('');
   const [modalTitle, setModalTitle] = useState('');
   const [modalInitialId, setModalInitialId] = useState(0);
-  const [age, setAge] = useState(pageSize);
 
   const clickEditButtonHandler = (id, title) => {
     setModalInitialId(id);
@@ -65,9 +50,8 @@ export const FilmsContainer = React.memo(() => {
     dispatch(setPage(pageNumber));
   };
 
-  const changePageSizeSelectHandler = (event) => {
-    dispatch(setPageSize(event.target.value));
-    setAge(event.target.value);
+  const onPageSizeChange = (value) => {
+    dispatch(setPageSize(value));
   };
 
   const onSubmit = useCallback(() => {
@@ -92,22 +76,14 @@ export const FilmsContainer = React.memo(() => {
             />
 
             <div className={classes.bottom}>
-              {pagination(page, pageSize, totalFilms, handlePageClick)}
-
-              <FormControl variant="outlined" className={classes.control}>
-                <InputLabel id="pageLengthLabel">Выводить по:</InputLabel>
-                <Select
-                  labelId="pageLengthLabel"
-                  label="Выводить по:"
-                  onChange={changePageSizeSelectHandler}
-                  value={age}
-                >
-                  <MenuItem value={4}>4</MenuItem>
-                  <MenuItem value={12}>12</MenuItem>
-                  <MenuItem value={24}>24</MenuItem>
-                  <MenuItem value={48}>48</MenuItem>
-                </Select>
-              </FormControl>
+              <Pagination
+                current={page}
+                total={totalFilms}
+                pageSize={pageSize}
+                pageSizeOptions={[12, 24]}
+                onShowSizeChange={(_, number) => onPageSizeChange(number)}
+                onChange={handlePageClick}
+              />
             </div>
           </>
         ) : (

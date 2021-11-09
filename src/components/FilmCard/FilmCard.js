@@ -1,9 +1,7 @@
 import React from 'react';
-
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons/lib/icons';
 import { NavLink } from 'react-router-dom';
 import Button from '../UI/Button/Button';
-import { DeleteOutlined, EditOutlined } from '@material-ui/icons';
-
 import classes from './FilmCard.module.scss';
 
 const FilmCard = ({
