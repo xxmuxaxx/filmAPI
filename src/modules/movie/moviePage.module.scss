@@ -1,0 +1,146 @@
+.wrapper {
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.top {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.img {
+  position: sticky;
+  top: 20px;
+  width: 400px;
+  min-width: 400px;
+}
+
+.image {
+  height: auto;
+  width: 100%;
+}
+
+.right {
+  position: relative;
+  margin-left: 20px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.right h1 {
+  margin: 0 0 10px;
+  color: #000;
+  font-size: 2rem;
+}
+
+.right > p {
+  margin: 0 0 10px;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.field {
+  flex: 1;
+  padding: 35px;
+  background: rgba(#fff, 0.7);
+}
+
+.item {
+  margin: 0 0 10px;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid rgba(#000, 0.3);
+
+  &:last-child {
+    margin: 0;
+    border-bottom: none;
+  }
+}
+
+.name {
+  margin: 0;
+  width: 20%;
+  min-width: 160px;
+}
+
+.value {
+  margin: 0;
+}
+
+.value a {
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: 0.085em;
+  color: #000;
+  transition: color 0.3s;
+  text-decoration: underline;
+
+  &:hover {
+    color: #0a3d87;
+  }
+}
+
+.field p {
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: 0.085em;
+  color: #000;
+}
+
+.bottom {
+  margin-top: 20px;
+}
+
+.description p:first-child {
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 156.69%;
+  letter-spacing: 0.085em;
+  color: #fff;
+}
+
+.link {
+  margin: 10px 0 0;
+  padding: 10px;
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid #919191;
+  border-radius: 0;
+  color: #000;
+  cursor: pointer;
+  transition: color 0.3s, background-color 0.3s, border 0.3s, box-shadow 0.3s;
+
+  &:hover {
+    color: #fff;
+    background-color: #000;
+    border: 1px solid #000;
+  }
+}
+
+.id {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 14px;
+}
+
+.video {
+  position: relative;
+  padding: 0 0 56.25% 0;
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
