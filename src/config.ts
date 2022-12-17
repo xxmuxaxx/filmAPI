@@ -1,4 +1,5 @@
-const baseUrl = 'http://95.165.5.176:9099/api/v1';
+// @ts-ignore
+const baseUrl = window._env_.api_url;
 
 export const endPoint = {
   baseUrl: baseUrl,
