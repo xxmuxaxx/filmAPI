@@ -1,10 +1,10 @@
-import Loader from 'core/components/loader/Loader';
-import { useActions } from 'core/hooks/useActions';
-import React, { FC, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import Loader from "core/components/loader/Loader";
+import { useActions } from "core/hooks/useActions";
+import React, { FC, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 
-import classes from './moviePage.module.scss';
+import classes from "./moviePage.module.scss";
 
 const MoviePage: FC = React.memo(() => {
   const { fetchMovieByTitle, setActiveMovie } = useActions();
@@ -27,7 +27,7 @@ const MoviePage: FC = React.memo(() => {
     return () => {
       setActiveMovie(null);
     };
-  }, [title]);
+  }, [fetchMovieByTitle, setActiveMovie, title]);
 
   const template = () => (
     <div className="container">
@@ -51,16 +51,16 @@ const MoviePage: FC = React.memo(() => {
 
             <div className={classes.field}>
               {[
-                { name: 'год', value: activeItem.year },
-                { name: 'Страна', value: activeItem.country },
-                { name: 'Актеры', value: activeItem.Actors },
-                { name: 'IMDb', value: linkToImdb(activeItem?.imdbID) },
-                { name: 'Рейтинг IMDb', value: activeItem.imdbRating },
-                { name: 'Metascore', value: activeItem.Metascore },
-                { name: 'Жанры', value: activeItem.Genre },
-                { name: 'Длительность', value: activeItem.Runtime },
-                { name: 'Рейтинг', value: activeItem.Rated },
-                { name: 'Описание', value: activeItem.description },
+                { name: "год", value: activeItem.year },
+                { name: "Страна", value: activeItem.country },
+                { name: "Актеры", value: activeItem.Actors },
+                { name: "IMDb", value: linkToImdb(activeItem?.imdbID) },
+                { name: "Рейтинг IMDb", value: activeItem.imdbRating },
+                { name: "Metascore", value: activeItem.Metascore },
+                { name: "Жанры", value: activeItem.Genre },
+                { name: "Длительность", value: activeItem.Runtime },
+                { name: "Рейтинг", value: activeItem.Rated },
+                { name: "Описание", value: activeItem.description },
               ].map(({ name, value }) => (
                 <div key={`${name}-${value}`} className={classes.item}>
                   <p className={classes.name}>{name}</p>
@@ -75,6 +75,7 @@ const MoviePage: FC = React.memo(() => {
             <iframe
               src={`https://www.youtube.com/embed/${activeItem.video}`}
               frameBorder="0"
+              title="video"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />

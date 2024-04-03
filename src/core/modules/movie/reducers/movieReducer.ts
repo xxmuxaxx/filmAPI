@@ -1,11 +1,21 @@
-import { Movie } from '../types/movieTypes';
+import { Movie } from "../types/movieTypes";
+
+export enum MovieActionTypes {
+  SET_MOVIES = "SET_MOVIES",
+  SET_ACTIVE_MOVIE = "SET_ACTIVE_MOVIE",
+  SET_LOADED = "SET_LOADED",
+  SET_SEARCH_TEXT = "SET_SEARCH_TEXT",
+  SET_SEARCH_ITEMS = "SET_SEARCH_ITEMS",
+  SET_PAGE = "SET_PAGE",
+  SET_PAGE_SIZE = "SET_PAGE_SIZE",
+}
 
 const initialState: MovieState = {
   items: [],
   activeItem: null,
   isLoaded: false,
   totalItems: 0,
-  searchText: '',
+  searchText: "",
   searchItems: [],
   page: 1,
   pageSize: 12,
@@ -74,16 +84,6 @@ export interface MovieState {
   searchItems: Movie[];
   page: number;
   pageSize: number;
-}
-
-export enum MovieActionTypes {
-  SET_MOVIES = 'SET_MOVIES',
-  SET_ACTIVE_MOVIE = 'SET_ACTIVE_MOVIE',
-  SET_LOADED = 'SET_LOADED',
-  SET_SEARCH_TEXT = 'SET_SEARCH_TEXT',
-  SET_SEARCH_ITEMS = 'SET_SEARCH_ITEMS',
-  SET_PAGE = 'SET_PAGE',
-  SET_PAGE_SIZE = 'SET_PAGE_SIZE',
 }
 
 interface SetMoviesAction {

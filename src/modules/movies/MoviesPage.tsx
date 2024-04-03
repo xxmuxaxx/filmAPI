@@ -1,17 +1,17 @@
-import { Modal, Pagination } from 'antd';
-import Loader from 'core/components/loader/Loader';
-import { useActions } from 'core/hooks/useActions';
-import DeleteMovieForm from 'core/modules/movie/components/deleteMovieForm/DeleteMovieForm';
-import EditMovieForm from 'core/modules/movie/components/editMovieForm/EditMovieForm';
-import { selectMovieState } from 'core/modules/movie/selectors/movieSelectors';
-import { selectCurrentUserIsAdmin } from 'core/modules/users/selectors/usersSelectors';
-import React, { FC, useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { Modal, Pagination } from "antd";
+import Loader from "core/components/loader/Loader";
+import { useActions } from "core/hooks/useActions";
+import DeleteMovieForm from "core/modules/movie/components/deleteMovieForm/DeleteMovieForm";
+import EditMovieForm from "core/modules/movie/components/editMovieForm/EditMovieForm";
+import { selectMovieState } from "core/modules/movie/selectors/movieSelectors";
+import { selectCurrentUserIsAdmin } from "core/modules/users/selectors/usersSelectors";
+import React, { FC, useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-import Hero from '../../core/components/hero/Hero';
-import FilmCardPlaceholder from './components/movieCard/FilmCardPlaceholder';
-import MoviesList from './components/moviesList/MoviesList';
-import classes from './moviesPage.module.scss';
+import Hero from "../../core/components/hero/Hero";
+import FilmCardPlaceholder from "./components/movieCard/FilmCardPlaceholder";
+import MoviesList from "./components/moviesList/MoviesList";
+import classes from "./moviesPage.module.scss";
 
 const renderFilmCardPlaceholders = (count: any) => {
   const result = [];
@@ -28,21 +28,21 @@ const MoviesPage: FC<any> = () => {
   const isAdmin = useSelector(selectCurrentUserIsAdmin);
   // Todo Завести отдельный стейт для модалок
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalType, setModalType] = useState('');
-  const [modalTitle, setModalTitle] = useState('');
+  const [modalType, setModalType] = useState("");
+  const [modalTitle, setModalTitle] = useState("");
   const [modalInitialId, setModalInitialId] = useState(0);
 
   const clickEditButtonHandler = (id: any, title: any) => {
     setModalInitialId(id);
     setModalTitle(`Изменить фильм: ${title}`);
-    setModalType('film-edit');
+    setModalType("film-edit");
     setIsModalVisible(true);
   };
 
   const clickDeleteButtonHandler = (id: any, title: any) => {
     setModalInitialId(id);
     setModalTitle(`Удалить фильм: ${title}`);
-    setModalType('film-delete');
+    setModalType("film-delete");
     setIsModalVisible(true);
   };
 
@@ -58,11 +58,11 @@ const MoviesPage: FC<any> = () => {
   const onSubmit = useCallback(() => {
     setIsModalVisible(false);
     fetchMovies(page, pageSize);
-  }, [page, pageSize]);
+  }, [fetchMovies, page, pageSize]);
 
   useEffect(() => {
     fetchMovies(page, pageSize);
-  }, [page, pageSize]);
+  }, [fetchMovies, page, pageSize]);
 
   return (
     <>
@@ -103,13 +103,13 @@ const MoviesPage: FC<any> = () => {
           onCancel={() => setIsModalVisible(false)}
           centered
         >
-          {modalType === 'film-edit' && (
+          {modalType === "film-edit" && (
             <EditMovieForm
               initialId={modalInitialId as any}
               onSubmit={onSubmit}
             />
           )}
-          {modalType === 'film-delete' && (
+          {modalType === "film-delete" && (
             <DeleteMovieForm
               initialId={modalInitialId as any}
               onSubmit={onSubmit}

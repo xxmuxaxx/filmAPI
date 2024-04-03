@@ -1,13 +1,13 @@
-import './loginPage.scss';
+import "./loginPage.scss";
 
-import { RootState } from 'core/coreReducers';
-import { env } from 'core/helpers/environment';
-import { selectCurrentUser } from 'core/modules/users/selectors/usersSelectors';
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { RootState } from "core/coreReducers";
+import { env } from "core/helpers/environment";
+import { selectCurrentUser } from "core/modules/users/selectors/usersSelectors";
+import React from "react";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-import Login from './components/login/Login';
+import Login from "./components/login/Login";
 
 const LoginPage = () => {
   const currentUser = useSelector<RootState>(selectCurrentUser);
@@ -15,7 +15,7 @@ const LoginPage = () => {
 
   React.useEffect(() => {
     currentUser && history.push(env.profile.baseUrl);
-  }, [currentUser]);
+  }, [currentUser, history]);
 
   return (
     <section className="login-section">

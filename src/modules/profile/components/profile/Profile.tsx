@@ -1,11 +1,11 @@
-import './profile.scss';
+import "./profile.scss";
 
 import {
   DeleteOutlined,
   EditOutlined,
   FileAddOutlined,
   LogoutOutlined,
-} from '@ant-design/icons/lib/icons';
+} from "@ant-design/icons/lib/icons";
 import {
   Avatar,
   Button,
@@ -14,29 +14,29 @@ import {
   Modal,
   Space,
   Tooltip,
-} from 'antd';
-import { env } from 'core/helpers/environment';
-import { useActions } from 'core/hooks/useActions';
-import AddMovieForm from 'core/modules/movie/components/addMovieForm/AddMovieForm';
-import DeleteMovieForm from 'core/modules/movie/components/deleteMovieForm/DeleteMovieForm';
-import EditMovieForm from 'core/modules/movie/components/editMovieForm/EditMovieForm';
-import { selectCurrentUser } from 'core/modules/users/selectors/usersSelectors';
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+} from "antd";
+import { env } from "core/helpers/environment";
+import { useActions } from "core/hooks/useActions";
+import AddMovieForm from "core/modules/movie/components/addMovieForm/AddMovieForm";
+import DeleteMovieForm from "core/modules/movie/components/deleteMovieForm/DeleteMovieForm";
+import EditMovieForm from "core/modules/movie/components/editMovieForm/EditMovieForm";
+import { selectCurrentUser } from "core/modules/users/selectors/usersSelectors";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-import EditProfileForm from '../editProfileForm/EditProfileForm';
+import EditProfileForm from "../editProfileForm/EditProfileForm";
 
 const { Item } = Descriptions;
-const image = 'https://placeimg.com/200/200/people';
+const image = "https://placeimg.com/200/200/people";
 
 const Profile = () => {
   const { logout } = useActions();
   const history = useHistory();
   const currentUser = useSelector(selectCurrentUser);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalType, setModalType] = useState('');
-  const [modalTitle, setModalTitle] = useState('');
+  const [modalType, setModalType] = useState("");
+  const [modalTitle, setModalTitle] = useState("");
 
   const buttonClickHandler = () => {
     logout();
@@ -46,7 +46,7 @@ const Profile = () => {
     if (!currentUser) {
       history.push(env.login.baseUrl);
     }
-  }, [currentUser]);
+  }, [currentUser, history]);
 
   return (
     <>
@@ -65,9 +65,9 @@ const Profile = () => {
                         type="primary"
                         icon={<EditOutlined />}
                         onClick={() => {
-                          setModalType('profile-edit');
+                          setModalType("profile-edit");
                           setIsModalVisible(true);
-                          setModalTitle('Редактировать профиль');
+                          setModalTitle("Редактировать профиль");
                         }}
                         ghost
                       />
@@ -92,7 +92,7 @@ const Profile = () => {
                 </Item>
                 <Item label="Email">{currentUser.email}</Item>
                 <Item label="Пол">
-                  {currentUser.gender === 'WOMAN' ? 'Женщина' : 'Мужчина'}
+                  {currentUser.gender === "WOMAN" ? "Женщина" : "Мужчина"}
                 </Item>
               </Descriptions>
             </div>
@@ -101,9 +101,9 @@ const Profile = () => {
               <Item>
                 <Button
                   onClick={() => {
-                    setModalType('film-add');
+                    setModalType("film-add");
                     setIsModalVisible(true);
-                    setModalTitle('Добавить фильм');
+                    setModalTitle("Добавить фильм");
                   }}
                   icon={<FileAddOutlined />}
                   size="large"
@@ -118,9 +118,9 @@ const Profile = () => {
                   icon={<EditOutlined />}
                   size="large"
                   onClick={() => {
-                    setModalType('film-edit');
+                    setModalType("film-edit");
                     setIsModalVisible(true);
-                    setModalTitle('Изменить фильм');
+                    setModalTitle("Изменить фильм");
                   }}
                   ghost
                   block
@@ -131,9 +131,9 @@ const Profile = () => {
               <Item>
                 <Button
                   onClick={() => {
-                    setModalType('film-delete');
+                    setModalType("film-delete");
                     setIsModalVisible(true);
-                    setModalTitle('Удалить фильм');
+                    setModalTitle("Удалить фильм");
                   }}
                   icon={<DeleteOutlined />}
                   size="large"
@@ -152,17 +152,17 @@ const Profile = () => {
             onCancel={() => setIsModalVisible(false)}
             centered
           >
-            {modalType === 'profile-edit' && (
+            {modalType === "profile-edit" && (
               <EditProfileForm
                 user={currentUser}
                 onSubmit={() => setIsModalVisible(false)}
               />
             )}
-            {modalType === 'film-add' && <AddMovieForm />}
-            {modalType === 'film-edit' && (
+            {modalType === "film-add" && <AddMovieForm />}
+            {modalType === "film-edit" && (
               <EditMovieForm onSubmit={() => setIsModalVisible(false)} />
             )}
-            {modalType === 'film-delete' && <DeleteMovieForm />}
+            {modalType === "film-delete" && <DeleteMovieForm />}
           </Modal>
         </section>
       )}

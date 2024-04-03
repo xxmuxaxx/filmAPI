@@ -1,11 +1,11 @@
-import './layout.scss';
+import "./layout.scss";
 
-import React, { FC } from 'react';
+import { FC, ReactNode } from "react";
 
-import Footer from '../footer/Footer';
-import Header from '../header/Header';
+import Footer from "../footer/Footer";
+import Header from "../header/Header";
 
-const Layout: FC = ({ children }) => {
+const Layout: FC<{ children?: ReactNode }> = ({ children }) => {
   return (
     <div className="layout">
       <Header />

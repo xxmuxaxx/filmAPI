@@ -1,7 +1,8 @@
-import * as movieActions from 'core/modules/movie/actions/movieActions';
-import * as usersActions from 'core/modules/users/actions/usersActions';
-import { useDispatch } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useAppDispatch } from "core/configureStore";
+import * as movieActions from "core/modules/movie/actions/movieActions";
+import * as usersActions from "core/modules/users/actions/usersActions";
+import { useMemo } from "react";
+import { bindActionCreators } from "redux";
 
 const actions = {
   ...movieActions,
@@ -9,6 +10,6 @@ const actions = {
 };
 
 export const useActions = () => {
-  const dispatch = useDispatch();
-  return bindActionCreators(actions, dispatch);
+  const dispatch = useAppDispatch();
+  return useMemo(() => bindActionCreators(actions, dispatch), [dispatch]);
 };

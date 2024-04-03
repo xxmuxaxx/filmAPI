@@ -1,10 +1,11 @@
-import './button.scss';
+import "./button.scss";
 
-import React, { FC } from 'react';
+import { FC, ReactNode } from "react";
 
 type ButtonProps = {
   disabled?: boolean;
   onClick?: () => void;
+  children?: ReactNode;
 };
 
 const Button: FC<ButtonProps> = ({ children, disabled, onClick }) => {

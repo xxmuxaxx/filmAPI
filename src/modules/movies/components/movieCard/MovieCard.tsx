@@ -1,10 +1,10 @@
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons/lib/icons';
-import Button from 'core/components/button/Button';
-import { env } from 'core/helpers/environment';
-import React, { VFC } from 'react';
-import { NavLink } from 'react-router-dom';
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib/icons";
+import Button from "core/components/button/Button";
+import { env } from "core/helpers/environment";
+import { FC } from "react";
+import { NavLink } from "react-router-dom";
 
-import classes from './movieCard.module.scss';
+import classes from "./movieCard.module.scss";
 
 type MovieCardProps = {
   poster: string;
@@ -16,7 +16,7 @@ type MovieCardProps = {
   onClickEditButton: () => void;
 };
 
-const MovieCard: VFC<MovieCardProps> = ({
+const MovieCard: FC<MovieCardProps> = ({
   poster,
   filmName,
   title,

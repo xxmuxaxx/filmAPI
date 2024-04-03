@@ -1,13 +1,14 @@
-import './hero.scss';
+import "./hero.scss";
 
-import { getRandomInt } from 'core/helpers/functions';
-import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { getRandomInt } from "core/helpers/functions";
+import { FC, ReactNode } from "react";
+import { Link } from "react-router-dom";
 
-import { data } from './data';
+import { data } from "./data";
 
 interface IHero {
   link?: string;
+  children?: ReactNode;
 }
 
 const Hero: FC<IHero> = ({ link, children }) => (

@@ -1,23 +1,22 @@
-import 'antd/dist/antd.css';
-import 'fontsource-roboto';
-import './App.scss';
+import "antd/dist/antd.min.css";
+import "fontsource-roboto";
+import "./App.scss";
 
-import { ConfigProvider } from 'antd';
-import ruRU from 'antd/lib/locale/ru_RU';
-import Loader from 'core/components/loader/Loader';
-import { getCookie } from 'core/helpers/cookieHelper';
-import { fetchCurrentUser } from 'core/modules/users/actions/usersActions';
-import AppRouting from 'core/routing/AppRouting';
-import React, { Suspense, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { ConfigProvider } from "antd";
+import ruRU from "antd/lib/locale/ru_RU";
+import Loader from "core/components/loader/Loader";
+import { getCookie } from "core/helpers/cookieHelper";
+import AppRouting from "core/routing/AppRouting";
+import { Suspense, useEffect } from "react";
+import { useActions } from "core/hooks/useActions";
 
 const App = () => {
-  const dispatch = useDispatch();
+  const { fetchCurrentUser } = useActions();
 
   // Проверяем наличие токена в куках. И, если есть - получаем пользователя
   useEffect(() => {
-    if (getCookie('token')) dispatch(fetchCurrentUser());
-  }, []);
+    if (getCookie("token")) fetchCurrentUser();
+  }, [fetchCurrentUser]);
 
   return (
     <Suspense fallback={<Loader />}>

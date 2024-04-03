@@ -1,30 +1,30 @@
-import { Button, Form, Input, message } from 'antd';
-import _ from 'lodash';
-import React, { useCallback, useEffect, useState, VFC } from 'react';
+import { Button, Form, Input, message } from "antd";
+import _ from "lodash";
+import React, { useCallback, useEffect, useState, VFC } from "react";
 
-import movieApi from '../../api/movieApi';
-import { Movie } from '../../types/movieTypes';
+import movieApi from "../../api/movieApi";
+import { Movie } from "../../types/movieTypes";
 
 const { Item } = Form;
 
 const initialValues = {
-  imdbID: '',
-  title: '',
-  titleEn: '',
-  year: '',
-  country: '',
-  poster: '',
-  video: '',
-  genres: '',
-  type: '',
-  description: '',
+  imdbID: "",
+  title: "",
+  titleEn: "",
+  year: "",
+  country: "",
+  poster: "",
+  video: "",
+  genres: "",
+  type: "",
+  description: "",
 };
 
 const rules = {
   id: [
     {
       required: true,
-      message: 'Обязательное поле!',
+      message: "Обязательное поле!",
     },
   ],
 };
@@ -48,22 +48,23 @@ const EditMovieForm: VFC<EditMovieFormProps> = ({
 
       data.genres = data?.genres
         ? (data.genres as any)
-            .split(',')
+            .split(",")
             .map((g: string) => ({ name: g.trim() }))
         : [];
       data.year = Number(data.year);
 
       await movieApi.updateMovie(id, data);
       onSubmit();
-      message.success('Изменения сохранены!');
+      message.success("Изменения сохранены!");
     } catch (e) {
       console.error(e);
-      message.error('Произошка ошибка при изменении фильма');
+      message.error("Произошка ошибка при изменении фильма");
     }
     setIsFetching(false);
     editFilmForm.resetFields();
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchFilm = useCallback(
     _.debounce(async (id) => {
       if (!id) return editFilmForm.resetFields(Object.keys(initialValues));
@@ -73,7 +74,7 @@ const EditMovieForm: VFC<EditMovieFormProps> = ({
           Object.entries(response).map((e) => ({
             name: e[0],
             value: Array.isArray(e[1])
-              ? e[1].map((g) => g.name.trim()).join(', ')
+              ? e[1].map((g) => g.name.trim()).join(", ")
               : e[1],
           }))
         );
@@ -91,7 +92,7 @@ const EditMovieForm: VFC<EditMovieFormProps> = ({
     if (initialId) {
       fetchFilm(initialId);
     }
-  }, [initialId]);
+  }, [editFilmForm, fetchFilm, initialId]);
 
   return (
     <Form

@@ -1,7 +1,14 @@
+export enum UsersActionTypes {
+  SET_CURRENT_USER = "SET_CURRENT_USER",
+  UPDATE_CURRENT_USER = "UPDATE_CURRENT_USER",
+  SET_IS_FETCHING = "SET_IS_FETCHING",
+  SET_ERROR = "SET_ERROR",
+}
+
 const initialState: UsersState = {
   currentUser: null,
   isFetching: false,
-  error: '',
+  error: "",
 };
 
 const usersReducer = (state = initialState, action: UsersAction) => {
@@ -38,13 +45,6 @@ export interface UsersState {
   currentUser: any;
   isFetching: boolean;
   error: string;
-}
-
-export enum UsersActionTypes {
-  SET_CURRENT_USER = 'SET_CURRENT_USER',
-  UPDATE_CURRENT_USER = 'UPDATE_CURRENT_USER',
-  SET_IS_FETCHING = 'SET_IS_FETCHING',
-  SET_ERROR = 'SET_ERROR',
 }
 
 interface SetCurrentUserAction {
