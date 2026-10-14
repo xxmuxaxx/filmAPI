@@ -3,19 +3,31 @@ export interface AuthenticationRequest {
   password: string;
 }
 
+// Контракты сверены с filmapi: UserDTO, UserBaseForm, UseRegistrationForm
 export interface User {
-  avatarFilename: string;
+  avatarFilename: string | null;
   blocked: boolean;
   dateCreated: string;
-  email: string;
-  gender: GENDERS;
+  email: string | null;
+  gender: GENDERS | null;
   id: number;
-  lastName: string;
-  middleName: string;
-  name: string;
+  lastName: string | null;
+  middleName: string | null;
+  name: string | null;
   roles: Role[];
-  theme: string;
+  theme: string | null;
   username: string;
+}
+
+/** Текущий пользователь в сторе: роли и права разложены в списки строк */
+export interface CurrentUser extends Omit<User, 'roles'> {
+  roles: string[];
+  rolePermissions: string[];
+}
+
+export interface AuthenticationResponse {
+  username: string;
+  token: string;
 }
 
 export enum GENDERS {
@@ -47,15 +59,16 @@ export interface UserRegistrationBody {
   username: string;
 }
 
+/** Тело PUT /users/{id}: бэкенд записывает только не-null поля */
 export interface UserBaseBody {
   blocked: boolean;
-  email: string;
-  gender: GENDERS;
-  lastName: string;
-  middleName: string;
-  name: string;
+  email: string | null;
+  gender: GENDERS | null;
+  lastName: string | null;
+  middleName: string | null;
+  name: string | null;
   roles: { id: number }[];
-  theme: string;
+  theme: string | null;
   username: string;
 }
 

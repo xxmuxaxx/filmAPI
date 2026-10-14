@@ -1,13 +1,16 @@
 import { deleteCookie, setCookie } from 'core/helpers/cookieHelper';
+import { getErrorMessage } from 'core/http';
 import loginApi from 'core/modules/users/api/loginApi';
 import { Dispatch } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import usersApi from '../api/usersApi';
 import { UsersAction, UsersActionTypes } from '../reducers/userReducer';
-import { AuthenticationRequest } from '../types/usersTypes';
+import { AuthenticationRequest, CurrentUser } from '../types/usersTypes';
 
 export const fetchAuth =
-  (body: AuthenticationRequest) => async (dispatch: Dispatch<UsersAction>) => {
+  (body: AuthenticationRequest) =>
+  async (dispatch: ThunkDispatch<unknown, unknown, UsersAction>) => {
     dispatch({ type: UsersActionTypes.SET_IS_FETCHING, payload: true });
     dispatch({ type: UsersActionTypes.SET_ERROR, payload: '' });
 
@@ -15,10 +18,10 @@ export const fetchAuth =
       const { status, data } = await loginApi.login(body);
       if (status === 200) {
         setCookie('token', data.token);
-        dispatch<any>(fetchCurrentUser());
+        dispatch(fetchCurrentUser());
       }
     } catch (error) {
-      dispatch({ type: UsersActionTypes.SET_ERROR, payload: String(error) });
+      dispatch({ type: UsersActionTypes.SET_ERROR, payload: getErrorMessage(error) });
     } finally {
       dispatch({ type: UsersActionTypes.SET_IS_FETCHING, payload: false });
     }
@@ -28,7 +31,7 @@ export const fetchCurrentUser =
   () => async (dispatch: Dispatch<UsersAction>) => {
     try {
       const { data, status } = await usersApi.getCurrentUser();
-      const rolePermissions: any[] = [];
+      const rolePermissions: string[] = [];
 
       if (status === 200) {
         data.roles.forEach((role) =>
@@ -58,7 +61,7 @@ export const logout = () => async (dispatch: Dispatch<UsersAction>) => {
   dispatch({ type: UsersActionTypes.SET_CURRENT_USER, payload: null });
 };
 
-export const updateCurrentUser = (payload: any) => ({
+export const updateCurrentUser = (payload: Partial<CurrentUser>) => ({
   type: UsersActionTypes.UPDATE_CURRENT_USER,
   payload,
 });

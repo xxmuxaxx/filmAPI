@@ -1,5 +1,11 @@
 import Loader from "core/components/loader/Loader";
 import { useActions } from "core/hooks/useActions";
+import {
+  formatGenres,
+  movieTypeLabels,
+} from "core/modules/movie/helpers/movieForm";
+import { selectMovieState } from "core/modules/movie/selectors/movieSelectors";
+import { Movie } from "core/modules/movie/types/movieTypes";
 import React, { FC, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router";
@@ -9,7 +15,7 @@ import classes from "./moviePage.module.scss";
 const MoviePage: FC = React.memo(() => {
   const { fetchMovieByTitle, setActiveMovie } = useActions();
   const { title } = useParams<"title">();
-  const { activeItem } = useSelector(({ movie }: any) => movie);
+  const { activeItem } = useSelector(selectMovieState);
 
   const linkToImdb = (imdbID: string) => (
     <a
@@ -29,15 +35,15 @@ const MoviePage: FC = React.memo(() => {
     };
   }, [fetchMovieByTitle, setActiveMovie, title]);
 
-  const template = () => (
+  const template = (movie: Movie) => (
     <div className="container">
       <div className={classes.wrapper}>
         <div className={classes.top}>
           <div className={classes.img}>
             <img
               className={classes.image}
-              src={activeItem.poster}
-              alt={activeItem.title}
+              src={movie.poster ?? undefined}
+              alt={movie.title}
             />
             <Link to="/films" className={classes.link}>
               Назад
@@ -45,49 +51,50 @@ const MoviePage: FC = React.memo(() => {
           </div>
 
           <div className={classes.right}>
-            <h1>{activeItem.title}</h1>
-            <p>{activeItem.titleEn}</p>
-            <span className={classes.id}>id: {activeItem.id}</span>
+            <h1>{movie.title}</h1>
+            <p>{movie.titleEn}</p>
+            <span className={classes.id}>id: {movie.id}</span>
 
             <div className={classes.field}>
               {[
-                { name: "год", value: activeItem.year },
-                { name: "Страна", value: activeItem.country },
-                { name: "Актеры", value: activeItem.Actors },
-                { name: "IMDb", value: linkToImdb(activeItem?.imdbID) },
-                { name: "Рейтинг IMDb", value: activeItem.imdbRating },
-                { name: "Metascore", value: activeItem.Metascore },
-                { name: "Жанры", value: activeItem.Genre },
-                { name: "Длительность", value: activeItem.Runtime },
-                { name: "Рейтинг", value: activeItem.Rated },
-                { name: "Описание", value: activeItem.description },
+                { name: "Год", value: movie.year },
+                { name: "Тип", value: movie.type && movieTypeLabels[movie.type] },
+                { name: "Страна", value: movie.country },
+                {
+                  name: "IMDb",
+                  value: movie.imdbID && linkToImdb(movie.imdbID),
+                },
+                { name: "Жанры", value: formatGenres(movie.genres) },
+                { name: "Описание", value: movie.description },
               ].map(({ name, value }) => (
-                <div key={`${name}-${value}`} className={classes.item}>
+                <div key={name} className={classes.item}>
                   <p className={classes.name}>{name}</p>
-                  <p className={classes.value}>{value}</p>
+                  <p className={classes.value}>{value || "—"}</p>
                 </div>
               ))}
             </div>
           </div>
         </div>
-        <div className={classes.bottom}>
-          <div className={classes.video}>
-            <iframe
-              src={`https://www.youtube.com/embed/${activeItem.video}`}
-              frameBorder="0"
-              title="video"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+        {movie.video && (
+          <div className={classes.bottom}>
+            <div className={classes.video}>
+              <iframe
+                src={`https://www.youtube.com/embed/${movie.video}`}
+                frameBorder="0"
+                title="video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
 
   return (
     <div className={classes.wrapper}>
-      {activeItem ? template() : <Loader />}
+      {activeItem ? template(activeItem) : <Loader />}
     </div>
   );
 });

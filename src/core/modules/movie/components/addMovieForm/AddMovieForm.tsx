@@ -1,8 +1,10 @@
-import { App, Button, Form, Input } from 'antd';
+import { App, Button, Form, Input, Select } from 'antd';
+import { getErrorMessage } from 'core/http';
 import { useState } from 'react';
 
 import movieApi from '../../api/movieApi';
-import { MovieForm } from '../../types/movieTypes';
+import { movieTypeOptions, parseGenres } from '../../helpers/movieForm';
+import { MovieFormValues, MovieType } from '../../types/movieTypes';
 
 const { Item } = Form;
 
@@ -28,36 +30,33 @@ const rules = {
   ],
 };
 
-// Todo изсправить в соответсвии с апи
 const AddMovieForm = () => {
   const { message } = App.useApp();
   const [createFilmForm] = Form.useForm();
   const [isFetching, setIsFetching] = useState(false);
 
-  const onSubmit = async (values: MovieForm) => {
+  const onSubmit = async (values: MovieFormValues) => {
     setIsFetching(true);
 
     try {
-      const genres = (values.genres as any)
-        .split(', ')
-        .map((genre: string) => ({ name: genre }));
-
       await movieApi.createMovie({
-        imdbID: values.imdbID,
-        title: values.title,
-        description: values.description,
-        country: values.country,
-        genres: genres,
-        poster: values.poster,
-        titleEn: values.titleEn,
-        type: values.type,
-        video: values.video,
-        year: Number(values.year),
+        imdbID: values.imdbID || null,
+        title: values.title ?? '',
+        description: values.description || null,
+        country: values.country || null,
+        genres: parseGenres(values.genres),
+        poster: values.poster || null,
+        titleEn: values.titleEn || null,
+        type: values.type ?? null,
+        video: values.video || null,
+        year: values.year || null,
       });
       message.success('Фильм успешно создан!');
     } catch (e) {
       console.error(e);
-      message.error('Произошла ошибка при создании фильма');
+      message.error(
+        `Произошла ошибка при создании фильма: ${getErrorMessage(e)}`
+      );
     }
     createFilmForm.resetFields();
     setIsFetching(false);
@@ -96,7 +95,11 @@ const AddMovieForm = () => {
         <Input placeholder="Жанры через запятую" />
       </Item>
       <Item name="type">
-        <Input placeholder="Тип (movie или series)" />
+        <Select<MovieType>
+          placeholder="Тип"
+          options={movieTypeOptions}
+          allowClear
+        />
       </Item>
       <Item name="description">
         <Input.TextArea placeholder="Описание" rows={4} />

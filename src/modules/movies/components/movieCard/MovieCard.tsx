@@ -7,10 +7,10 @@ import { NavLink } from "react-router";
 import classes from "./movieCard.module.scss";
 
 type MovieCardProps = {
-  poster: string;
+  poster: string | null;
   filmName: string;
   title: string;
-  filmYear: string;
+  filmYear: string | null;
   showButtons: boolean;
   onClickDeleteButton: () => void;
   onClickEditButton: () => void;
@@ -27,7 +27,7 @@ const MovieCard: FC<MovieCardProps> = ({
 }) => {
   return (
     <div className={classes.card}>
-      <img src={poster} alt={filmName} />
+      <img src={poster ?? undefined} alt={filmName} />
       <div className={classes.hover}>
         {showButtons && (
           <div className={classes.buttons}>

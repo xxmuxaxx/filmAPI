@@ -7,21 +7,24 @@ const getCookie = (name: string) => {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 };
 
-const setCookie = (name: any, value: any, options: any = {}) => {
-  options = { path: '/', ...options };
+type CookieOptions = Record<string, string | number | boolean | Date>;
 
-  if (options.expires instanceof Date) {
-    options.expires = options.expires.toUTCString();
-  }
+const setCookie = (
+  name: string,
+  value: string,
+  options: CookieOptions = {}
+) => {
+  const allOptions: CookieOptions = { path: '/', ...options };
 
   let updatedCookie =
     encodeURIComponent(name) + '=' + encodeURIComponent(value);
 
-  for (const optionKey in options) {
+  for (const [optionKey, optionValue] of Object.entries(allOptions)) {
     updatedCookie += '; ' + optionKey;
-    const optionValue = options[optionKey];
     if (optionValue !== true) {
-      updatedCookie += '=' + optionValue;
+      updatedCookie +=
+        '=' +
+        (optionValue instanceof Date ? optionValue.toUTCString() : optionValue);
     }
   }
 

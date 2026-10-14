@@ -1,3 +1,5 @@
+// Контракты сверены с filmapi: MovieItem, MovieDTO, MoviesPageDTO
+
 export interface MovieDTOPaging extends MovieDTO {
   currentSize: number;
   page: number;
@@ -11,22 +13,30 @@ export interface MovieDTO {
   totalResults: number;
 }
 
+export type MovieType = 'movie' | 'series';
+
 export interface Movie {
-  country: string;
-  description: string;
-  genres: GenreItem[];
   id: number;
-  imdbID: string;
-  poster: string;
   title: string;
-  titleEn: string;
-  type: 'movie' | 'series';
-  video: string;
-  year: string | number;
+  titleEn: string | null;
+  year: string | null;
+  imdbID: string | null;
+  type: MovieType | null;
+  poster: string | null;
+  description: string | null;
+  country: string | null;
+  video: string | null;
+  genres: GenreItem[];
 }
 
 export type MovieForm = Omit<Movie, 'id'>;
 
+/** Значения antd-форм фильма: жанры вводятся строкой через запятую */
+export interface MovieFormValues
+  extends Partial<Omit<MovieForm, 'genres'>> {
+  genres?: string;
+}
+
 export interface GenreItem {
-  [key: string]: string;
+  name: string;
 }

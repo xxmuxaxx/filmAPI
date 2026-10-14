@@ -13,7 +13,7 @@ import FilmCardPlaceholder from "./components/movieCard/FilmCardPlaceholder";
 import MoviesList from "./components/moviesList/MoviesList";
 import classes from "./moviesPage.module.scss";
 
-const renderFilmCardPlaceholders = (count: any) => {
+const renderFilmCardPlaceholders = (count: number) => {
   const result = [];
   for (let i = 0; i < count; i++) {
     result.push(<FilmCardPlaceholder key={i} />);
@@ -21,7 +21,7 @@ const renderFilmCardPlaceholders = (count: any) => {
   return result;
 };
 
-const MoviesPage: FC<any> = () => {
+const MoviesPage: FC = () => {
   const { setPage, setPageSize, fetchMovies } = useActions();
   const { page, pageSize, items, totalItems, isLoaded } =
     useSelector(selectMovieState);
@@ -32,26 +32,25 @@ const MoviesPage: FC<any> = () => {
   const [modalTitle, setModalTitle] = useState("");
   const [modalInitialId, setModalInitialId] = useState(0);
 
-  const clickEditButtonHandler = (id: any, title: any) => {
+  const clickEditButtonHandler = (id: number, title: string) => {
     setModalInitialId(id);
     setModalTitle(`Изменить фильм: ${title}`);
     setModalType("film-edit");
     setIsModalVisible(true);
   };
 
-  const clickDeleteButtonHandler = (id: any, title: any) => {
+  const clickDeleteButtonHandler = (id: number, title: string) => {
     setModalInitialId(id);
     setModalTitle(`Удалить фильм: ${title}`);
     setModalType("film-delete");
     setIsModalVisible(true);
   };
 
-  const handlePageClick = (pageNumber: any) => {
-    if (pageNumber === page) return false;
-    setPage(pageNumber);
+  const handlePageClick = (pageNumber: number) => {
+    if (pageNumber !== page) setPage(pageNumber);
   };
 
-  const onPageSizeChange = (value: any) => {
+  const onPageSizeChange = (value: number) => {
     setPageSize(value);
   };
 
@@ -83,7 +82,7 @@ const MoviesPage: FC<any> = () => {
                   current={page}
                   total={totalItems}
                   pageSize={pageSize}
-                  pageSizeOptions={[12, 24] as any}
+                  pageSizeOptions={[12, 24]}
                   onShowSizeChange={(_, number) => onPageSizeChange(number)}
                   onChange={handlePageClick}
                 />
@@ -105,13 +104,13 @@ const MoviesPage: FC<any> = () => {
         >
           {modalType === "film-edit" && (
             <EditMovieForm
-              initialId={modalInitialId as any}
+              initialId={modalInitialId}
               onSubmit={onSubmit}
             />
           )}
           {modalType === "film-delete" && (
             <DeleteMovieForm
-              initialId={modalInitialId as any}
+              initialId={modalInitialId}
               onSubmit={onSubmit}
             />
           )}

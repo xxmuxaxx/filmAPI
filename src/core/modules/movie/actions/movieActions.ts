@@ -23,25 +23,44 @@ export const fetchMovies =
   async (dispatch: Dispatch<MovieAction>) => {
     dispatch({ type: MovieActionTypes.SET_LOADED, payload: false });
 
-    const { search, totalResults } = await movieApi.getMoviesPage(page, size);
+    try {
+      const { search, totalResults } = await movieApi.getMoviesPage(
+        page,
+        size
+      );
 
-    dispatch({
-      type: MovieActionTypes.SET_MOVIES,
-      payload: {
-        items: [...search],
-        totalItems: totalResults,
-      },
-    });
+      dispatch({
+        type: MovieActionTypes.SET_MOVIES,
+        payload: {
+          items: [...search],
+          totalItems: totalResults,
+        },
+      });
+    } catch (error) {
+      // Без этого лоадер на странице фильмов крутится бесконечно
+      console.error(error);
+      dispatch({
+        type: MovieActionTypes.SET_MOVIES,
+        payload: { items: [], totalItems: 0 },
+      });
+    }
   };
 
 export const fetchMovieByTitle =
   (title: string) => async (dispatch: Dispatch<MovieAction>) => {
-    const film = await movieApi.searchMoviesByTitle(title);
+    try {
+      // Поиск по подстроке, поэтому сначала ищем точное совпадение названия
+      const films = await movieApi.searchMoviesByTitle(title);
+      const film =
+        films.find((f) => f.title.toLowerCase() === title.toLowerCase()) ??
+        films[0];
 
-    dispatch({
-      type: MovieActionTypes.SET_ACTIVE_MOVIE,
-      payload: { ...film[0] },
-    });
+      if (film) {
+        dispatch({ type: MovieActionTypes.SET_ACTIVE_MOVIE, payload: film });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
 export const setActiveMovie = (payload: Movie | null) => ({

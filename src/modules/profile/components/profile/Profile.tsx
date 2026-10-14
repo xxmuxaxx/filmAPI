@@ -21,6 +21,7 @@ import AddMovieForm from "core/modules/movie/components/addMovieForm/AddMovieFor
 import DeleteMovieForm from "core/modules/movie/components/deleteMovieForm/DeleteMovieForm";
 import EditMovieForm from "core/modules/movie/components/editMovieForm/EditMovieForm";
 import { selectCurrentUser } from "core/modules/users/selectors/usersSelectors";
+import { GENDERS } from "core/modules/users/types/usersTypes";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
@@ -28,6 +29,11 @@ import { useNavigate } from "react-router";
 import EditProfileForm from "../editProfileForm/EditProfileForm";
 
 const { Item } = Descriptions;
+
+const genderLabels: Record<GENDERS, string> = {
+  [GENDERS.MAN]: "Мужчина",
+  [GENDERS.WOMAN]: "Женщина",
+};
 const image = "https://placeimg.com/200/200/people";
 
 const Profile = () => {
@@ -58,7 +64,7 @@ const Profile = () => {
               <Descriptions
                 title={
                   <Space>
-                    <Avatar src={image} alt={currentUser.name} />
+                    <Avatar src={image} alt={currentUser.name ?? currentUser.username} />
                     <Tooltip title="Редактировать профиль">
                       <Button
                         shape="circle"
@@ -88,11 +94,13 @@ const Profile = () => {
               >
                 <Item label="Логин">{currentUser.username}</Item>
                 <Item label="ФИО">
-                  {`${currentUser.lastName} ${currentUser.name} ${currentUser.middleName}`}
+                  {[currentUser.lastName, currentUser.name, currentUser.middleName]
+                    .filter(Boolean)
+                    .join(" ") || "—"}
                 </Item>
-                <Item label="Email">{currentUser.email}</Item>
+                <Item label="Email">{currentUser.email || "—"}</Item>
                 <Item label="Пол">
-                  {currentUser.gender === "WOMAN" ? "Женщина" : "Мужчина"}
+                  {currentUser.gender ? genderLabels[currentUser.gender] : "—"}
                 </Item>
               </Descriptions>
             </div>

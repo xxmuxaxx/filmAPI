@@ -1,14 +1,15 @@
 import './moviesList.scss';
 
+import { Movie } from 'core/modules/movie/types/movieTypes';
 import { FC } from 'react';
 
 import MovieCard from '../movieCard/MovieCard';
 
 type MoviesListProps = {
-  films: any[];
+  films: Movie[];
   showButtons: boolean;
-  onClickDeleteButton: (id: string, title: string) => void;
-  onClickEditButton: (id: string, title: string) => void;
+  onClickDeleteButton: (id: number, title: string) => void;
+  onClickEditButton: (id: number, title: string) => void;
 };
 
 const MoviesList: FC<MoviesListProps> = ({

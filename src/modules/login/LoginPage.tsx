@@ -1,6 +1,5 @@
 import "./loginPage.scss";
 
-import { RootState } from "core/coreReducers";
 import { env } from "core/helpers/environment";
 import { selectCurrentUser } from "core/modules/users/selectors/usersSelectors";
 import { useEffect } from "react";
@@ -10,7 +9,7 @@ import { useNavigate } from "react-router";
 import Login from "./components/login/Login";
 
 const LoginPage = () => {
-  const currentUser = useSelector<RootState>(selectCurrentUser);
+  const currentUser = useSelector(selectCurrentUser);
   const navigate = useNavigate();
 
   useEffect(() => {

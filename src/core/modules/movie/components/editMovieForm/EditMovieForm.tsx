@@ -1,9 +1,15 @@
-import { App, Button, Form, Input } from "antd";
+import { App, Button, Form, Input, Select } from "antd";
+import { getErrorMessage } from "core/http";
 import { debounce } from "lodash-es";
 import { FC, useEffect, useMemo, useState } from "react";
 
 import movieApi from "../../api/movieApi";
-import { Movie } from "../../types/movieTypes";
+import {
+  formatGenres,
+  movieTypeOptions,
+  parseGenres,
+} from "../../helpers/movieForm";
+import { MovieFormValues, MovieType } from "../../types/movieTypes";
 
 const { Item } = Form;
 
@@ -16,7 +22,7 @@ const initialValues = {
   poster: "",
   video: "",
   genres: "",
-  type: "",
+  type: undefined,
   description: "",
 };
 
@@ -30,8 +36,8 @@ const rules = {
 };
 
 type EditMovieFormProps = {
-  initialId?: string;
-  onSubmit: (...args: any[]) => void;
+  initialId?: number;
+  onSubmit?: () => void;
 };
 
 const EditMovieForm: FC<EditMovieFormProps> = ({
@@ -42,44 +48,39 @@ const EditMovieForm: FC<EditMovieFormProps> = ({
   const [editFilmForm] = Form.useForm();
   const [isFetching, setIsFetching] = useState(false);
 
-  const onFinish = async (values: Movie) => {
+  const onFinish = async ({
+    id,
+    genres,
+    ...data
+  }: MovieFormValues & { id: number }) => {
     setIsFetching(true);
     try {
-      const { id, ...data } = { ...values };
-
-      data.genres = data?.genres
-        ? (data.genres as any)
-            .split(",")
-            .map((g: string) => ({ name: g.trim() }))
-        : [];
-      data.year = Number(data.year);
-
-      await movieApi.updateMovie(id, data);
+      // Бэкенд меняет только переданные не-null поля
+      await movieApi.updateMovie(id, { ...data, genres: parseGenres(genres) });
       onSubmit();
       message.success("Изменения сохранены!");
     } catch (e) {
       console.error(e);
-      message.error("Произошка ошибка при изменении фильма");
+      message.error(
+        `Произошла ошибка при изменении фильма: ${getErrorMessage(e)}`
+      );
     }
     setIsFetching(false);
     editFilmForm.resetFields();
   };
 
   const fetchFilm = useMemo(
-    () => debounce(async (id: string) => {
+    () => debounce(async (id: number | string) => {
       if (!id) return editFilmForm.resetFields(Object.keys(initialValues));
       try {
         const response = await movieApi.getMovieById(id);
-        editFilmForm.setFields(
-          Object.entries(response).map((e) => ({
-            name: e[0],
-            value: Array.isArray(e[1])
-              ? e[1].map((g) => g.name.trim()).join(", ")
-              : e[1],
-          }))
-        );
+        editFilmForm.setFieldsValue({
+          ...response,
+          genres: formatGenres(response.genres),
+          type: response.type ?? undefined,
+        });
       } catch (error) {
-        message.error(String(error));
+        message.error(getErrorMessage(error));
         editFilmForm.resetFields(Object.keys(initialValues));
       }
       setIsFetching(false);
@@ -136,7 +137,11 @@ const EditMovieForm: FC<EditMovieFormProps> = ({
         <Input placeholder="Жанры (через запятую)" />
       </Item>
       <Item name="type">
-        <Input placeholder="Тип (movie, series)" />
+        <Select<MovieType>
+          placeholder="Тип"
+          options={movieTypeOptions}
+          allowClear
+        />
       </Item>
       <Item name="description">
         <Input.TextArea placeholder="Описание" rows={4} />

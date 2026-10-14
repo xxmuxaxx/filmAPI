@@ -1,6 +1,8 @@
 import { App, Button, Form, Input, Radio } from 'antd';
+import { getErrorMessage } from 'core/http';
 import { useActions } from 'core/hooks/useActions';
 import usersApi from 'core/modules/users/api/usersApi';
+import { CurrentUser } from 'core/modules/users/types/usersTypes';
 import { useState, FC } from 'react';
 
 const { Item } = Form;
@@ -15,9 +17,14 @@ const initialValues = {
 };
 
 type EditProfileFormProps = {
-  user: any;
-  onSubmit: (...args: any[]) => void;
+  user: CurrentUser;
+  onSubmit?: () => void;
 };
+
+type ProfileFormValues = Pick<
+  CurrentUser,
+  'id' | 'name' | 'lastName' | 'middleName' | 'email' | 'gender'
+>;
 
 const EditProfileForm: FC<EditProfileFormProps> = ({
   user,
@@ -28,7 +35,7 @@ const EditProfileForm: FC<EditProfileFormProps> = ({
   const { message } = App.useApp();
   const [editProfileForm] = Form.useForm();
 
-  const onFinish = async (fields: any) => {
+  const onFinish = async (fields: ProfileFormValues) => {
     setIsFetching(true);
     try {
       await usersApi.updateUser(fields);
@@ -36,7 +43,7 @@ const EditProfileForm: FC<EditProfileFormProps> = ({
       onSubmit();
       message.success('Профиль изменен!');
     } catch (error) {
-      message.error(String(error));
+      message.error(getErrorMessage(error));
     }
     editProfileForm.resetFields();
     setIsFetching(false);

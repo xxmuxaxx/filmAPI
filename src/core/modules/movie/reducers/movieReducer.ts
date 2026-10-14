@@ -96,7 +96,7 @@ interface SetMoviesAction {
 
 interface SetActiveMovieAction {
   type: typeof MovieActionTypes.SET_ACTIVE_MOVIE;
-  payload: Movie;
+  payload: Movie | null;
 }
 
 interface SetLoadedAction {

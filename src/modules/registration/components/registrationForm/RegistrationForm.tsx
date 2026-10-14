@@ -1,6 +1,8 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Row, Typography } from 'antd';
+import type { Rule } from 'antd/es/form';
 import { env } from 'core/helpers/environment';
+import { getErrorMessage } from 'core/http';
 import usersApi from 'core/modules/users/api/usersApi';
 import { AuthenticationRequest } from 'core/modules/users/types/usersTypes';
 import { useState } from 'react';
@@ -9,7 +11,7 @@ import { Link, useNavigate } from 'react-router';
 const { Item } = Form;
 const { Text, Title } = Typography;
 
-const rules = {
+const rules: Record<string, Rule[]> = {
   username: [
     {
       required: true,
@@ -31,8 +33,8 @@ const rules = {
       required: true,
       message: 'Обязательное поле!',
     },
-    ({ getFieldValue }: any) => ({
-      validator(_: any, value: any) {
+    ({ getFieldValue }) => ({
+      validator(_, value?: string) {
         if (!value || getFieldValue('password') === value) {
           return Promise.resolve();
         }
@@ -55,7 +57,7 @@ const RegistrationForm = () => {
       const { status } = await usersApi.registerUser({ username, password });
       if (status === 201) navigate(env.login.baseUrl);
     } catch (error) {
-      setRegistrationError(String(error));
+      setRegistrationError(getErrorMessage(error));
     }
     setIsFetching(false);
   };

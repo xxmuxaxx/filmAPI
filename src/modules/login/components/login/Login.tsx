@@ -6,6 +6,7 @@ import {
   selectError,
   selectIsFetching,
 } from 'core/modules/users/selectors/usersSelectors';
+import { AuthenticationRequest } from 'core/modules/users/types/usersTypes';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
@@ -33,7 +34,7 @@ const Login = () => {
   const isFetching = useSelector(selectIsFetching);
   const error = useSelector(selectError);
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: AuthenticationRequest) => {
     fetchAuth(values);
   };
 

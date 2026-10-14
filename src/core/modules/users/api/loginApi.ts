@@ -1,10 +1,13 @@
 import { api } from 'core/http';
 
-import type { AuthenticationRequest } from '../types/usersTypes';
+import type {
+  AuthenticationRequest,
+  AuthenticationResponse,
+} from '../types/usersTypes';
 
 const loginApi = {
   login: async (body: AuthenticationRequest) =>
-    await api.post('/auth/login', body),
+    await api.post<AuthenticationResponse>('/auth/login', body),
 };
 
 export default loginApi;

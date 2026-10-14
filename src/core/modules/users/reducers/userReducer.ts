@@ -1,3 +1,5 @@
+import { CurrentUser } from "../types/usersTypes";
+
 export enum UsersActionTypes {
   SET_CURRENT_USER = "SET_CURRENT_USER",
   UPDATE_CURRENT_USER = "UPDATE_CURRENT_USER",
@@ -11,7 +13,10 @@ const initialState: UsersState = {
   error: "",
 };
 
-const usersReducer = (state = initialState, action: UsersAction) => {
+const usersReducer = (
+  state = initialState,
+  action: UsersAction
+): UsersState => {
   switch (action.type) {
     case UsersActionTypes.SET_CURRENT_USER:
       return {
@@ -21,10 +26,9 @@ const usersReducer = (state = initialState, action: UsersAction) => {
     case UsersActionTypes.UPDATE_CURRENT_USER:
       return {
         ...state,
-        currentUser: {
-          ...state.currentUser,
-          ...action.payload,
-        },
+        currentUser: state.currentUser
+          ? { ...state.currentUser, ...action.payload }
+          : null,
       };
     case UsersActionTypes.SET_IS_FETCHING:
       return {
@@ -42,19 +46,19 @@ const usersReducer = (state = initialState, action: UsersAction) => {
 };
 
 export interface UsersState {
-  currentUser: any;
+  currentUser: CurrentUser | null;
   isFetching: boolean;
   error: string;
 }
 
 interface SetCurrentUserAction {
   type: typeof UsersActionTypes.SET_CURRENT_USER;
-  payload: any;
+  payload: CurrentUser | null;
 }
 
 interface UpdateCurrentUserAction {
   type: typeof UsersActionTypes.UPDATE_CURRENT_USER;
-  payload: any;
+  payload: Partial<CurrentUser>;
 }
 
 interface SetIsFetchingAction {
