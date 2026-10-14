@@ -1,7 +1,7 @@
-import { Button, Form, Input, message, Radio } from 'antd';
+import { App, Button, Form, Input, Radio } from 'antd';
 import { useActions } from 'core/hooks/useActions';
 import usersApi from 'core/modules/users/api/usersApi';
-import React, { useState, VFC } from 'react';
+import { useState, FC } from 'react';
 
 const { Item } = Form;
 
@@ -19,12 +19,13 @@ type EditProfileFormProps = {
   onSubmit: (...args: any[]) => void;
 };
 
-const EditProfileForm: VFC<EditProfileFormProps> = ({
+const EditProfileForm: FC<EditProfileFormProps> = ({
   user,
   onSubmit = () => {},
 }) => {
   const { updateCurrentUser } = useActions();
   const [isFetching, setIsFetching] = useState(false);
+  const { message } = App.useApp();
   const [editProfileForm] = Form.useForm();
 
   const onFinish = async (fields: any) => {

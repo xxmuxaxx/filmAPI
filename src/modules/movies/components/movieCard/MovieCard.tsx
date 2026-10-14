@@ -1,8 +1,8 @@
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import Button from "core/components/button/Button";
 import { env } from "core/helpers/environment";
 import { FC } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 
 import classes from "./movieCard.module.scss";
 

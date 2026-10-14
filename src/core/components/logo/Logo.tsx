@@ -2,14 +2,14 @@ import './logo.scss';
 
 import classNames from 'classnames';
 import { env } from 'core/helpers/environment';
-import React, { VFC } from 'react';
-import { Link } from 'react-router-dom';
+import { FC } from 'react';
+import { Link } from 'react-router';
 
 type LogoProps = {
   variant?: 'black';
 };
 
-const Logo: VFC<LogoProps> = ({ variant }) => {
+const Logo: FC<LogoProps> = ({ variant }) => {
   return (
     <Link
       to={env.films.baseUrl}

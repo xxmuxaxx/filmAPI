@@ -5,7 +5,7 @@ import {
   EditOutlined,
   FileAddOutlined,
   LogoutOutlined,
-} from "@ant-design/icons/lib/icons";
+} from "@ant-design/icons";
 import {
   Avatar,
   Button,
@@ -21,9 +21,9 @@ import AddMovieForm from "core/modules/movie/components/addMovieForm/AddMovieFor
 import DeleteMovieForm from "core/modules/movie/components/deleteMovieForm/DeleteMovieForm";
 import EditMovieForm from "core/modules/movie/components/editMovieForm/EditMovieForm";
 import { selectCurrentUser } from "core/modules/users/selectors/usersSelectors";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import EditProfileForm from "../editProfileForm/EditProfileForm";
 
@@ -32,7 +32,7 @@ const image = "https://placeimg.com/200/200/people";
 
 const Profile = () => {
   const { logout } = useActions();
-  const history = useHistory();
+  const navigate = useNavigate();
   const currentUser = useSelector(selectCurrentUser);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalType, setModalType] = useState("");
@@ -44,9 +44,9 @@ const Profile = () => {
 
   useEffect(() => {
     if (!currentUser) {
-      history.push(env.login.baseUrl);
+      navigate(env.login.baseUrl);
     }
-  }, [currentUser, history]);
+  }, [currentUser, navigate]);
 
   return (
     <>
@@ -148,7 +148,7 @@ const Profile = () => {
           <Modal
             title={modalTitle}
             footer={false}
-            visible={isModalVisible}
+            open={isModalVisible}
             onCancel={() => setIsModalVisible(false)}
             centered
           >

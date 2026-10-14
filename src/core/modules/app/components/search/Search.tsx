@@ -4,15 +4,15 @@ import {
   selectSearchItems,
   selectSearchText,
 } from 'core/modules/movie/selectors/movieSelectors';
-import React, { FC, useMemo } from 'react';
+import { FC, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { env } from '../../../../helpers/environment';
 import { useDebouncedEffect } from '../../../../hooks/useDebouncedEffect';
 
 const Search: FC = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const searchText = useSelector(selectSearchText);
   const searchItems = useSelector(selectSearchItems);
 
@@ -34,7 +34,7 @@ const Search: FC = () => {
 
   const onSelect = async (title: string) => {
     setSearchText('');
-    history.push(`${env.films.baseUrl}/${title}`);
+    navigate(`${env.films.baseUrl}/${title}`);
   };
 
   const options = useMemo(() => {

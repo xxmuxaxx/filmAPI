@@ -1,5 +1,5 @@
-import { Button, Form, Input, message } from 'antd';
-import React, { useState } from 'react';
+import { App, Button, Form, Input } from 'antd';
+import { useState } from 'react';
 
 import movieApi from '../../api/movieApi';
 import { MovieForm } from '../../types/movieTypes';
@@ -30,6 +30,7 @@ const rules = {
 
 // Todo изсправить в соответсвии с апи
 const AddMovieForm = () => {
+  const { message } = App.useApp();
   const [createFilmForm] = Form.useForm();
   const [isFetching, setIsFetching] = useState(false);
 

@@ -1,6 +1,6 @@
 import './moviesList.scss';
 
-import React, { VFC } from 'react';
+import { FC } from 'react';
 
 import MovieCard from '../movieCard/MovieCard';
 
@@ -11,7 +11,7 @@ type MoviesListProps = {
   onClickEditButton: (id: string, title: string) => void;
 };
 
-const MoviesList: VFC<MoviesListProps> = ({
+const MoviesList: FC<MoviesListProps> = ({
   films,
   showButtons,
   onClickDeleteButton,

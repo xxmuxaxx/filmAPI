@@ -1,6 +1,6 @@
-import { Button, Form, Input, message } from "antd";
-import _ from "lodash";
-import React, { useCallback, useEffect, useState, VFC } from "react";
+import { App, Button, Form, Input } from "antd";
+import { debounce } from "lodash-es";
+import { FC, useEffect, useMemo, useState } from "react";
 
 import movieApi from "../../api/movieApi";
 import { Movie } from "../../types/movieTypes";
@@ -34,10 +34,11 @@ type EditMovieFormProps = {
   onSubmit: (...args: any[]) => void;
 };
 
-const EditMovieForm: VFC<EditMovieFormProps> = ({
+const EditMovieForm: FC<EditMovieFormProps> = ({
   initialId,
   onSubmit = () => {},
 }) => {
+  const { message } = App.useApp();
   const [editFilmForm] = Form.useForm();
   const [isFetching, setIsFetching] = useState(false);
 
@@ -64,9 +65,8 @@ const EditMovieForm: VFC<EditMovieFormProps> = ({
     editFilmForm.resetFields();
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const fetchFilm = useCallback(
-    _.debounce(async (id) => {
+  const fetchFilm = useMemo(
+    () => debounce(async (id: string) => {
       if (!id) return editFilmForm.resetFields(Object.keys(initialValues));
       try {
         const response = await movieApi.getMovieById(id);
@@ -84,7 +84,7 @@ const EditMovieForm: VFC<EditMovieFormProps> = ({
       }
       setIsFetching(false);
     }, 100),
-    []
+    [editFilmForm, message]
   );
 
   useEffect(() => {

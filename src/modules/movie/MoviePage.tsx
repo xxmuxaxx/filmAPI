@@ -2,13 +2,13 @@ import Loader from "core/components/loader/Loader";
 import { useActions } from "core/hooks/useActions";
 import React, { FC, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router";
 
 import classes from "./moviePage.module.scss";
 
 const MoviePage: FC = React.memo(() => {
   const { fetchMovieByTitle, setActiveMovie } = useActions();
-  const { title } = useParams<{ title: string }>();
+  const { title } = useParams<"title">();
   const { activeItem } = useSelector(({ movie }: any) => movie);
 
   const linkToImdb = (imdbID: string) => (
@@ -22,7 +22,7 @@ const MoviePage: FC = React.memo(() => {
   );
 
   useEffect(() => {
-    fetchMovieByTitle(title);
+    if (title) fetchMovieByTitle(title);
 
     return () => {
       setActiveMovie(null);

@@ -1,6 +1,5 @@
 import './registrationPage.scss';
 
-import React from 'react';
 
 import RegistrationForm from './components/registrationForm/RegistrationForm';
 

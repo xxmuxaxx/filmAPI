@@ -1,15 +1,15 @@
 import './header.scss';
 
-import UserOutlined from '@ant-design/icons/lib/icons/UserOutlined';
+import { UserOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import Logo from 'core/components/logo/Logo';
 import { env } from 'core/helpers/environment';
-import React, { VFC } from 'react';
-import { Link } from 'react-router-dom';
+import { FC } from 'react';
+import { Link } from 'react-router';
 
 import Search from '../search/Search';
 
-const Header: VFC = () => {
+const Header: FC = () => {
   return (
     <header className="header">
       <div className="container">

@@ -7,7 +7,7 @@ const movieApi = {
     const response = await api.get<MovieDTO>('/movies');
     return response.data;
   },
-  getMovieById: async (id: number) => {
+  getMovieById: async (id: number | string) => {
     const response = await api.get<MovieDTO>(`/movies/${id}`);
     return response.data.search[0];
   },

@@ -1,11 +1,10 @@
-import { LockOutlined, UserOutlined } from '@ant-design/icons/lib/icons';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Row, Typography } from 'antd';
 import { env } from 'core/helpers/environment';
 import usersApi from 'core/modules/users/api/usersApi';
 import { AuthenticationRequest } from 'core/modules/users/types/usersTypes';
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router';
 
 const { Item } = Form;
 const { Text, Title } = Typography;
@@ -45,7 +44,7 @@ const rules = {
 };
 
 const RegistrationForm = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [registrationForm] = Form.useForm();
   const [isFetching, setIsFetching] = useState(false);
   const [registrationError, setRegistrationError] = useState('');
@@ -54,7 +53,7 @@ const RegistrationForm = () => {
     setIsFetching(true);
     try {
       const { status } = await usersApi.registerUser({ username, password });
-      if (status === 201) history.push(env.login.baseUrl);
+      if (status === 201) navigate(env.login.baseUrl);
     } catch (error) {
       setRegistrationError(String(error));
     }

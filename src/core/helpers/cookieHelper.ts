@@ -17,7 +17,6 @@ const setCookie = (name: any, value: any, options: any = {}) => {
   let updatedCookie =
     encodeURIComponent(name) + '=' + encodeURIComponent(value);
 
-  // eslint-disable-next-line guard-for-in
   for (const optionKey in options) {
     updatedCookie += '; ' + optionKey;
     const optionValue = options[optionKey];

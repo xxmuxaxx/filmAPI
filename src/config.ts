@@ -1,4 +1,3 @@
-// @ts-ignore
 const baseUrl = window._env_.api_url;
 
 export const endPoint = {

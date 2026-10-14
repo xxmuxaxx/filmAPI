@@ -5,7 +5,7 @@ import DeleteMovieForm from "core/modules/movie/components/deleteMovieForm/Delet
 import EditMovieForm from "core/modules/movie/components/editMovieForm/EditMovieForm";
 import { selectMovieState } from "core/modules/movie/selectors/movieSelectors";
 import { selectCurrentUserIsAdmin } from "core/modules/users/selectors/usersSelectors";
-import React, { FC, useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import Hero from "../../core/components/hero/Hero";
@@ -99,7 +99,7 @@ const MoviesPage: FC<any> = () => {
         <Modal
           title={modalTitle}
           footer={false}
-          visible={isModalVisible}
+          open={isModalVisible}
           onCancel={() => setIsModalVisible(false)}
           centered
         >

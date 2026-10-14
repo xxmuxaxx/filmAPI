@@ -3,19 +3,19 @@ import "./loginPage.scss";
 import { RootState } from "core/coreReducers";
 import { env } from "core/helpers/environment";
 import { selectCurrentUser } from "core/modules/users/selectors/usersSelectors";
-import React from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import Login from "./components/login/Login";
 
 const LoginPage = () => {
   const currentUser = useSelector<RootState>(selectCurrentUser);
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  React.useEffect(() => {
-    currentUser && history.push(env.profile.baseUrl);
-  }, [currentUser, history]);
+  useEffect(() => {
+    if (currentUser) navigate(env.profile.baseUrl);
+  }, [currentUser, navigate]);
 
   return (
     <section className="login-section">

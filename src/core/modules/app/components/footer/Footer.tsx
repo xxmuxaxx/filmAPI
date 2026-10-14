@@ -1,9 +1,9 @@
 import './footer.scss';
 
 import Logo from 'core/components/logo/Logo';
-import React, { VFC } from 'react';
+import { FC } from 'react';
 
-const Footer: VFC = () => {
+const Footer: FC = () => {
   return (
     <footer className="footer">
       <div className="container">

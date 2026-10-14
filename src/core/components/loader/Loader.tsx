@@ -1,8 +1,8 @@
 import './loader.scss';
 
-import React, { useEffect, VFC } from 'react';
+import { useEffect, FC } from 'react';
 
-const Loader: VFC = () => {
+const Loader: FC = () => {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     document.body.style.paddingRight = '17px';

@@ -4,17 +4,17 @@ import { env } from "core/helpers/environment";
 import { selectCurrentUser } from "core/modules/users/selectors/usersSelectors";
 import React from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import Profile from "./components/profile/Profile";
 
 const ProfilePage = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const currentUser = useSelector<RootState>(selectCurrentUser);
 
   React.useEffect(() => {
-    !currentUser && history.push(env.login.baseUrl);
-  }, [currentUser, history]);
+    if (!currentUser) navigate(env.login.baseUrl);
+  }, [currentUser, navigate]);
 
   return (
     <>

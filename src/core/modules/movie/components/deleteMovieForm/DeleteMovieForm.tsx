@@ -1,5 +1,5 @@
-import { Button, Form, Input, message } from 'antd';
-import React, { useState } from 'react';
+import { App, Button, Form, Input } from 'antd';
+import { useState } from 'react';
 
 import movieApi from '../../api/movieApi';
 
@@ -19,6 +19,7 @@ const rules = {
 };
 
 const DeleteMovieForm = ({ initialId = undefined, onSubmit = () => {} }) => {
+  const { message } = App.useApp();
   const [deleteFilmForm] = Form.useForm();
   const [isFetching, setIsFetching] = useState(false);
 

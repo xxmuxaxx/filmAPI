@@ -1,4 +1,4 @@
-import { applyMiddleware, createStore } from "redux";
+import { applyMiddleware, legacy_createStore as createStore } from "redux";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { thunk } from "redux-thunk";
 import { composeWithDevTools } from "@redux-devtools/extension";

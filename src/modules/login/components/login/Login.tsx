@@ -1,4 +1,4 @@
-import { LockOutlined, UserOutlined } from '@ant-design/icons/lib/icons';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Row, Typography } from 'antd';
 import { env } from 'core/helpers/environment';
 import { useActions } from 'core/hooks/useActions';
@@ -6,9 +6,8 @@ import {
   selectError,
   selectIsFetching,
 } from 'core/modules/users/selectors/usersSelectors';
-import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 const { Item } = Form;
 const { Title, Text } = Typography;
