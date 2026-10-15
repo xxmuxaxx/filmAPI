@@ -58,8 +58,10 @@ export const fetchMovieByTitle =
       if (film) {
         dispatch({ type: MovieActionTypes.SET_ACTIVE_MOVIE, payload: film });
       }
+      return film ?? null;
     } catch (error) {
       console.error(error);
+      throw error;
     }
   };
 

@@ -27,6 +27,7 @@ const MoviesList: FC<MoviesListProps> = ({
           poster={film.poster}
           filmName={film.title}
           filmYear={film.year}
+          genre={film.genres[0]?.name}
           onClickEditButton={() => onClickEditButton(film.id, film.title)}
           onClickDeleteButton={() => onClickDeleteButton(film.id, film.title)}
           showButtons={showButtons}

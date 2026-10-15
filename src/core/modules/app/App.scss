@@ -1,3 +1,10 @@
+:root {
+  --film-black: #080808;
+  --film-gold: #a38a17;
+  --film-muted: #62666b;
+  --film-bg: #f3f5f6;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -10,7 +17,7 @@ body {
   margin: 0;
   font-family: Roboto, sans-serif;
   line-height: 1.2;
-  color: #000;
+  color: var(--film-black);
   background-color: #f3f5f6;
 }
 
@@ -25,7 +32,7 @@ input[type="submit"] {
   margin: 0 auto;
   padding: 0 15px;
   width: 100%;
-  max-width: 1350px;
+  max-width: 1310px;
 }
 
 .page-title {

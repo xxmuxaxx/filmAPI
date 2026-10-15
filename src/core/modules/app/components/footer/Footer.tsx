@@ -10,7 +10,7 @@ const Footer: FC = () => {
         <div className="footer__wrapper">
           <Logo variant="black" />
           <div className="footer__copyright">
-            <span>Разработанно в студии</span>
+            <span>Разработано в студии</span>
             <span>Не твоих собачьих дел</span>
           </div>
         </div>

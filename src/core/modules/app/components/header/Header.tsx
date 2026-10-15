@@ -1,7 +1,6 @@
 import './header.scss';
 
 import { UserOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
 import Logo from 'core/components/logo/Logo';
 import { env } from 'core/helpers/environment';
 import { FC } from 'react';
@@ -21,11 +20,9 @@ const Header: FC = () => {
             <Search />
           </div>
           <div className="header__profile">
-            <Link to={env.profile.baseUrl}>
-              <Button type="link">
-                <UserOutlined />
-                Профиль
-              </Button>
+            <Link className="header__profile-link" to={env.profile.baseUrl}>
+              <UserOutlined />
+              Профиль
             </Link>
           </div>
         </div>
