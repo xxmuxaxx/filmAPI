@@ -1,23 +1,34 @@
-import { AutoComplete } from 'antd';
-import { useActions } from 'core/hooks/useActions';
+import { AutoComplete, Input } from "antd";
+import {
+  catalogParams,
+  catalogUrl,
+  movieUrl,
+  readCatalogRoute,
+} from "core/helpers/catalogRouting";
+import { useActions } from "core/hooks/useActions";
 import {
   selectSearchItems,
   selectSearchText,
-} from 'core/modules/movie/selectors/movieSelectors';
-import { FC, useMemo } from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+} from "core/modules/movie/selectors/movieSelectors";
+import { FC, useEffect, useMemo } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate, useSearchParams } from "react-router";
 
-import { env } from '../../../../helpers/environment';
-import { useDebouncedEffect } from '../../../../hooks/useDebouncedEffect';
+import { useDebouncedEffect } from "../../../../hooks/useDebouncedEffect";
 
 const Search: FC = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const query = readCatalogRoute(searchParams).q;
   const searchText = useSelector(selectSearchText);
   const searchItems = useSelector(selectSearchItems);
 
   const { setSearchText, setSearchItems, fetchSearchFilmsByTitle } =
     useActions();
+
+  useEffect(() => {
+    setSearchText(query);
+  }, [query, setSearchText]);
 
   useDebouncedEffect(
     () => {
@@ -33,8 +44,14 @@ const Search: FC = () => {
   };
 
   const onSelect = async (title: string) => {
-    setSearchText('');
-    navigate(`${env.films.baseUrl}/${title}`);
+    setSearchText("");
+    navigate(movieUrl(title, searchParams));
+  };
+
+  const submitSearch = (value: string) => {
+    const route = readCatalogRoute(searchParams);
+    setSearchItems([]);
+    navigate(catalogUrl(catalogParams({ ...route, q: value.trim(), page: 1 })));
   };
 
   const options = useMemo(() => {
@@ -45,11 +62,17 @@ const Search: FC = () => {
   return (
     <AutoComplete
       value={searchText}
-      placeholder="Введите название фильма"
       onSearch={onSearch}
       onSelect={onSelect}
       options={options}
-    />
+    >
+      <Input.Search
+        placeholder="Введите название фильма"
+        aria-label="Поиск фильма"
+        onSearch={submitSearch}
+        allowClear
+      />
+    </AutoComplete>
   );
 };
 

@@ -1,86 +1,94 @@
-import { App, Button, Form, Input, Radio } from 'antd';
-import { getErrorMessage } from 'core/http';
-import { useActions } from 'core/hooks/useActions';
-import usersApi from 'core/modules/users/api/usersApi';
-import { CurrentUser } from 'core/modules/users/types/usersTypes';
-import { useState, FC } from 'react';
-
-const { Item } = Form;
-
-const initialValues = {
-  id: '',
-  name: '',
-  lastName: '',
-  middleName: '',
-  email: '',
-  gender: '',
-};
+import { Alert, App, Button, Form, Input, Radio } from "antd";
+import { getErrorMessage } from "core/http";
+import { useActions } from "core/hooks/useActions";
+import usersApi from "core/modules/users/api/usersApi";
+import type { CurrentUser } from "core/modules/users/types/usersTypes";
+import { useState } from "react";
 
 type EditProfileFormProps = {
   user: CurrentUser;
-  onSubmit?: () => void;
+  onSubmit: () => void;
+  onCancel: () => void;
+  onSavingChange: (saving: boolean) => void;
 };
-
 type ProfileFormValues = Pick<
   CurrentUser,
-  'id' | 'name' | 'lastName' | 'middleName' | 'email' | 'gender'
+  "id" | "name" | "lastName" | "middleName" | "email" | "gender"
 >;
 
-const EditProfileForm: FC<EditProfileFormProps> = ({
+const EditProfileForm = ({
   user,
-  onSubmit = () => {},
-}) => {
+  onSubmit,
+  onCancel,
+  onSavingChange,
+}: EditProfileFormProps) => {
   const { updateCurrentUser } = useActions();
-  const [isFetching, setIsFetching] = useState(false);
   const { message } = App.useApp();
-  const [editProfileForm] = Form.useForm();
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState("");
 
   const onFinish = async (fields: ProfileFormValues) => {
-    setIsFetching(true);
+    if (isSaving) {
+      return;
+    }
+
+    setIsSaving(true);
+    onSavingChange(true);
+    setError("");
+
     try {
       await usersApi.updateUser(fields);
       updateCurrentUser(fields);
+      message.success("Профиль сохранён");
       onSubmit();
-      message.success('Профиль изменен!');
     } catch (error) {
-      message.error(getErrorMessage(error));
+      setError(getErrorMessage(error));
+    } finally {
+      setIsSaving(false);
+      onSavingChange(false);
     }
-    editProfileForm.resetFields();
-    setIsFetching(false);
   };
 
   return (
-    <Form
-      form={editProfileForm}
-      initialValues={{ ...initialValues, ...user }}
+    <Form<ProfileFormValues>
+      layout="vertical"
+      requiredMark={false}
+      initialValues={user}
       onFinish={onFinish}
+      disabled={isSaving}
     >
-      <Item name="id" hidden>
+      {error && <Alert type="error" title={error} showIcon role="alert" />}
+      <Form.Item name="id" hidden>
         <Input />
-      </Item>
-      <Item name="name">
-        <Input placeholder="Ваше имя" />
-      </Item>
-      <Item name="lastName">
-        <Input placeholder="Ваша фамилия" />
-      </Item>
-      <Item name="middleName">
-        <Input placeholder="Ваше отчество" />
-      </Item>
-      <Item name="email">
-        <Input placeholder="Ваше отчество" />
-      </Item>
-      <Item name="gender">
+      </Form.Item>
+      <Form.Item label="Имя" name="name">
+        <Input placeholder="Ваше имя" autoComplete="given-name" />
+      </Form.Item>
+      <Form.Item label="Фамилия" name="lastName">
+        <Input placeholder="Ваша фамилия" autoComplete="family-name" />
+      </Form.Item>
+      <Form.Item label="Отчество" name="middleName">
+        <Input placeholder="Ваше отчество" autoComplete="additional-name" />
+      </Form.Item>
+      <Form.Item
+        label="Email"
+        name="email"
+        rules={[{ type: "email", message: "Введите корректный email" }]}
+      >
+        <Input placeholder="Ваш email" autoComplete="email" />
+      </Form.Item>
+      <Form.Item label="Пол" name="gender">
         <Radio.Group>
           <Radio value="MAN">Мужчина</Radio>
           <Radio value="WOMAN">Женщина</Radio>
         </Radio.Group>
-      </Item>
-      <Item>
-        <Button type="primary" htmlType="submit" loading={isFetching}>
-          Сохранить
+      </Form.Item>
+      <div className="profile-dialog__actions">
+        <Button type="primary" htmlType="submit" loading={isSaving}>
+          {isSaving ? "Сохраняем…" : "Сохранить"}
         </Button>
-      </Item>
+        <Button onClick={onCancel}>Отмена</Button>
+      </div>
     </Form>
   );
 };

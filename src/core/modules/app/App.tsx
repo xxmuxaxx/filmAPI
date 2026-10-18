@@ -12,6 +12,8 @@ import AppRouting from "core/routing/AppRouting";
 import { Suspense, useEffect } from "react";
 import { useActions } from "core/hooks/useActions";
 
+import { filmTheme } from "./theme";
+
 const App = () => {
   const { fetchCurrentUser } = useActions();
 
@@ -21,30 +23,7 @@ const App = () => {
   }, [fetchCurrentUser]);
 
   return (
-    <ConfigProvider locale={ruRU} theme={{
-      token: {
-        colorPrimary: "#a38a17",
-        colorInfo: "#a38a17",
-        colorLink: "#a38a17",
-        colorLinkHover: "#c2a526",
-        colorLinkActive: "#806b10",
-        colorText: "#080808",
-        colorTextSecondary: "#62666b",
-        colorBgLayout: "#f3f5f6",
-        colorBorder: "#e1e3e5",
-        fontFamily: "Roboto, sans-serif",
-        borderRadius: 4,
-        controlHeight: 44,
-      },
-      components: {
-        Pagination: {
-          itemActiveBg: "#a38a17",
-          itemActiveColor: "#ffffff",
-          itemActiveColorHover: "#ffffff",
-          itemSize: 36,
-        },
-      },
-    }}>
+    <ConfigProvider locale={ruRU} theme={filmTheme}>
       <AntApp>
         <Suspense fallback={<Loader />}>
           <AppRouting />

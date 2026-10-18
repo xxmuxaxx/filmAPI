@@ -1,4 +1,3 @@
-
 export const data = [
   <>
     <p className="hero__text">Достал нож - режь,</p>
@@ -47,5 +46,22 @@ export const data = [
     <p className="hero__big-text">
       А после <b>Camry 3,5</b>
     </p>
+  </>,
+  <>
+    <div className="hero__wisdom">
+      <p className="hero__wisdom-intro">надо не забывать что:</p>
+      <p className="hero__wisdom-line hero__wisdom-line--muted">
+        <strong>плохой делай</strong>
+        <span> - плохо будет</span>
+      </p>
+      <p className="hero__wisdom-line">
+        <strong>нормально делай</strong>
+        <span> - нормально будет</span>
+      </p>
+      <p className="hero__wisdom-line hero__wisdom-line--gold">
+        <strong>хорошо делай</strong>
+        <span> - хорошо будет</span>
+      </p>
+    </div>
   </>,
 ];

@@ -1,14 +1,14 @@
-import { App, Modal, Pagination, Tabs } from "antd";
+import { Button, Modal, Pagination, Tabs } from "antd";
+import { useSearchParams } from "react-router";
+import { useAppDispatch } from "core/configureStore";
+import { catalogParams, readCatalogRoute } from "core/helpers/catalogRouting";
+import { fetchCatalog } from "core/modules/movie/actions/movieActions";
 import { getErrorMessage } from "core/http";
-import movieApi from "core/modules/movie/api/movieApi";
-import { Movie, MovieType } from "core/modules/movie/types/movieTypes";
-import Loader from "core/components/loader/Loader";
-import { useActions } from "core/hooks/useActions";
 import DeleteMovieForm from "core/modules/movie/components/deleteMovieForm/DeleteMovieForm";
 import EditMovieForm from "core/modules/movie/components/editMovieForm/EditMovieForm";
 import { selectMovieState } from "core/modules/movie/selectors/movieSelectors";
 import { selectCurrentUserIsAdmin } from "core/modules/users/selectors/usersSelectors";
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import Hero from "../../core/components/hero/Hero";
@@ -24,14 +24,21 @@ const renderFilmCardPlaceholders = (count: number) => {
   return result;
 };
 
+interface CatalogRequest {
+  key: string;
+  error?: string;
+}
+
 const MoviesPage: FC = () => {
-  const { message } = App.useApp();
-  const [filter, setFilter] = useState<MovieType | "all">("all");
-  const [allMovies, setAllMovies] = useState<Movie[] | null>(null);
+  const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const route = readCatalogRoute(searchParams);
+  const { type: filter, page, size: pageSize, q } = route;
+  const canonicalSearch = catalogParams(route).toString();
+  const [request, setRequest] = useState<CatalogRequest | null>(null);
   const [revision, setRevision] = useState(0);
-  const { setPage, setPageSize, fetchMovies } = useActions();
-  const { page, pageSize, items, totalItems, isLoaded } =
-    useSelector(selectMovieState);
+  const { items, totalItems } = useSelector(selectMovieState);
+  const requestKey = `${canonicalSearch}:${revision}`;
   const isAdmin = useSelector(selectCurrentUserIsAdmin);
   // Todo Завести отдельный стейт для модалок
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -54,85 +61,152 @@ const MoviesPage: FC = () => {
   };
 
   const handlePageClick = (pageNumber: number) => {
-    if (pageNumber !== page) setPage(pageNumber);
+    if (pageNumber !== page) {
+      setSearchParams(catalogParams({ ...route, page: pageNumber }));
+    }
   };
 
   const onPageSizeChange = (value: number) => {
-    setPage(1);
-    setPageSize(value);
+    if (value === 12 || value === 24) {
+      setSearchParams(catalogParams({ ...route, page: 1, size: value }));
+    }
   };
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = () => {
     setIsModalVisible(false);
-    setAllMovies(null);
-    setRevision(value => value + 1);
-    fetchMovies(page, pageSize);
-  }, [fetchMovies, page, pageSize]);
+    setRevision((value) => value + 1);
+  };
 
   useEffect(() => {
-    if (filter === "all") fetchMovies(page, pageSize);
-  }, [fetchMovies, page, pageSize, filter]);
+    if (searchParams.toString() !== canonicalSearch) {
+      setSearchParams(canonicalSearch, { replace: true });
+    }
+  }, [searchParams, canonicalSearch, setSearchParams]);
 
   useEffect(() => {
-    if (filter === "all") return;
-    let cancelled = false;
-    movieApi.getAllMovies().then(({ search }) => {
-      if (!cancelled) setAllMovies(search);
-    }).catch((error: unknown) => {
-      if (!cancelled) {
-        setAllMovies([]);
-        message.error(getErrorMessage(error));
-      }
-    });
-    return () => { cancelled = true; };
-  }, [filter, revision, message]);
+    const controller = new AbortController();
+    const currentRoute = readCatalogRoute(new URLSearchParams(canonicalSearch));
+    dispatch(fetchCatalog(currentRoute, controller.signal))
+      .then((result) => {
+        if (controller.signal.aborted || !result) {
+          return;
+        }
 
-  const filteredMovies = allMovies?.filter(movie => movie.type === filter) ?? [];
-  const visibleItems = filter === "all" ? items : filteredMovies.slice((page - 1) * pageSize, page * pageSize);
-  const visibleTotal = filter === "all" ? totalItems : filteredMovies.length;
-  const loaded = filter === "all" ? isLoaded : allMovies !== null;
+        if (result.page !== currentRoute.page) {
+          setSearchParams(
+            catalogParams({ ...currentRoute, page: result.page }),
+            { replace: true }
+          );
+        } else {
+          setRequest({ key: requestKey });
+        }
+      })
+      .catch((error: unknown) => {
+        if (!controller.signal.aborted) {
+          setRequest({ key: requestKey, error: getErrorMessage(error) });
+        }
+      });
+    return () => controller.abort();
+  }, [dispatch, canonicalSearch, requestKey, setSearchParams]);
+
+  const loaded = request?.key === requestKey;
+  const error = loaded ? request.error : undefined;
+  const isEmpty = loaded && !error && items.length === 0;
+  const hasMovies = loaded && !error && items.length > 0;
+  const isFilteredEmpty = isEmpty && filter !== "all" && !q;
+  const showCatalogNavigation = !loaded || hasMovies || isFilteredEmpty;
+
+  const handleFilterChange = (type: string) => {
+    if (type === "all" || type === "movie" || type === "series") {
+      setSearchParams(catalogParams({ ...route, type, page: 1 }));
+    }
+  };
+
+  const handlePaginationChange = (nextPage: number, nextSize: number) => {
+    if (nextSize !== pageSize) {
+      onPageSizeChange(nextSize);
+    } else {
+      handlePageClick(nextPage);
+    }
+  };
+
+  const handleResetSearch = () => {
+    setSearchParams(catalogParams({ ...route, q: "", page: 1 }));
+  };
+
+  const handleRetry = () => {
+    setRevision((value) => value + 1);
+  };
 
   return (
     <>
-      <Hero>
-        <p className="hero__text">Не круто пить, не круто врать</p>
-        <p className="hero__big-text">А круто маме <b>помогать</b></p>
-      </Hero>
+      <Hero />
       <div className={`container ${classes.container}`}>
         <div className={classes.catalog}>
-          {!(loaded && visibleItems.length === 0 && filter === "all") && (
+          {showCatalogNavigation && (
             <>
               <div className={classes.heading}>
                 <h1>Фильмы</h1>
-                <p>Ваша коллекция хорошего кино</p>
+                <p>
+                  {q
+                    ? `Результаты поиска: «${q}»`
+                    : "Ваша коллекция хорошего кино"}
+                </p>
               </div>
-              <Tabs activeKey={filter} onChange={key => {
-                if (key === "all" || key === "movie" || key === "series") {
-                  setFilter(key);
-                  setAllMovies(null);
-                  setPage(1);
-                }
-              }} items={[
-                { key: "all", label: "Все фильмы" },
-                { key: "movie", label: "Фильмы" },
-                { key: "series", label: "Сериалы" },
-              ]} />
+              <Tabs
+                activeKey={filter}
+                onChange={handleFilterChange}
+                items={[
+                  { key: "all", label: "Все фильмы" },
+                  { key: "movie", label: "Фильмы" },
+                  { key: "series", label: "Сериалы" },
+                ]}
+              />
             </>
           )}
-          {loaded && visibleItems.length === 0 ? (
-            <section className={classes.empty} aria-labelledby="empty-movies-title">
-              <span className={classes.emptyLabel}>Кинотека</span>
+          {error && (
+            <section className={classes.empty} role="alert">
+              <span className={`${classes.emptyLabel} ${classes.resultLabel}`}>
+                Не удалось получить данные
+              </span>
+              <h1 className={classes.emptyTitle}>
+                Не удалось загрузить фильмы
+              </h1>
+              <p className={classes.emptyDescription}>{error}</p>
+              <Button type="primary" onClick={handleRetry}>
+                Попробовать снова
+              </Button>
+            </section>
+          )}
+          {isEmpty && (
+            <section
+              className={classes.empty}
+              aria-labelledby="empty-movies-title"
+            >
+              <span
+                className={`${classes.emptyLabel} ${q ? classes.resultLabel : ""}`}
+              >
+                {q ? `Поиск по запросу «${q}»` : "Кинотека"}
+              </span>
               <h1 id="empty-movies-title" className={classes.emptyTitle}>
-                Фильмы пока за кадром
+                {q ? "Ничего не нашлось" : "Фильмы пока за кадром"}
               </h1>
               <p className={classes.emptyDescription}>
-                Здесь пока нет фильмов. Загляните чуть позже.
+                {q
+                  ? "Попробуйте другое название или сбросьте фильтры."
+                  : "Здесь пока нет фильмов. Загляните чуть позже."}
               </p>
+              {q && (
+                <Button type="primary" onClick={handleResetSearch}>
+                  Сбросить поиск
+                </Button>
+              )}
             </section>
-          ) : loaded ? (
+          )}
+          {hasMovies && (
             <>
               <MoviesList
-                films={visibleItems}
+                films={items}
                 onClickDeleteButton={clickDeleteButtonHandler}
                 onClickEditButton={clickEditButtonHandler}
                 showButtons={isAdmin}
@@ -142,21 +216,18 @@ const MoviesPage: FC = () => {
                 <Pagination
                   align="center"
                   current={page}
-                  total={visibleTotal}
+                  total={totalItems}
                   pageSize={pageSize}
                   pageSizeOptions={[12, 24]}
-                  onChange={(nextPage, nextSize) => {
-                    if (nextSize !== pageSize) onPageSizeChange(nextSize);
-                    else handlePageClick(nextPage);
-                  }}
+                  onChange={handlePaginationChange}
                 />
               </div>
             </>
-          ) : (
-            <>
-              <Loader />
-              <div className="movies-list">{renderFilmCardPlaceholders(pageSize)}</div>
-            </>
+          )}
+          {!loaded && (
+            <div className="movies-list">
+              {renderFilmCardPlaceholders(pageSize)}
+            </div>
           )}
         </div>
         <Modal
@@ -167,16 +238,10 @@ const MoviesPage: FC = () => {
           centered
         >
           {modalType === "film-edit" && (
-            <EditMovieForm
-              initialId={modalInitialId}
-              onSubmit={onSubmit}
-            />
+            <EditMovieForm initialId={modalInitialId} onSubmit={onSubmit} />
           )}
           {modalType === "film-delete" && (
-            <DeleteMovieForm
-              initialId={modalInitialId}
-              onSubmit={onSubmit}
-            />
+            <DeleteMovieForm initialId={modalInitialId} onSubmit={onSubmit} />
           )}
         </Modal>
       </div>

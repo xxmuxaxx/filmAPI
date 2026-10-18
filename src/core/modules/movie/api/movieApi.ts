@@ -1,29 +1,31 @@
-import { api } from 'core/http';
+import { api } from "core/http";
 
-import { MovieDTO, MovieDTOPaging, MovieForm } from '../types/movieTypes';
+import { MovieDTO, MovieDTOPaging, MovieForm } from "../types/movieTypes";
 
 // Без слеша в конце: в whitelist бэкенда "/api/v1/movies", "/api/v1/movies/" анониму не отдаётся
-const moviesUrl = '/movies';
+const moviesUrl = "/movies";
 
 const movieApi = {
-  getAllMovies: async () => {
-    const response = await api.get<MovieDTO>(moviesUrl);
+  getAllMovies: async (signal?: AbortSignal) => {
+    const response = await api.get<MovieDTO>(moviesUrl, { signal });
     return response.data;
   },
   getMovieById: async (id: number | string) => {
     const response = await api.get<MovieDTO>(`${moviesUrl}/${id}`);
     return response.data.search[0];
   },
-  getMoviesPage: async (page: number, size: number) => {
+  getMoviesPage: async (page: number, size: number, signal?: AbortSignal) => {
     const response = await api.get<MovieDTOPaging>(moviesUrl, {
       params: { page, size },
+      signal,
     });
     return response.data;
   },
   // Бэкенд ищет по подстроке без учёта регистра
-  searchMoviesByTitle: async (title: string) => {
+  searchMoviesByTitle: async (title: string, signal?: AbortSignal) => {
     const response = await api.get<MovieDTO>(moviesUrl, {
       params: { title },
+      signal,
     });
     return response.data.search;
   },

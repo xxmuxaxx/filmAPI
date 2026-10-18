@@ -1,26 +1,19 @@
-import Hero from "core/components/hero/Hero";
 import { env } from "core/helpers/environment";
-import { selectCurrentUser } from "core/modules/users/selectors/usersSelectors";
-import React from "react";
+import { getCookie } from "core/helpers/cookieHelper";
+import Loader from "core/components/loader/Loader";
+import {
+  selectCurrentUser,
+  selectIsFetching,
+} from "core/modules/users/selectors/usersSelectors";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router";
-
+import { Navigate } from "react-router";
 import Profile from "./components/profile/Profile";
 
 const ProfilePage = () => {
-  const navigate = useNavigate();
   const currentUser = useSelector(selectCurrentUser);
-
-  React.useEffect(() => {
-    if (!currentUser) navigate(env.login.baseUrl);
-  }, [currentUser, navigate]);
-
-  return (
-    <>
-      <Hero />
-      <Profile />
-    </>
-  );
+  const isFetching = useSelector(selectIsFetching);
+  if (!currentUser && (isFetching || getCookie("token"))) return <Loader />;
+  if (!currentUser) return <Navigate to={env.login.baseUrl} replace />;
+  return <Profile />;
 };
-
 export default ProfilePage;
