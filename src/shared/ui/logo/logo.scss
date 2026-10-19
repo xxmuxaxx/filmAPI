@@ -1,0 +1,30 @@
+.logo {
+  display: inline-flex;
+  color: #fff;
+  transition: color 0.2s;
+  &:hover {
+    color: var(--film-gold);
+  }
+  &__text-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  &__big-text {
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 30px;
+  }
+  &__text {
+    font-size: 11px;
+    line-height: 13px;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+  }
+  &--black {
+    color: var(--film-black);
+    .logo__text {
+      color: var(--film-gold);
+    }
+  }
+}

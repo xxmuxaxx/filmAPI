@@ -1,61 +1,76 @@
 # AGENTS.md
 
-This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
+Guidance for working in this repository.
 
 ## Project
 
-Frontend for a learning project — a movie library ("Film Lib App"). UI text and code comments are in Russian. Stack: React 19, TypeScript 6, Vite 8, Ant Design 6, React Router 8 (declarative mode), plain Redux + redux-thunk, Sass. Requires Node.js 22.22+.
+Movie library «Кавказский кинопоиск». UI text and code comments are in Russian.
+Stack: React 19, TypeScript 6, Vite 8, React Router 8 in declarative mode, Ant Design 6, Sass, Zustand and TanStack Query. Requires Node.js 22.22+.
 
 ## Commands
 
-- `npm run dev` (or `npm start`) — dev server on http://localhost:3000
-- `npm run build` — `tsc -b` type check, then `vite build` into `build/`
-- `npm run typecheck` — type check only
-- `npm run lint` — ESLint (flat config in `eslint.config.js`)
-- `npm run preview` — serve the production build
+- `npm run dev` / `npm start` — dev server at http://localhost:3000.
+- `npm run build` — TypeScript check and production build into `build/`.
+- `npm run typecheck` — TypeScript check only.
+- `npm run lint` — ESLint and architecture boundary checks.
+- `npm run lint:architecture` — layer/public API checks only.
+- `npm test` — Vitest, Testing Library and MSW; no real backend writes.
+- `npm run format:check` — check formatting of `src/`.
+- `npm run preview` — serve the production build.
 
-There is no test runner and there are no tests.
-
-## Configuration
-
-- The API base URL is set at **runtime**, not build time: `public/config.js` sets `window._env_.api_url`. `index.html` loads it before the app bundle. `src/config.ts` reads it, and its type is declared in `src/vite-env.d.ts`. Don't move it to `import.meta.env`, because the point is to change it on the server without rebuilding.
-- Non-relative imports `core/...`, `modules/...` and `config` are path aliases to `src/`. They are defined twice and must stay in sync: `resolve.alias` in `vite.config.ts` and `paths` in `tsconfig.app.json` (there is no `baseUrl`).
-- `@typescript-eslint/no-explicit-any` is an error. Don't use `any`.
+Use readable multiline JSX and SCSS, meaningful names and braces for control flow. Follow `.prettierrc.json`. Do not use `any`.
 
 ## Architecture
 
-There are two top-level source areas:
+FSD dependency direction: `app → pages → widgets → features → entities → shared`. Layers may skip intermediate layers. Slices in the same layer cannot import each other. External consumers use the slice's `index.ts`; imports inside a slice are relative. Do not create a barrel for an entire layer.
 
-- `src/core/` — app shell and shared code: store setup, routing, HTTP client, helpers, shared components, plus the domain modules (`core/modules/movie`, `core/modules/users`) that own state and API calls. `core/modules/app` holds the `App` root and the layout (header with search, footer).
-- `src/modules/` — route-level pages (`movies`, `movie`, `login`, `registration`, `profile`). Each page is lazy-loaded in `core/routing/AppRouting.tsx`. Route paths and page titles live in `core/helpers/environment.ts` (`env`), so use `env.*.baseUrl` instead of hard-coded paths.
+- `app/` — providers, QueryClient, session integration, router, layout, theme and global styles.
+- `pages/` — lazy route components and page-specific composition. Hero and MoviesList belong to the movies page.
+- `widgets/` — composed header and footer.
+- `features/` — auth, search-movies, edit-profile and manage-movie user scenarios.
+- `entities/movie/` — movie DTOs, HTTP functions, query options/keys, catalog URL helpers and presentation components.
+- `entities/user/` — user DTOs, current-user query, role normalization and session lifecycle.
+- `shared/` — transport, runtime config, route constants, technical helpers and generic UI.
 
-### State (Redux, no Toolkit)
+Path aliases for all six layers must stay in sync in `vite.config.ts` and `tsconfig.app.json`. Import rules are checked by `scripts/check-architecture.mjs`, including dynamic imports and re-exports. Shared API/config and UI components have explicit public entry points; technical helpers can be imported as individual modules.
 
-- `core/configureStore.ts` uses `legacy_createStore` with the thunk middleware and devtools. `core/coreReducers.ts` combines the `movie` and `users` slices and exports `RootState`.
-- Each domain module under `core/modules/<domain>/` has the same layout: `actions/`, `api/`, `reducers/`, `selectors/`, `types/` (and `movie` also has `components/` for its add/edit/delete forms).
-- Each reducer file defines a string `enum` of action types, a state interface and a discriminated union of actions. The action creators in `actions/` are a mix of plain action creators and thunks typed with `Dispatch<...Action>`.
-- Components get actions through the `useActions()` hook (`core/hooks/useActions.ts`). It merges **all** action creators from `movieActions` and `usersActions` into one object bound with `bindActionCreators`, so an action name must be unique across both modules. Components read state through the selectors and `useSelector`.
-- The current user is stored as `CurrentUser`: the user fetched from `/users/current`, with `roles` reduced to role names and `rolePermissions` reduced to a flat list of authorities. A user is an admin if `rolePermissions` contains `USER_ADMIN` (`selectCurrentUserIsAdmin`).
+MovieCard receives admin actions through props; it does not import features. PageState receives its text and action through props; pages own navigation. Keep page-specific UI local until another real consumer needs it.
 
-### HTTP and auth
+## State and requests
 
-- `core/http/index.ts` exports a shared axios instance (`api`) with `baseURL` set to the runtime API URL. A request interceptor adds `Authorization: Bearer <token>` from the `token` cookie.
-- The backend answers 401 to **any** request carrying an expired token, public ones included. A response interceptor in the same file handles this: on a 401 for a request that sent a token, it deletes the cookie, clears the current user and retries the request without the token.
-- Show API errors with `getErrorMessage(error)` from `core/http`. It returns `message` from the backend's `ErrorMessage` (or a plain-text body) instead of the generic Axios text.
-- On login, `fetchAuth` stores the token in that cookie and then dispatches `fetchCurrentUser`. On startup, `App` calls `fetchCurrentUser` if the cookie exists. If that call fails, the cookie is deleted. `logout` deletes the cookie and clears the user.
-- The login and profile pages redirect each other based on whether `currentUser` is set.
+- TanStack Query owns API data, loading/error status and cache. Query keys include all parameters that affect the response. Query functions pass `signal` to Axios.
+- Zustand owns only the session phase and generation in `entities/user/model/sessionStore.ts`. Subscribe to specific fields. Never copy current-user or movie query results into Zustand.
+- URL owns applied catalog search, type, page and size. Input draft, dialogs and trailer state stay local; forms use Ant Design Form.
+- Mutation hooks in manage-movie cancel obsolete requests and invalidate movie data. Renaming a film invalidates the old title key. Removing the last item normalizes the page through the catalog query.
+- Profile mutation preserves form values on failure, updates current-user cache on success and revalidates it. Do not reset fields after a failed save.
 
-### UI conventions
+## HTTP and session
 
-- The antd `ConfigProvider` (locale `ru_RU`) and antd `<App>` wrap the app. In components, get notifications from `App.useApp()` (`const { message } = App.useApp()`), not from the static `message` import.
-- Styles: page-level styles use CSS modules (`*.module.scss`, imported as `classes`). Shared and layout components use global BEM-style SCSS imported for its side effects (`import './header.scss'`). Global styles and the `.container` class are in `core/modules/app/App.scss`.
-### Backend contract
+`shared/api` exports Axios and `getErrorMessage`. It must not import app, QueryClient or Zustand. `app/api/session.ts` installs the expired-session callback before requests start.
 
-The backend is the Spring Boot project in the sibling folder `../filmapi`. The types in `core/modules/*/types` follow its DTOs (`MovieItem`, `MoviesPageDTO`, `UserDTO`, `UserBaseForm`), so check them there when changing API code.
+The request interceptor reads the `token` cookie. A 401 for a request that sent a token invokes the callback and retries at most once without Authorization, guarded by an explicit retry flag. A late 401 carrying an old token must not terminate a newer session.
 
-- Most DTO fields can be `null` (for example the user's name, email and gender, or a movie's poster, year and type), and the types say so.
-- Call `/movies` without a trailing slash. The backend's anonymous whitelist is an exact match on `/api/v1/movies`. Pass query values through axios `params` so they are URL-encoded.
-- `GET /movies?title=` matches a substring, case-insensitively.
-- `PUT /movies/{id}` and `PUT /users/{id}` change only the fields that are sent and not `null`.
-- A movie's `year` is a string. Its `type` is the enum `movie | series`, and the forms pick it from a `Select`.
-- Forms enter genres as a comma-separated string. Convert them with `parseGenres` and `formatGenres` from `core/modules/movie/helpers/movieForm.ts`; the backend creates any genre name it doesn't know yet.
+The session generation changes before private queries are cancelled/removed on logout. Late responses cannot restore the previous user. Startup waits for session restoration before redirecting from the protected profile route. Login confirms authentication only after `/users/current` succeeds. No refresh-token API is assumed.
+
+`CurrentUser` flattens role names and unique authorities from the backend DTO. Admin authority is `USER_ADMIN`; use `isUserAdmin`. Backend authorization remains mandatory for writes.
+
+Use `getErrorMessage` for API errors. Get Ant Design notifications with `App.useApp()`, not the static message API.
+
+## Runtime configuration and backend contract
+
+- `public/config.js` sets `window._env_.api_url`; `index.html` loads it before the bundle. `shared/config/runtime.ts` reads it. Keep it runtime-configurable; do not move to `import.meta.env`.
+- Route paths live in `shared/config/routes.ts` as `env.*.baseUrl`.
+- Backend source, when available, is the sibling Spring Boot project `../filmapi`. Check DTOs there when changing API contracts.
+- Many DTO fields are nullable. Preserve nullability and string movie years. Movie type is `movie | series`.
+- Call `/movies` without a trailing slash. Use Axios `params` for URL encoding. Title search is a case-insensitive substring match; detail links require exact title matching on the client.
+- Preserve existing title URLs and catalog return parameters; ID routes require a separate compatibility change.
+- `PUT /movies/{id}` and `PUT /users/{id}` update sent, non-null fields.
+- Parse/format comma-separated genres with helpers exported from `entities/movie`.
+
+## Styling and verification
+
+Page styles use CSS modules; shared/layout components use global BEM SCSS. Global theme/styles are in `app/styles/`; account form styles are in `shared/ui/account.scss`.
+
+Tests are colocated, shared setup/fixtures are in `src/test/`. Use MSW to check network/session races without changing real accounts. Run typecheck, lint, tests and build for architecture changes. Visual checks at 390/768/1440 px remain necessary when browser access is available; report unavailable checks honestly.
+
+The migration plan and verification notes are in `docs/architecture-migration.md`.

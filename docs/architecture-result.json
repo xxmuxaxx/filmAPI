@@ -1,0 +1,20 @@
+{
+  "javascript": {
+    "bytes": 954940,
+    "gzipBytes": 313969
+  },
+  "css": {
+    "bytes": 63456,
+    "gzipBytes": 27046
+  },
+  "comparison": {
+    "javascript": {
+      "bytes": 2.62,
+      "gzipBytes": 1.73
+    },
+    "css": {
+      "bytes": 0.0,
+      "gzipBytes": 0.11
+    }
+  }
+}
